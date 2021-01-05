@@ -1,6 +1,6 @@
 const express = require('express');
 
-const userRepo = require('../../repositories/users');
+const userRepo = require('../repositories/users');
 const router = express.Router();
 
 
