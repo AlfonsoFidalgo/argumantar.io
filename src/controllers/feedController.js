@@ -1,15 +1,5 @@
+const {validationResult} = require('express-validator');
 const questionsRepo = require('../repos/questionsRepo');
-
-// const questionsFeed = [
-//     {
-//         id: 123, 
-//         created_at: '2020-12-28', 
-//         updated_at: '2020-12-30', 
-//         user_id: 6345, 
-//         title: 'Qué pensáis del Gobierno en España?', 
-//         body: 'El Gobierno en España lo está haciendo bien o mal? Qué argumentos me dais?'
-//     }
-// ];
 
 exports.getQuestions = async (req, res, next) => {
     const questionsFeed = await questionsRepo.getQuestions();
@@ -17,8 +7,11 @@ exports.getQuestions = async (req, res, next) => {
 };
 
 
-
 exports.postQuestion = async (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(422).json({message: 'validation error, please check fields', errors: errors.array()});
+    };
     const newQuestion = {
         user_id: req.body.user_id,
         title: req.body.title,
