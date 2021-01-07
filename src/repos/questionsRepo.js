@@ -9,13 +9,21 @@ class QuestionRepo {
         return rows;
     }
 
+    static async deleteQuestion(id){
+        const query = `
+        DELETE FROM questions WHERE id = $1;
+        `;
+        const {rowCount} = await pool.query(query, [id]);
+        return rowCount;
+    }
+
     static async postQuestion(attr){
         const query = `
         INSERT INTO questions (user_id, title, body)
         VALUES ($1, $2, $3);
         `;
-        await pool.query(query, [attr.user_id, attr.title, attr.body]);
-        return;
+        const {rowCount} = await pool.query(query, [attr.user_id, attr.title, attr.body]);
+        return rowCount;
     }
 
     static async updateQuestion(body, title, id){
@@ -24,8 +32,8 @@ class QuestionRepo {
         SET body = $1, title = $2
         WHERE id = $3;
         `;
-        await pool.query(query, [body, title, id]);
-        return;
+        const {rowCount} = await pool.query(query, [body, title, id]);
+        return rowCount;
     }
 
     static async getQuestionById(id){

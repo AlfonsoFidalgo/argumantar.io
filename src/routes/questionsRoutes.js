@@ -16,4 +16,6 @@ router.put('/question/:id',
     [ body('title').trim().isLength({min: 1}), body('body').trim().isLength({min: 1})],
     questionsController.updateQuestionById);
 
+router.delete('/question/:id', questionsController.deleteQuestionById);
+
 module.exports = router;

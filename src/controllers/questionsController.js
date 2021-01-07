@@ -12,6 +12,11 @@ exports.getQuestionById = async (req, res, next) => {
     res.status(200).json(question);
 };
 
+exports.deleteQuestionById = async (req, res, next) => {
+    const questionId = req.params.id;
+    const rowCount = await questionsRepo.deleteQuestion(questionId);
+    res.status(200).json({message: `${rowCount} question(s) posted successfully`});
+};
 
 exports.postQuestion = async (req, res, next) => {
     const errors = validationResult(req);
@@ -23,8 +28,8 @@ exports.postQuestion = async (req, res, next) => {
         title: req.body.title,
         body: req.body.body
     };
-    await questionsRepo.postQuestion(newQuestion);
-    res.status(201).json({message: 'question posted successfully'});
+    const rowCount = await questionsRepo.postQuestion(newQuestion);
+    res.status(201).json({message: `${rowCount} question(s) posted successfully`});
 };
 
 exports.updateQuestionById = async (req, res, next) => {
@@ -36,6 +41,6 @@ exports.updateQuestionById = async (req, res, next) => {
     
     const body = req.body.body;
     const title = req.body.title;
-    await questionsRepo.updateQuestion(body, title, questionId);
-    res.status(201).json({message: 'question updated successfully'});
-}
+    const rowCount = await questionsRepo.updateQuestion(body, title, questionId);
+    res.status(201).json({message: `${rowCount} question(s) updated successfully`});
+};
