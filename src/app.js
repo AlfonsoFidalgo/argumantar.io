@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 
-const feedRouter = require('./routes/feedRoute')
+const questionsRouter = require('./routes/questionsRoutes')
 
 module.exports = () => {
     const app = express();
@@ -16,7 +16,7 @@ module.exports = () => {
         next();
     });
 
-    app.use(feedRouter);
+    app.use(questionsRouter);
 
     return app;
 };

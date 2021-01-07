@@ -1,16 +1,16 @@
 const express = require('express');
 const {body} = require('express-validator');
-const feedController = require('../controllers/feedController');
+const questionsController = require('../controllers/questionsController');
 const router = express.Router();
 
 
-router.get('/questions', feedController.getQuestions);
+router.get('/questions', questionsController.getQuestions);
 
 router.post('/question', 
     [ body('title').trim().isLength({min: 1}), body('body').trim().isLength({min: 1})], 
-    feedController.postQuestion);
+    questionsController.postQuestion);
 
-router.get('/question/:id', feedController.getQuestionById)
+router.get('/question/:id', questionsController.getQuestionById)
 
 
 

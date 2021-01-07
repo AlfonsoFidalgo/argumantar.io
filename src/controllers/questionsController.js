@@ -21,8 +21,7 @@ exports.postQuestion = async (req, res, next) => {
     const newQuestion = {
         user_id: req.body.user_id,
         title: req.body.title,
-        body: req.body.body,
-        url: req.body.url
+        body: req.body.body
     };
     await questionsRepo.postQuestion(newQuestion);
     res.status(201).json({message: 'question posted successfully'});
