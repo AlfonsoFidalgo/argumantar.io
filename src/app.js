@@ -1,12 +1,15 @@
 const express = require('express');
-const usersRouter = require('./routes/users');
-const webappRouter = require('./routes/webapp')
+const path = require('path');
+const bodyParser = require('body-parser');
+
+const feedRouter = require('./routes/feedRoute')
 
 module.exports = () => {
     const app = express();
-    app.use(express.json());
-    app.use(webappRouter);
-    app.use(usersRouter);
+
+    app.use(bodyParser.json());
+
+    app.use(feedRouter);
 
     return app;
 };
