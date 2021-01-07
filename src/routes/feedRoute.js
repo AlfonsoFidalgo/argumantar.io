@@ -10,6 +10,7 @@ router.post('/question',
     [ body('title').trim().isLength({min: 1}), body('body').trim().isLength({min: 1})], 
     feedController.postQuestion);
 
+router.get('/question/:id', feedController.getQuestionById)
 
 
 

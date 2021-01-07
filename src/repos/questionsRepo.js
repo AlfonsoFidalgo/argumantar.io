@@ -17,6 +17,14 @@ class QuestionRepo {
         await pool.query(query, [attr.user_id, attr.title, attr.body, attr.url]);
         return;
     }
+
+    static async getQuestionById(id){
+        const query = `
+        SELECT * FROM questions WHERE id = $1;
+        `;
+        const { rows } = await pool.query(query, [id]);
+        return rows;
+    }
 };
 
 module.exports = QuestionRepo;

@@ -6,6 +6,12 @@ exports.getQuestions = async (req, res, next) => {
     res.status(200).json(questionsFeed);
 };
 
+exports.getQuestionById = async (req, res, next) => {
+    const postId = req.params.id;
+    const question = await questionsRepo.getQuestionById(postId);
+    res.status(200).json(question);
+};
+
 
 exports.postQuestion = async (req, res, next) => {
     const errors = validationResult(req);
