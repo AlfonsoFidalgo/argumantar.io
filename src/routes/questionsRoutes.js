@@ -10,8 +10,10 @@ router.post('/question',
     [ body('title').trim().isLength({min: 1}), body('body').trim().isLength({min: 1})], 
     questionsController.postQuestion);
 
-router.get('/question/:id', questionsController.getQuestionById)
+router.get('/question/:id', questionsController.getQuestionById);
 
-
+router.put('/question/:id',
+    [ body('title').trim().isLength({min: 1}), body('body').trim().isLength({min: 1})],
+    questionsController.updateQuestionById);
 
 module.exports = router;

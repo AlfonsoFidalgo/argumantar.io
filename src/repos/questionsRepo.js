@@ -18,6 +18,16 @@ class QuestionRepo {
         return;
     }
 
+    static async updateQuestion(body, title, id){
+        const query = `
+        UPDATE questions
+        SET body = $1, title = $2
+        WHERE id = $3;
+        `;
+        await pool.query(query, [body, title, id]);
+        return;
+    }
+
     static async getQuestionById(id){
         const query = `
         SELECT * FROM questions WHERE id = $1;
