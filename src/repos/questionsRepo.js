@@ -29,7 +29,7 @@ class QuestionRepo {
     static async updateQuestion(body, title, id){
         const query = `
         UPDATE questions
-        SET body = $1, title = $2
+        SET body = $1, title = $2, updated_at = CURRENT_TIMESTAMP
         WHERE id = $3;
         `;
         const {rowCount} = await pool.query(query, [body, title, id]);
