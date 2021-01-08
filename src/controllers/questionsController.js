@@ -24,7 +24,7 @@ exports.postQuestion = async (req, res, next) => {
         return res.status(422).json({message: 'validation error, please check fields', errors: errors.array()});
     };
     const newQuestion = {
-        user_id: req.body.user_id,
+        user_id: req.userId,
         title: req.body.title,
         body: req.body.body
     };
