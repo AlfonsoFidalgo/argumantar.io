@@ -1,6 +1,6 @@
 const express = require('express');
-
-const userRepo = require('../repositories/users');
+const {body} = require('express-validator');
+const userController = require('../controllers/usersController');
 const router = express.Router();
 
 
@@ -10,9 +10,12 @@ router.get('/users', async (req, res) => {
 });
 
 
-router.get('/users:id', async (req, res) => {});
-router.post('/users', async (req, res) => {});
-router.put('/users/:id', async (req, res) => {});
-router.delete('/users/:id', async (req, res) => {});
+// router.get('/users:id', async (req, res) => {});
+router.post('/signup', [
+    body('email').isEmail().normalizeEmail(),
+    body('password').trim().isLength({min: 8})
+], userController.signup);
+// router.put('/users/:id', async (req, res) => {});
+// router.delete('/users/:id', async (req, res) => {});
 
 module.exports = router;
