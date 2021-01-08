@@ -28,6 +28,14 @@ class UserRepo {
         return rows;
     }
 
+    static async findUserByUsername(username){
+        const query = `
+        SELECT * FROM users WHERE username = $1;
+        `;
+        const {rows} = await pool.query(query, [username]);
+        return rows;
+    }
+
     static async auth(user, providedPassword){
         const isEqual = await bcrypt.compare(providedPassword, user.password);
         return isEqual;

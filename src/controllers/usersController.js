@@ -16,9 +16,16 @@ exports.signup = async (req, res, next) => {
         displayName: req.body.displayName,
         bio: req.body.bio
     };
-
-    const rowCount = await usersRepo.signup(newUser);
-    res.status(201).json({message: `${rowCount} user created successfully`});
+    const user = await usersRepo.findUser(req.body.email);
+    const username = await usersRepo.findUserByUsername(req.body.username);
+    if (user.length != 0){
+        res.status(403).json({message: `email already in use.`});
+    } else if (username.length != 0){
+        res.status(403).json({message: `username already in use.`});
+    } else {
+        const rowCount = await usersRepo.signup(newUser);
+        res.status(201).json({message: `user created successfully.`});
+    }  
 };
 
 exports.login = async (req, res, next) => {
