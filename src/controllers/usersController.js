@@ -1,4 +1,6 @@
 const {validationResult} = require('express-validator');
+const jwt = require('jsonwebtoken');
+
 const usersRepo = require('../repos/usersRepo');
 
 
@@ -28,7 +30,16 @@ exports.login = async (req, res, next) => {
         if (!correctPassword){
             res.status(401).json({message: 'wrong password provided'});
         } else {
-            res.status(200).json({message: `welcome back ${user[0].username}` })
+            const token = jwt.sign({
+                email: user[0].email,
+                userId: user[0].id
+            },
+            'supahdupahiberiansekret',
+            {
+                expiresIn: '1h'
+            });
+
+            res.status(200).json({message: `welcome back ${user[0].username}`, token: token, userId: user[0].id });
         }
         
     } else {
