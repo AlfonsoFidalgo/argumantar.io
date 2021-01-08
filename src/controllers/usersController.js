@@ -18,3 +18,22 @@ exports.signup = async (req, res, next) => {
     const rowCount = await usersRepo.signup(newUser);
     res.status(201).json({message: `${rowCount} user created successfully`});
 };
+
+exports.login = async (req, res, next) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const user = await usersRepo.findUser(email);
+    if (user.length == 1){
+        const correctPassword = await usersRepo.auth(user[0], password);
+        if (!correctPassword){
+            res.status(401).json({message: 'wrong password provided'});
+        } else {
+            res.status(200).json({message: `welcome back ${user[0].username}` })
+        }
+        
+    } else {
+        res.status(401).json({message: `no user with email ${email} was found`});
+    };
+
+    
+};
