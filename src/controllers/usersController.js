@@ -69,3 +69,17 @@ exports.updateUser = async (req, res, next) => {
     const rows = await usersRepo.updateUser(displayName, bio, user[0].id);
     res.status(201).json({message: `User updated successfully`});
 };
+
+exports.deleteUser = async (req, res, next) => {
+    const userId = req.params.id;
+    const user = await usersRepo.findUserById(userId);
+    if(user.length !== 1){
+        res.status(404).json({message: 'User not found.'});
+    };
+    if(user[0].id !== req.userId){
+        return res.status(403).json({message: 'Not authorized to delete.'});
+    };
+
+    const rows = await usersRepo.deleteUser(user[0].id);
+    res.status(201).json({message: `User deleted successfully`});
+};

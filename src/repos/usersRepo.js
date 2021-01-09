@@ -58,6 +58,15 @@ class UserRepo {
         const {rows} = await pool.query(query, [displayName, bio, id]);
         return rows;
     }
+
+    static async deleteUser(id){
+        const query = `
+        DELETE FROM users
+        WHERE id = $1;
+        `;
+        const {rows} = await pool.query(query, [id]);
+        return rows;
+    }
 };
 
 module.exports = UserRepo;
