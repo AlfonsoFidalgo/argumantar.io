@@ -36,9 +36,27 @@ class UserRepo {
         return rows;
     }
 
+    static async findUserById(id){
+        const query = `
+        SELECT * FROM users WHERE id = $1;
+        `;
+        const {rows} = await pool.query(query, [id]);
+        return rows;
+    }
+
     static async auth(user, providedPassword){
         const isEqual = await bcrypt.compare(providedPassword, user.password);
         return isEqual;
+    }
+
+    static async updateUser(displayName, bio, id){
+        const query = `
+        UPDATE users
+        SET display_name = $1, bio = $2, updated_at = CURRENT_TIMESTAMP
+        WHERE id = $3;
+        `;
+        const {rows} = await pool.query(query, [displayName, bio, id]);
+        return rows;
     }
 };
 

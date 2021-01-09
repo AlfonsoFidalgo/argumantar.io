@@ -1,8 +1,8 @@
 const express = require('express');
 const {body} = require('express-validator');
-const userController = require('../controllers/usersController');
 const router = express.Router();
-
+const isAuth = require('../middleware/is-auth');
+const userController = require('../controllers/usersController');
 
 
 router.post('/signup', [
@@ -11,5 +11,7 @@ router.post('/signup', [
 ], userController.signup);
 
 router.post('/login', userController.login);
+
+router.put('/user/update/:id', isAuth, userController.updateUser);
 
 module.exports = router;

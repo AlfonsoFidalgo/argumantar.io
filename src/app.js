@@ -3,7 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const questionsRouter = require('./routes/questionsRoutes');
-const usersRouter = require('./routes/usersRoute');
+const usersRouter = require('./routes/usersRoutes');
 
 module.exports = () => {
     const app = express();
