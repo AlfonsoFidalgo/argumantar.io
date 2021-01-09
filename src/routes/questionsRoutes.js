@@ -7,16 +7,16 @@ const router = express.Router();
 
 router.get('/questions', questionsController.getQuestions);
 
-router.post('/question', isAuth,
+router.post('/question/post', isAuth,
     [ body('title').trim().isLength({min: 1}), body('body').trim().isLength({min: 1})], 
     questionsController.postQuestion);
 
 router.get('/question/:id', questionsController.getQuestionById);
 
-router.put('/question/:id', isAuth,
+router.put('/question/update/:id', isAuth,
     [ body('title').trim().isLength({min: 1}), body('body').trim().isLength({min: 1})],
     questionsController.updateQuestionById);
 
-router.delete('/question/:id', isAuth, questionsController.deleteQuestionById);
+router.delete('/question/delete/:id', isAuth, questionsController.deleteQuestionById);
 
 module.exports = router;
