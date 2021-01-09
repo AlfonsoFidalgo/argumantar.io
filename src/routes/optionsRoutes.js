@@ -13,5 +13,9 @@ router.post('/question/:questionId/option/post', isAuth,
 [ body('body').trim().isLength({min: 1})],
  optionsController.postOption);
 
+router.put('/option/update/:id', isAuth, 
+[ body('body').trim().isLength({min: 1})],
+optionsController.updateOptionById);
+
 
 module.exports = router;

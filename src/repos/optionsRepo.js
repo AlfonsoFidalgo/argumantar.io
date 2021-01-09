@@ -10,6 +10,16 @@ class OptionsRepo {
         return rows;
     }
 
+    static async updateOption(body, optionId){
+        const query = `
+        UPDATE options
+        SET body = $1, updated_at = CURRENT_TIMESTAMP
+        WHERE id = $2;
+        `;
+        const {rows} = await pool.query(query, [body, optionId]);
+        return rows;
+    }
+
     static async getOptionsByQuestionId(questionId){
         const query = `
         SELECT * FROM options WHERE question_id = $1;
