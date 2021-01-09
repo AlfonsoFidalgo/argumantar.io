@@ -5,7 +5,7 @@ const isAuth = require('../middleware/is-auth');
 const router = express.Router();
 
 
-router.get('/option/:id');
+router.get('/option/:id', optionsController.getOptionById);
 
 router.get('/options/:questionId', optionsController.getOptionsByQuestionId);
 

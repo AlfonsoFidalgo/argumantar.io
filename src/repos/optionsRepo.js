@@ -17,6 +17,14 @@ class OptionsRepo {
         const {rows} = await pool.query(query, [questionId]);
         return rows;
     }
+
+    static async getOptionById(id){
+        const query = `
+        SELECT * FROM options WHERE id = $1;
+        `;
+        const {rows} = await pool.query(query, [id]);
+        return rows;
+    }
 }
 
 module.exports = OptionsRepo;

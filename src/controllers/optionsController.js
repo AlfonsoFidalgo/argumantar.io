@@ -12,6 +12,12 @@ exports.getOptionsByQuestionId = async (req, res, next) => {
     res.status(201).json({message: 'Success', data: options});
 };
 
+exports.getOptionById = async (req, res, next) => {
+    const id = req.params.id;
+    const option = await optionsRepo.getOptionById(id);
+    res.status(201).json({message: 'Success', data: option});
+};
+
 exports.postOption = async (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
