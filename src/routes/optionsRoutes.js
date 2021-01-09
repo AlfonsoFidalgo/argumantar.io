@@ -9,7 +9,9 @@ router.get('/option/:id', (req, res, next) => {res.json('ok')});
 
 router.get('/options/:questionId');
 
-router.post('/question/:questionId/option/post', isAuth, optionsController.postOption);
+router.post('/question/:questionId/option/post', isAuth,
+[ body('body').trim().isLength({min: 1})],
+ optionsController.postOption);
 
 
 module.exports = router;

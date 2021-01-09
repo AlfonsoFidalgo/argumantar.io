@@ -2,8 +2,12 @@ const {validationResult} = require('express-validator');
 const optionsRepo = require('../repos/optionsRepo');
 const questionsRepo = require('../repos/questionsRepo');
 
-//question/:questionId/option/post
+
 exports.postOption = async (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(422).json({message: 'validation error, please check fields', errors: errors.array()});
+    };
     const questionId = req.params.questionId;
     //check if question exists
     const question = await questionsRepo.getQuestionById(questionId);
