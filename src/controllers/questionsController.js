@@ -14,8 +14,17 @@ exports.getQuestionById = async (req, res, next) => {
 
 exports.deleteQuestionById = async (req, res, next) => {
     const questionId = req.params.id;
+    const question = await questionsRepo.getQuestionById(questionId);
+    if(question.length !== 1){
+        return res.status(404).json({message: 'Question not found.'});
+    };
+    
+    if(question[0].user_id !== req.userId){
+        return res.status(403).json({message: 'Not authorized to delete.'});
+    };
+    
     const rowCount = await questionsRepo.deleteQuestion(questionId);
-    res.status(200).json({message: `${rowCount} question(s) posted successfully`});
+    res.status(200).json({message: `${rowCount} question(s) deleted successfully`});
 };
 
 exports.postQuestion = async (req, res, next) => {
@@ -33,11 +42,18 @@ exports.postQuestion = async (req, res, next) => {
 };
 
 exports.updateQuestionById = async (req, res, next) => {
+    const questionId = req.params.id;
+    const question = await questionsRepo.getQuestionById(questionId);
+    if(question.length !== 1){
+        return res.status(404).json({message: 'Question not found.'});
+    };
+    if(question[0].user_id !== req.userId){
+        return res.status(403).json({message: 'Not authorized to edit.'});
+    };
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.status(422).json({message: 'validation error, please check fields', errors: errors.array()});
     };
-    const questionId = req.params.id;
     
     const body = req.body.body;
     const title = req.body.title;

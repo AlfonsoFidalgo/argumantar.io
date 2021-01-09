@@ -13,10 +13,10 @@ router.post('/question', isAuth,
 
 router.get('/question/:id', questionsController.getQuestionById);
 
-router.put('/question/:id',
+router.put('/question/:id', isAuth,
     [ body('title').trim().isLength({min: 1}), body('body').trim().isLength({min: 1})],
     questionsController.updateQuestionById);
 
-router.delete('/question/:id', questionsController.deleteQuestionById);
+router.delete('/question/:id', isAuth, questionsController.deleteQuestionById);
 
 module.exports = router;
