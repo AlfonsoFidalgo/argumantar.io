@@ -9,6 +9,14 @@ class OptionsRepo {
         const {rows} = await pool.query(query, [attr.questionId, attr.body]);
         return rows;
     }
+
+    static async getOptionsByQuestionId(questionId){
+        const query = `
+        SELECT * FROM options WHERE question_id = $1;
+        `;
+        const {rows} = await pool.query(query, [questionId]);
+        return rows;
+    }
 }
 
 module.exports = OptionsRepo;

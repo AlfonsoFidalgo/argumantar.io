@@ -5,9 +5,9 @@ const isAuth = require('../middleware/is-auth');
 const router = express.Router();
 
 
-router.get('/option/:id', (req, res, next) => {res.json('ok')});
+router.get('/option/:id');
 
-router.get('/options/:questionId');
+router.get('/options/:questionId', optionsController.getOptionsByQuestionId);
 
 router.post('/question/:questionId/option/post', isAuth,
 [ body('body').trim().isLength({min: 1})],

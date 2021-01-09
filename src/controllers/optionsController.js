@@ -2,6 +2,15 @@ const {validationResult} = require('express-validator');
 const optionsRepo = require('../repos/optionsRepo');
 const questionsRepo = require('../repos/questionsRepo');
 
+exports.getOptionsByQuestionId = async (req, res, next) => {
+    const questionId = req.params.questionId;
+    const question = await questionsRepo.getQuestionById(questionId);
+    if(question.length !== 1){
+        return res.status(404).json({message: 'Question not found.'});
+    };
+    const options = await optionsRepo.getOptionsByQuestionId(questionId);
+    res.status(201).json({message: 'Success', data: options});
+};
 
 exports.postOption = async (req, res, next) => {
     const errors = validationResult(req);
