@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const questionsRouter = require('./routes/questionsRoutes');
 const usersRouter = require('./routes/usersRoutes');
 const optionsRouter = require('./routes/optionsRoutes');
+const argumentsRouter = require('./routes/argumentsRoutes');
 
 module.exports = () => {
     const app = express();
@@ -21,6 +22,7 @@ module.exports = () => {
     app.use(questionsRouter);
     app.use(usersRouter);
     app.use(optionsRouter);
+    app.use(argumentsRouter);
 
     return app;
 };
