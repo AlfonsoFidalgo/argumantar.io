@@ -3,7 +3,6 @@ const questionsRepo = require('../repos/questionsRepo');
 const optionsRepo = require('../repos/optionsRepo');
 const argumentsRepo = require('../repos/argumentsRepo');
 
-///option/:optionId/argument/post
 exports.postArgument = async (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -33,4 +32,10 @@ exports.postArgument = async (req, res, next) => {
     const argumentBody = req.body.body;
     const rows = await argumentsRepo.postArgument(argumentBody, req.userId, option[0].id);
     return res.status(201).json({message: `Argument posted successfully.`, data: rows});
+};
+
+exports.getArgumentById = async (req, res, next) => {
+    const argumentId = req.params.id;
+    const argument = await argumentsRepo.getArgumentById(argumentId);
+    res.status(201).json({message: 'Success', data: argument});
 };

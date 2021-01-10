@@ -9,4 +9,6 @@ router.post('/option/:optionId/argument/post', isAuth,
 [ body('body').trim().isLength({min: 1})],
 argumentsController.postArgument);
 
+router.get('/argument/:id', argumentsController.getArgumentById);
+
 module.exports = router;

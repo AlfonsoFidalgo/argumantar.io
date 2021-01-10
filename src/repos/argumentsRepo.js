@@ -18,6 +18,14 @@ class ArgumentsRepo {
         const {rows} = await pool.query(query, [body, userId, optionId]);
         return rows;
     }
+
+    static async getArgumentById(id){
+        const query = `
+        SELECT * FROM arguments WHERE id = $1;
+        `;
+        const {rows} = await pool.query(query, [id]);
+        return rows;
+    }
 }
 
 module.exports = ArgumentsRepo;
