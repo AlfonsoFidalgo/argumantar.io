@@ -34,6 +34,16 @@ class ArgumentsRepo {
         const {rows} = await pool.query(query, [id]);
         return rows;
     }
+
+    static async updateArgument(body, id){
+        const query = `
+        UPDATE arguments
+        SET body = $1, updated_at = CURRENT_TIMESTAMP
+        WHERE id = $2
+        `;
+        const {rows} = await pool.query(query, [body, id]);
+        return rows;
+    }
 }
 
 module.exports = ArgumentsRepo;

@@ -15,4 +15,8 @@ router.get('/option/:optionId/arguments/get', argumentsController.getArgumentsBy
 
 router.delete('/argument/delete/:id', isAuth, argumentsController.deleteArgument);
 
+router.put('/argument/update/:id', isAuth,
+[ body('body').trim().notEmpty()],
+ argumentsController.updateArgument);
+
 module.exports = router;
