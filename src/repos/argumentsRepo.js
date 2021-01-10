@@ -26,6 +26,14 @@ class ArgumentsRepo {
         const {rows} = await pool.query(query, [id]);
         return rows;
     }
+
+    static async deleteArgument(id){
+        const query = `
+        DELETE FROM arguments WHERE id = $1
+        `;
+        const {rows} = await pool.query(query, [id]);
+        return rows;
+    }
 }
 
 module.exports = ArgumentsRepo;

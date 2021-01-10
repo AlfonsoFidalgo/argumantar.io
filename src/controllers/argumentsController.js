@@ -50,3 +50,19 @@ exports.getArgumentsByOptionId = async (req, res, next) => {
     const arguments = await argumentsRepo.getArgumentsByOptionId(optionId);
     return res.status(201).json({message: 'Success', data: arguments});
 };
+
+exports.deleteArgument = async (req, res, next) => {
+    const argumentId = req.params.id;
+    //check if argument exists
+    const argument = await argumentsRepo.getArgumentById(argumentId);
+    if (argument.length !== 1){
+        return res.status(404).json({message: 'Argument not found.'});
+    };
+    //check if argument belong to user
+    if (argument[0].user_id !== req.userId){
+        return res.status(403).json({message: 'Not authorized.'});
+    };
+    //delete argument
+    const arguments = await argumentsRepo.deleteArgument(argumentId);
+    return res.status(201).json({message: 'Success', data: arguments});
+};
