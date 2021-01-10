@@ -11,4 +11,6 @@ argumentsController.postArgument);
 
 router.get('/argument/:id', argumentsController.getArgumentById);
 
+router.get('/option/:optionId/arguments/get', argumentsController.getArgumentsByOptionId);
+
 module.exports = router;
