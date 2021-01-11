@@ -6,6 +6,7 @@ const questionsRouter = require('./routes/questionsRoutes');
 const usersRouter = require('./routes/usersRoutes');
 const optionsRouter = require('./routes/optionsRoutes');
 const argumentsRouter = require('./routes/argumentsRoutes');
+const choicesRouter = require('./routes/choicesRoutes');
 
 module.exports = () => {
     const app = express();
@@ -23,6 +24,7 @@ module.exports = () => {
     app.use(usersRouter);
     app.use(optionsRouter);
     app.use(argumentsRouter);
+    app.use(choicesRouter);
 
     return app;
 };
