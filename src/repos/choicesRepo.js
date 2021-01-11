@@ -18,6 +18,22 @@ class ChoicesRepo {
         const {rows} = await pool.query(query, [optionId, userId]);
         return rows;
     }
+
+    static async deleteChoice(choiceId){
+        const query = `
+        DELETE FROM choices WHERE id = $1;
+        `;
+        const {rows} = await pool.query(query, [choiceId]);
+        return rows;
+    }
+
+    static async getChoice(choiceId){
+        const query = `
+        SELECT * FROM choices WHERE id = $1;
+        `;
+        const {rows} = await pool.query(query, [choiceId]);
+        return rows;
+    }
 }
 
 module.exports = ChoicesRepo;

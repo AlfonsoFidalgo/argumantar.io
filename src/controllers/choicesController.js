@@ -22,3 +22,17 @@ exports.postChoice = async (req, res, next) => {
     const rows = await choicesRepo.postChoice(optionId, req.userId);
     return res.status(201).json({message: `Choice posted successfully.`, data: rows});
 };
+
+exports.deleteChoice = async (req, res, next) => {
+    const choiceId = req.params.id;
+    //check if choice exists and belongs to user
+    const choice = await choicesRepo.getChoice(choiceId);
+    if(choice.length !== 1){
+        return res.status(404).json({message: 'Choice not found.'});
+    };
+    if(choice[0].user_id !== req.userId){
+        return res.status(403).json({message: 'Not authorized.'});
+    };
+    const rows = await choicesRepo.deleteChoice(choiceId);
+    return res.status(201).json({message: `Choice deleted successfully.`, data: rows});
+};
