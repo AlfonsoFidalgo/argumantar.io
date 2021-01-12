@@ -8,6 +8,7 @@ const optionsRouter = require('./routes/optionsRoutes');
 const argumentsRouter = require('./routes/argumentsRoutes');
 const choicesRouter = require('./routes/choicesRoutes');
 const votesRouter = require('./routes/votesRoutes');
+const commentsRouter = require('./routes/commentsRoutes');
 
 module.exports = () => {
     const app = express();
@@ -27,6 +28,7 @@ module.exports = () => {
     app.use(argumentsRouter);
     app.use(choicesRouter);
     app.use(votesRouter);
+    app.use(commentsRouter);
 
     return app;
 };
