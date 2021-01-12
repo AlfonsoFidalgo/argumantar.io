@@ -1,5 +1,6 @@
 const optionsRepo = require('../repos/optionsRepo');
 const choicesRepo = require('../repos/choicesRepo');
+const argumentsRepo = require('../repos/argumentsRepo');
 
 exports.postChoice = async (req, res, next) => {
     const optionId = req.params.optionId;
@@ -11,7 +12,8 @@ exports.postChoice = async (req, res, next) => {
     //check if user already has a choice for any of the question's options
     //1. check all options of the question
     const allOptions = await optionsRepo.getOptionsByQuestionId(option[0].question_id);
-    //2. for each of the options, check if the option_id/ user_id combination exists
+    //2. for each of the options, check if there are any 
+    // choice with option_id/ user_id combination
     for (let i = 0; i < allOptions.length; i++){
         const opt = allOptions[i];
         const rows = await choicesRepo.checkEligibility(opt.id, req.userId);
@@ -34,5 +36,10 @@ exports.deleteChoice = async (req, res, next) => {
         return res.status(403).json({message: 'Not authorized.'});
     };
     const rows = await choicesRepo.deleteChoice(choiceId);
+    
+    //should also delete any argument associated with the user_id / option_id combination (if any)
+    //find arguments where option_id = choice.option_id and user_id = req.userId
+    const optionId = choice[0].option_id;
+    await argumentsRepo.deleteArgumentAfterChoice(optionId, req.userId);
     return res.status(201).json({message: `Choice deleted successfully.`, data: rows});
 };

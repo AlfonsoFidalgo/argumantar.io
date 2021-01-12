@@ -2,6 +2,7 @@ const {validationResult} = require('express-validator');
 // const questionsRepo = require('../repos/questionsRepo');
 const optionsRepo = require('../repos/optionsRepo');
 const argumentsRepo = require('../repos/argumentsRepo');
+const choicesRepo = require('../repos/choicesRepo');
 
 exports.postArgument = async (req, res, next) => {
     const errors = validationResult(req);
@@ -14,10 +15,27 @@ exports.postArgument = async (req, res, next) => {
     if(option.length !== 1){
         return res.status(404).json({message: 'Option not found.'});
     };
+    //check if user has posted a choice for any of the question's options
     //check if user has already submitted an argument for any other option of same question
     //1. check all options of the question
     const allOptions = await optionsRepo.getOptionsByQuestionId(option[0].question_id);
-    //2. for each of the options, check if argumets are from user
+    //2. for each of the options, check if there are any 
+    // choice with option_id/ user_id combination
+    let userHasCosen = false;
+    for (let i = 0; i < allOptions.length; i++){
+        const opt = allOptions[i];
+        const choices = await choicesRepo.checkEligibility(opt.id, req.userId);
+        if (choices.length !== 0){
+            userHasCosen = true;
+            if (choices[0].option_id != optionId){
+                return res.status(403).json({message: 'User chose a different option.'});
+            }
+        }
+    }
+    if (!userHasCosen){
+        return res.status(403).json({message: 'User needs to choose an option before argumenting.'});
+    }
+    //3. for each of the options, check if argumets are from user
     for (let i = 0; i < allOptions.length; i++){
         const opt = allOptions[i];
         const args = await argumentsRepo.getArgumentsByOptionId(opt.id);
@@ -25,9 +43,9 @@ exports.postArgument = async (req, res, next) => {
             const arg = args[j];
             if (arg.user_id === req.userId){
                 return res.status(403).json({message: 'User already posted argument.'});
-            }
-        }
-    }
+            };
+        };
+    };
 
     const argumentBody = req.body.body;
     const rows = await argumentsRepo.postArgument(argumentBody, req.userId, option[0].id);
