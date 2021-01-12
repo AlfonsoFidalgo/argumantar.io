@@ -1,11 +1,15 @@
 const {validationResult} = require('express-validator');
-const optionsRepo = require('../repos/optionsRepo');
-const choicesRepo = require('../repos/choicesRepo');
-const argumentsRepo = require('../repos/argumentsRepo');
-const votesRepo = require('../repos/votesRepo');
+const commentsRepo = require('../repos/commentsRepo');
 
 
-exports.postComment = async (req, res, next) => {}
+exports.postComment = async (req, res, next) => {
+    const argumentId = req.params.argumentId;
+    const commentBody = req.body.body;
+    const userId = req.userId;
+
+    const rows = await commentsRepo.postComment(commentBody, userId, argumentId);
+    return res.status(201).json({message: `Comment posted successfully.`, data: rows});
+};
 
 exports.getComment = async (req, res, next) => {}
 
