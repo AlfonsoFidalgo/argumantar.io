@@ -6,12 +6,10 @@ CREATE TABLE votes (
 	comment_id INTEGER REFERENCES comments(id) ON DELETE CASCADE,
 	v_type vote_type NOT NULL,
 	CHECK (
-		COALESCE((option_id)::BOOLEAN::INTEGER, 0)
-		+
 		COALESCE((argument_id)::BOOLEAN::INTEGER, 0)
 		+
 		COALESCE((comment_id)::BOOLEAN::INTEGER, 0)
 		= 1
 	),
-	UNIQUE(user_id, option_id, argument_id, comment_id)
+	UNIQUE(user_id, argument_id, comment_id)
 );
