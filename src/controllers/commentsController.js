@@ -15,7 +15,12 @@ exports.postComment = async (req, res, next) => {
     return res.status(201).json({message: `Comment posted successfully.`, data: rows});
 };
 
-exports.getComment = async (req, res, next) => {}
+exports.getComment = async (req, res, next) => {
+    const commentId = req.params.id;
+
+    const rows = await commentsRepo.getComment(commentId);
+    return res.status(201).json({message: `Success.`, data: rows});
+};
 
 exports.getComments = async (req, res, next) => {
     const argumentId = req.params.argumentId;

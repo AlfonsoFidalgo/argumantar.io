@@ -4,7 +4,7 @@ const isAuth = require('../middleware/is-auth');
 const commentsController = require('../controllers/commentsController');
 const router = express.Router();
 
-router.get('/comment/get/:id');
+router.get('/comment/:id', commentsController.getComment);
 
 router.get('/comments/:argumentId', commentsController.getComments);
 
