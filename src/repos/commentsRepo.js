@@ -9,6 +9,14 @@ class CommentsRepo {
         const {rows} = await pool.query(query, [commentBody, userId, argumentId]);
         return rows;
     }
+
+    static async getComments(argumentId){
+        const query = `
+        SELECT * FROM comments WHERE argument_id = $1;
+        `;
+        const {rows} = await pool.query(query, [argumentId]);
+        return rows;
+    }
 };
 
 module.exports = CommentsRepo;

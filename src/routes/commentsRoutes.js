@@ -6,9 +6,10 @@ const router = express.Router();
 
 router.get('/comment/get/:id');
 
-router.get('/comments/:argumentId');
+router.get('/comments/:argumentId', commentsController.getComments);
 
-router.post('/comment/post/:argumentId', isAuth, commentsController.postComment);
+router.post('/comment/post/:argumentId', isAuth,
+[ body('body').trim().isLength({min: 1})], commentsController.postComment);
 
 router.delete('/comments/delete/:id');
 
