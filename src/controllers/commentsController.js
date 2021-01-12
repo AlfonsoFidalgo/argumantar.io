@@ -17,7 +17,6 @@ exports.postComment = async (req, res, next) => {
 
 exports.getComment = async (req, res, next) => {
     const commentId = req.params.id;
-
     const rows = await commentsRepo.getComment(commentId);
     return res.status(201).json({message: `Success.`, data: rows});
 };
@@ -30,4 +29,16 @@ exports.getComments = async (req, res, next) => {
 
 exports.updateComment = async (req, res, next) => {}
 
-exports.deleteComment = async (req, res, next) => {}
+exports.deleteComment = async (req, res, next) => {
+    const commentId = req.params.id;
+    const comment = await commentsRepo.getComment(commentId);
+    if(comment.length == 0){
+        return res.status(404).json({message: "Comment not found."})
+    };
+
+    if(comment[0].user_id !== req.userId){
+        return res.status(403).json({message: "Not authorized."});
+    };
+    const rows = await commentsRepo.deleteComment(commentId);
+    return res.status(201).json({message: `Comment deleted successfully.`, data: rows});
+};

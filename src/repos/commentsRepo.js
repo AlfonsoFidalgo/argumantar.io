@@ -25,6 +25,14 @@ class CommentsRepo {
         const {rows} = await pool.query(query, [commentId]);
         return rows;
     }
+
+    static async deleteComment(commentId){
+        const query = `
+        DELETE FROM comments WHERE id = $1;
+        `;
+        const {rows} = await pool.query(query, [commentId]);
+        return rows;
+    }
 };
 
 module.exports = CommentsRepo;
