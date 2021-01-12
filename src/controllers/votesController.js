@@ -1,9 +1,14 @@
+const {validationResult} = require('express-validator');
 const optionsRepo = require('../repos/optionsRepo');
 const choicesRepo = require('../repos/choicesRepo');
 const argumentsRepo = require('../repos/argumentsRepo');
 const votesRepo = require('../repos/votesRepo');
 
 exports.postArgumentVote = async (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(422).json({message: 'validation error, please check fields', errors: errors.array()});
+    };
     const argumentId = req.params.argumentId;
     const voteType = req.body.type;
     //check if argument exists
