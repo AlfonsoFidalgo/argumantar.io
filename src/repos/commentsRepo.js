@@ -33,6 +33,16 @@ class CommentsRepo {
         const {rows} = await pool.query(query, [commentId]);
         return rows;
     }
+
+    static async updateComment(commentId, commentBody){
+        const query = `
+        UPDATE comments
+        SET body = $2
+        WHERE id = $1;
+        `;
+        const {rows} = await pool.query(query, [commentId, commentBody]);
+        return rows;
+    }
 };
 
 module.exports = CommentsRepo;

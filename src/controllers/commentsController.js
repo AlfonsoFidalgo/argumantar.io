@@ -27,7 +27,26 @@ exports.getComments = async (req, res, next) => {
     return res.status(201).json({message: `Success.`, data: rows});
 };
 
-exports.updateComment = async (req, res, next) => {}
+exports.updateComment = async (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(422).json({message: 'validation error, please check fields', errors: errors.array()});
+    };
+
+    const commentId = req.params.id;
+    const commentBody = req.body.body;
+    const comment = await commentsRepo.getComment(commentId);
+    if(comment.length == 0){
+        return res.status(404).json({message: "Comment not found."})
+    };
+
+    if(comment[0].user_id !== req.userId){
+        return res.status(403).json({message: "Not authorized."});
+    };
+
+    const rows = await commentsRepo.updateComment(commentId, commentBody);
+    return res.status(201).json({message: `Comment updated successfully.`, data: rows});
+};
 
 exports.deleteComment = async (req, res, next) => {
     const commentId = req.params.id;

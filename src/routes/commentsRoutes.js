@@ -13,7 +13,8 @@ router.post('/comment/post/:argumentId', isAuth,
 
 router.delete('/comment/delete/:id', isAuth, commentsController.deleteComment);
 
-router.put('/comment/update/:id');
+router.put('/comment/update/:id', isAuth,
+[ body('body').trim().isLength({min: 1})], commentsController.updateComment);
 
 
 module.exports = router;
