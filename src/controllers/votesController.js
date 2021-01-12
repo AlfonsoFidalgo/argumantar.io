@@ -43,8 +43,13 @@ exports.postArgumentVote = async (req, res, next) => {
 exports.deleteArgumentVote = async (req, res, next) => {
     const argumentId = req.params.argumentId;
     //check if argument exists
-
-    //check if user has previously voted that argument
+    const argument = await argumentsRepo.getArgumentById(argumentId);
+    if (argument.length !== 1){
+        return res.status(404).json({message: 'Argument not found.'});
+    };
+    //delete vote where argumentId / userId combination
+    const voteCount = await votesRepo.deleteArgumentVote(req.userId, argumentId);
+    return res.status(201).json({message: `${voteCount} Vote deleted correctly`});
 };
 
 //NEED TO FINISH COMMENT ROUTES FIRST

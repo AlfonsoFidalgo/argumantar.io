@@ -36,6 +36,16 @@ class VotesRepo {
         const {rows} = await pool.query(query, [vType, userId, argumentId]);
         return rows;
     }
+
+    static async deleteArgumentVote(userId, argumentId){
+        const query = `
+        DELETE FROM votes
+        WHERE user_id = $1 AND argument_id = $2;
+        `;
+        const {rowCount} = await pool.query(query, [userId, argumentId]);
+        return rowCount;
+    }
+
 }
 
 module.exports = VotesRepo;

@@ -9,7 +9,7 @@ router.post('/vote/:argumentId', isAuth,
 
 // router.post('/vote/:commentId', isAuth, votesController.postCommentVote);
 
-// router.delete('/vote/:argumentId', isAuth, votesController.deleteArgumentVote);
+router.delete('/vote/:argumentId', isAuth, votesController.deleteArgumentVote);
 
 // router.delete('/vote/:commentId', isAuth, votesController.deleteCommentVote);
 
