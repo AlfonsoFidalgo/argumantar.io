@@ -22,4 +22,19 @@ exports.followUser = async (req, res, next) => {
     return res.status(201).json({message: 'Success.'});
 };
 
-exports.unfollowUser = async (req, res, next) => {};
+exports.unfollowUser = async (req, res, next) => {
+    const leaderId = req.params.userId;
+    //check if user exists
+    const leader = await usersRepo.findUserById(leaderId);
+    if (leader.length !== 1){
+        return res.status(404).json({message: 'User not found.'});
+    };
+    //check that follower already follow leader
+    const follower = await followersRepo.checkFollowerElegibility(leader[0].id, req.userId);
+    if (follower.length !== 1){
+        return res.status(403).json({message: 'User isn\'t following.'});
+    }
+    //delete the follower
+    const relationship = await followersRepo.unfollowUser(leader[0].id, req.userId);
+    return res.status(201).json({message: 'Success.'});
+};

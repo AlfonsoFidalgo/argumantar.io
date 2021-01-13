@@ -11,6 +11,15 @@ class FollowersRepo {
         return rows;
     }
 
+    static async unfollowUser(leaderId, followerId){
+        const query = `
+        DELETE FROM followers
+        WHERE leader_id = $1 AND follower_id = $2;
+        `;
+        const {rows} = await pool.query(query, [leaderId, followerId]);
+        return rows;
+    }
+
     static async checkFollowerElegibility(leaderId, followerId){
         const query = `
         SELECT * FROM followers WHERE leader_id = $1 AND follower_id = $2;
