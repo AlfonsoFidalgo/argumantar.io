@@ -52,6 +52,18 @@ exports.deleteArgumentVote = async (req, res, next) => {
     return res.status(201).json({message: `${voteCount} Vote deleted correctly`});
 };
 
+exports.deleteCommentVote = async (req, res, next) => {
+    const commentId = req.params.commentId;
+    //check if comment exists
+    const comment = await commentsRepo.getComment(commentId);
+    if (comment.length !== 1){
+        return res.status(404).json({message: 'Comment not found.'});
+    };
+    //delete vote where commentId / userId combination
+    const voteCount = await votesRepo.deleteCommentVote(req.userId, commentId);
+    return res.status(201).json({message: `${voteCount} Vote deleted correctly`});
+};
+
 
 exports.postCommentVote = async (req, res, next) => {
     const errors = validationResult(req);

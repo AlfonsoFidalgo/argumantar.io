@@ -12,6 +12,6 @@ router.post('/vote/comment/:commentId', isAuth,
 
 router.delete('/vote/argument/:argumentId', isAuth, votesController.deleteArgumentVote);
 
-// router.delete('/vote/:commentId', isAuth, votesController.deleteCommentVote);
+router.delete('/vote/comment/:commentId', isAuth, votesController.deleteCommentVote);
 
 module.exports = router;

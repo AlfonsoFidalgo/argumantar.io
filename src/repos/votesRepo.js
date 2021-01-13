@@ -64,6 +64,15 @@ class VotesRepo {
         return rowCount;
     }
 
+    static async deleteCommentVote(userId, commentId){
+        const query = `
+        DELETE FROM votes
+        WHERE user_id = $1 AND comment_id = $2;
+        `;
+        const {rowCount} = await pool.query(query, [userId, commentId]);
+        return rowCount;
+    }
+
 }
 
 module.exports = VotesRepo;
