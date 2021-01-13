@@ -1,7 +1,7 @@
 const {validationResult} = require('express-validator');
-const optionsRepo = require('../repos/optionsRepo');
 const choicesRepo = require('../repos/choicesRepo');
 const argumentsRepo = require('../repos/argumentsRepo');
+const commentsRepo = require('../repos/commentsRepo');
 const votesRepo = require('../repos/votesRepo');
 
 exports.postArgumentVote = async (req, res, next) => {
@@ -52,10 +52,36 @@ exports.deleteArgumentVote = async (req, res, next) => {
     return res.status(201).json({message: `${voteCount} Vote deleted correctly`});
 };
 
-//NEED TO FINISH COMMENT ROUTES FIRST
-// exports.postCommentVote = async (req, res, next) => {
-//     const commentId = req.params.argumentId;
-// };
+
+exports.postCommentVote = async (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(422).json({message: 'validation error, please check fields', errors: errors.array()});
+    };
+    const voteType = req.body.type;
+    const commentId = req.params.commentId;
+    //check if comment exists
+    const comment = await commentsRepo.getComment(commentId);
+    if (comment.length !== 1){
+        return res.status(404).json({message: 'Comment not found.'});
+    };
+    //check that the user hasn't already voted that comment
+    const userId = req.userId;
+    const userVote = await votesRepo.checkUserCommentVote(userId, commentId);
+    if (userVote.length !== 0){
+        //send error if user voted the same option he's trying to vote
+        if (userVote[0].v_type === voteType){
+            return res.status(403).json({message: 'User already voted.'});
+        } else {
+        //otherwise, update comment with new type
+            const updatedVote = await votesRepo.updateCommentVote(voteType, userId, commentId);
+            return res.status(201).json({message: 'Vote updated correctly.'});
+        }     
+    };
+    //proceed
+    const vote = await votesRepo.postCommentVote(commentId, userId, voteType);
+    return res.status(201).json({message: 'Vote posted correctly', data: vote});
+};
 
 // exports.deleteCommentVote = async (req, res, next) => {
 //     const commentId = req.params.argumentId;
