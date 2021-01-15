@@ -22,7 +22,17 @@ class OptionsRepo {
 
     static async getOptionsByQuestionId(questionId){
         const query = `
-        SELECT * FROM options WHERE question_id = $1;
+        SELECT 
+            o.id,
+            o.created_at,
+            o.updated_at,
+            o.question_id,
+            o.body,
+            COUNT(c.id) as support
+        FROM options o
+        FULL JOIN choices c ON c.option_id = o.id
+        WHERE question_id = $1
+        GROUP BY 1,2,3,4,5;
         `;
         const {rows} = await pool.query(query, [questionId]);
         return rows;
