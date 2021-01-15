@@ -3,7 +3,15 @@ const pool = require('../pool');
 class QuestionRepo {
     static async getQuestions(){
         const query = `
-        select * from questions;
+        SELECT
+            q.id,
+            q.created_at,
+            q.updated_at,
+            q.title,
+            q.body,
+            u.username
+        FROM questions q
+        JOIN users u ON u.id = q.user_id;
         `;
         const { rows } = await pool.query(query);
         return rows;
