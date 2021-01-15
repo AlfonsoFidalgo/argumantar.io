@@ -38,7 +38,15 @@ class QuestionRepo {
 
     static async getQuestionById(id){
         const query = `
-        SELECT * FROM questions WHERE id = $1;
+        SELECT
+            q.id,
+            q.created_at,
+            q.title,
+            q.body,
+            u.username
+        FROM questions q
+        JOIN users u ON u.id = q.user_id
+        WHERE q.id = $1;
         `;
         const { rows } = await pool.query(query, [id]);
         return rows;
