@@ -9,6 +9,6 @@ pool.connect({
     password: ''
 })
 .then(() => {
-    app().listen(3000, () => console.log('app running on 3000'));
+    app().listen(3001, () => console.log('app running on 3001'));
 })
 .catch(e => console.log(e));
