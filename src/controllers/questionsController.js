@@ -1,5 +1,6 @@
 const {validationResult} = require('express-validator');
 const questionsRepo = require('../repos/questionsRepo');
+const optionsRepo = require('../repos/optionsRepo');
 
 exports.getQuestions = async (req, res, next) => {
     const questionsFeed = await questionsRepo.getQuestions();
@@ -37,10 +38,23 @@ exports.postQuestion = async (req, res, next) => {
         title: req.body.title,
         body: req.body.body
     };
+    //rows return the new question information
     const rows = await questionsRepo.postQuestion(newQuestion);
-    res.status(201).json({message: `Question posted successfully`, data: rows});
+    
 
     //posting a question should post 2 standard options (agree/disagree)
+    const defaultOptions = [
+        {
+            questionId: rows.id,
+            body: "Agree"
+        }, {
+            questionId: rows.id,
+            body: "Disagree"
+        }
+    ];
+    await optionsRepo.postOption(defaultOptions[0]);
+    await optionsRepo.postOption(defaultOptions[1]);
+    res.status(201).json({message: `Question posted successfully`, data: rows});
 };
 
 exports.updateQuestionById = async (req, res, next) => {
