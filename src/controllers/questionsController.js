@@ -41,7 +41,6 @@ exports.postQuestion = async (req, res, next) => {
     //rows return the new question information
     const rows = await questionsRepo.postQuestion(newQuestion);
     
-
     //posting a question should post 2 standard options (agree/disagree)
     const defaultOptions = [
         {
