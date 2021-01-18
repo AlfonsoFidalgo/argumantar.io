@@ -28,10 +28,10 @@ class QuestionRepo {
     static async postQuestion(attr){
         const query = `
         INSERT INTO questions (user_id, title, body)
-        VALUES ($1, $2, $3);
+        VALUES ($1, $2, $3) RETURNING *;
         `;
-        const {rowCount} = await pool.query(query, [attr.user_id, attr.title, attr.body]);
-        return rowCount;
+        const {rows} = await pool.query(query, [attr.user_id, attr.title, attr.body]);
+        return rows[0];
     }
 
     static async updateQuestion(body, title, id){

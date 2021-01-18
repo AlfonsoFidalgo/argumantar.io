@@ -37,8 +37,10 @@ exports.postQuestion = async (req, res, next) => {
         title: req.body.title,
         body: req.body.body
     };
-    const rowCount = await questionsRepo.postQuestion(newQuestion);
-    res.status(201).json({message: `${rowCount} question(s) posted successfully`});
+    const rows = await questionsRepo.postQuestion(newQuestion);
+    res.status(201).json({message: `Question posted successfully`, data: rows});
+
+    //posting a question should post 2 standard options (agree/disagree)
 };
 
 exports.updateQuestionById = async (req, res, next) => {
