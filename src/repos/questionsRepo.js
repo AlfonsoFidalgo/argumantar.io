@@ -3,7 +3,7 @@ const pool = require('../pool');
 class QuestionRepo {
     static async getQuestions(){
         const query = `
-        with 
+        WITH 
         questions_ as
         (
             SELECT
@@ -25,6 +25,15 @@ class QuestionRepo {
             FULL JOIN choices c ON c.option_id = o.id
             GROUP BY 1
         ),
+        arguments_ as
+        (
+            SELECT 
+            o.question_id,
+            count(a.id) as num_arguments
+            FROM options o
+            JOIN arguments a ON a.option_id = o.id
+            GROUP BY 1
+        ),
         options_ as 
         (
             SELECT 
@@ -40,17 +49,19 @@ class QuestionRepo {
             GROUP BY 1,2,3,4,5
         )
         SELECT 
-          q.question_id,
-          q.created_at,
-          q.question_title,
-          q.question_body,
-          q.username,
-          o.support as agree_support,
-          qe.question_engagement
+        q.question_id,
+        q.created_at,
+        q.question_title,
+        q.question_body,
+        q.username,
+        o.support as agree_support,
+        qe.question_engagement,
+        COALESCE(a.num_arguments, 0) as num_arguments
         FROM questions_ q
         JOIN options_ o ON o.question_id = q.question_id
         JOIN question_engagement qe ON qe.question_id = q.question_id
-        WHERE o.option_body = 'Agree';        
+        FULL JOIN arguments_ a ON a.question_id = q.question_id
+        WHERE o.option_body = 'Agree';
         `;
         const { rows } = await pool.query(query);
         return rows;
