@@ -19,7 +19,10 @@ exports.signup = async (req, res, next) => {
     const user = await usersRepo.findUser(req.body.email);
     const username = await usersRepo.findUserByUsername(req.body.username);
     if (user.length != 0){
-        res.status(403).json({message: `email already in use.`});
+        const error = new Error('email already in use.');
+        error.statusCode = 403;
+        next(error);
+        //res.status(403).json({message: `email already in use.`});
     } else if (username.length != 0){
         res.status(403).json({message: `username already in use.`});
     } else {
