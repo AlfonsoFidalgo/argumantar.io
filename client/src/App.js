@@ -1,8 +1,9 @@
+import QuestionsFeed from './components/QuestionsFeed'
 
 function App() {
   return (
     <div >
-      App
+      <QuestionsFeed />
     </div>
   );
 }
