@@ -29,20 +29,21 @@ const FeedElement = (props) => {
         <Card className={classes.root}>
             <CardContent>
             <Typography className={classes.title} color="textSecondary" gutterBottom>
-                {props.user}
+                {props.user} - {props.date}
             </Typography>
             <Typography variant="h6" component="h2">
                 {props.title}
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
-                {props.date}
+                {props.arguments} people talking about this. <br/>
+                {props.agreeRate *100}% agree, {props.disagreeRate *100}% disagree.
             </Typography>
             <Typography variant="body2" component="p">
                 {props.body}
             </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Learn More</Button>
+                <Button size="small">Read More</Button>
             </CardActions>
         </Card>
     )
