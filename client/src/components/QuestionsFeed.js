@@ -27,9 +27,8 @@ class QuestionsFeed extends Component {
     render(){
         let feedEvents = this.state.questions.map(question => {
             return (
-                    <Grid item xs={12} sm={12}>
+                    <Grid item xs={12} sm={12} key={question.question_id}>
                         <FeedElement
-                        key={question.question_id}
                         user={question.username}
                         questionId={question.question_id}
                         date={question.created_at}
