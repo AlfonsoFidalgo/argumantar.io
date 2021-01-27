@@ -19,23 +19,29 @@ function ElevationScroll(props) {
     });
 };
 
-const usedStyles = makeStyles(() => ({
+const usedStyles = makeStyles(theme => ({
     typographyStyles: { 
         flex: 1
-    } 
+    },
+    toolBarMargin: {
+        ...theme.mixins.toolbar
+    }
 }));
 
 const Header = () => {
     const classes = usedStyles();
     return (
-        <ElevationScroll>
-            <AppBar position='fixed'>
-                <Toolbar>
-                    <Typography className={classes.typographyStyles}>wescuss</Typography>
-                    <AccountCircleIcon/>
-                </Toolbar>
-            </AppBar>
-        </ElevationScroll>
+        <React.Fragment>
+            <ElevationScroll>
+                <AppBar position='fixed'>
+                    <Toolbar>
+                        <Typography className={classes.typographyStyles} variant='h5' color='secondary'>wescuss</Typography>
+                        <AccountCircleIcon/>
+                    </Toolbar>
+                </AppBar>
+            </ElevationScroll>
+            <div className={classes.toolBarMargin}/>
+        </React.Fragment>
     )
 };
 
