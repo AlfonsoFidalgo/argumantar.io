@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios';
+import { Grid } from '@material-ui/core';
 import FeedElement from './FeedElement';
 
 class QuestionsFeed extends Component {
@@ -25,25 +26,25 @@ class QuestionsFeed extends Component {
 
     render(){
         let feedEvents = this.state.questions.map(question => {
-            return <FeedElement
-            key={question.question_id}
-            user={question.username}
-            questionId={question.question_id}
-            date={question.created_at}
-            title={question.question_title}
-            body={question.question_body}
-            arguments={question.num_arguments}
-            // eslint-disable-next-line eqeqeq
-            agreeRate={question.question_engagement == 0 ? 0 : question.agree_support / question.question_engagement}
-            // eslint-disable-next-line eqeqeq
-            disagreeRate={question.question_engagement == 0 ? 0 : (question.question_engagement - question.agree_support)/ question.question_engagement}
-            />
+            return (
+                    <Grid item xs={12} sm={12}>
+                        <FeedElement
+                        key={question.question_id}
+                        user={question.username}
+                        questionId={question.question_id}
+                        date={question.created_at}
+                        title={question.question_title}
+                        body={question.question_body}
+                        arguments={question.num_arguments}
+                        // eslint-disable-next-line eqeqeq
+                        agreeRate={question.question_engagement == 0 ? 0 : question.agree_support / question.question_engagement}
+                        // eslint-disable-next-line eqeqeq
+                        disagreeRate={question.question_engagement == 0 ? 0 : (question.question_engagement - question.agree_support)/ question.question_engagement}
+                        />
+                    </Grid>
+            )
         });
-        return(
-            <div>
-                {feedEvents}
-            </div>
-        )
+        return (<Grid container spacing={2}>{feedEvents}</Grid>);
     }
 }
 

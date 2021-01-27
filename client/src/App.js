@@ -11,11 +11,11 @@ function App() {
       </Grid>
 
       <Grid item container>
-        <Grid item xs={false} sm={3}/>
-        <Grid item xs={12} sm={6}>
-        <QuestionsFeed />
+        <Grid item xs={false} sm={2}/>
+        <Grid item xs={12} sm={8}>
+          <QuestionsFeed />
         </Grid>
-        <Grid item xs={false} sm={3}/>
+        <Grid item xs={false} sm={2}/>
       </Grid>
     </Grid>
   );
