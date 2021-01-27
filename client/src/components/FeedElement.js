@@ -5,6 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
 
 const useStyles = makeStyles({
     root: {
@@ -29,7 +30,7 @@ const FeedElement = (props) => {
         <Card className={classes.root}>
             <CardContent>
             <Typography className={classes.title} color="textSecondary" gutterBottom>
-                {props.user} - {props.date}
+                {props.user} - {moment(props.date).format('Do MMM YY')}
             </Typography>
             <Typography variant="h6" component="h2">
                 {props.title}
