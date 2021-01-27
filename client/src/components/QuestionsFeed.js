@@ -30,6 +30,7 @@ class QuestionsFeed extends Component {
             user={question.username}
             questionId={question.question_id}
             date={question.created_at}
+            title={question.question_title}
             body={question.question_body}
             arguments={question.num_arguments}
             // eslint-disable-next-line eqeqeq
