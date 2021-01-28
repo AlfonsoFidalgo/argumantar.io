@@ -1,7 +1,7 @@
 import { AppBar, Toolbar, Typography, useScrollTrigger, Tabs, Tab } from '@material-ui/core';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { makeStyles } from '@material-ui/styles';
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 
 function ElevationScroll(props) {
@@ -28,21 +28,29 @@ const usedStyles = makeStyles(theme => ({
     },
     tabContainer: {
         marginLeft: 'auto'
+    },
+    styledIndicator: {
+        backgroundColor: '#0c1613'
     }
 }));
 
 const Header = () => {
     const classes = usedStyles();
+    const [value, setValue] = useState(0);
+    const handleChange = (e, value) => {
+        setValue(value);
+    };
+
     return (
         <React.Fragment>
             <ElevationScroll>
                 <AppBar position='fixed'>
                     <Toolbar>
                         <Typography className={classes.typographyStyles} variant='h5'>wescuss</Typography>
-                        <Tabs className={classes.tabContainer}>
-                            <Tab label="Home" />
-                            <Tab label="New Post" />
-                            <Tab label="Log In" />
+                        <Tabs value={value} onChange={handleChange} className={classes.tabContainer} classes={{indicator: classes.styledIndicator}} >
+                            <Tab component={Link} to='/' label="Home" />
+                            <Tab component={Link} to='/newpost' label="New Post" />
+                            <Tab component={Link} to='/login' label="Log In" />
                         </Tabs>
                     </Toolbar>
                 </AppBar>
