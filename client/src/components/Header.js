@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography, useScrollTrigger } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, useScrollTrigger, Tabs, Tab } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
@@ -25,6 +25,9 @@ const usedStyles = makeStyles(theme => ({
     },
     toolBarMargin: {
         ...theme.mixins.toolbar
+    },
+    tabContainer: {
+        marginLeft: 'auto'
     }
 }));
 
@@ -35,8 +38,12 @@ const Header = () => {
             <ElevationScroll>
                 <AppBar position='fixed'>
                     <Toolbar>
-                        <Typography className={classes.typographyStyles} variant='h5' color='secondary'>wescuss</Typography>
-                        <AccountCircleIcon/>
+                        <Typography className={classes.typographyStyles} variant='h5'>wescuss</Typography>
+                        <Tabs className={classes.tabContainer}>
+                            <Tab label="Home" />
+                            <Tab label="New Post" />
+                            <Tab label="Log In" />
+                        </Tabs>
                     </Toolbar>
                 </AppBar>
             </ElevationScroll>
