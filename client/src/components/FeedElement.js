@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardActions, CardContent, Button, Typography } from '@material-ui/core';
+import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid } from '@material-ui/core';
 import moment from 'moment';
 
 const useStyles = makeStyles({
@@ -16,8 +16,12 @@ const useStyles = makeStyles({
       fontSize: 14,
     },
     pos: {
-      marginBottom: 12,
+      marginBottom: 0,
     },
+    choiceButtons: {
+        display: 'flex',
+        flexDirection: 'row-reverse'
+    }
   });
 
 const FeedElement = (props) => {
@@ -31,7 +35,7 @@ const FeedElement = (props) => {
                     <Typography variant="h6" component="h2">
                         {props.title}
                     </Typography>
-                    <Typography variant="body2" component="p">
+                    <Typography variant="body1" component="p">
                         {props.body}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
@@ -40,7 +44,17 @@ const FeedElement = (props) => {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button color="primary" variant="outlined" size="small">Read More</Button>
+                    <Grid container>
+                        <Grid item xs={6}>
+                            <Button color="primary" variant="outlined" size="small">Read More</Button>
+                        </Grid>
+                        <Grid item xs={6} className={classes.choiceButtons}>
+                            <ButtonGroup color="primary" size="small" aria-label="outlined secondary button group">
+                                <Button>Agree</Button>
+                                <Button>Disagree</Button>
+                            </ButtonGroup>
+                        </Grid>
+                    </Grid>
                 </CardActions>
             </Card>
     )
