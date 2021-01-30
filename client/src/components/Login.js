@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, TextField, Typography, Button, Avatar, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -30,6 +30,28 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Login = (props) => {
+    const [emailState, setEmailState] = useState('');
+    const [passwordState, setPasswordState] = useState('');
+
+    const loginHandler = (e) => {
+        e.preventDefault();
+        const data = {
+            email: emailState,
+            password: passwordState
+        }
+        axios.post('http://localhost:3001/login', data)
+        .then(response => console.log(response.data))
+        .catch(err => console.log(err));
+    };
+
+    const emailHandler = (e) => {
+        setEmailState(e.target.value);
+    };
+
+    const passwordHandler = (e) => {
+        setPasswordState(e.target.value);
+    };
+
     const classes = useStyles();
 
     return (
@@ -42,7 +64,7 @@ const Login = (props) => {
                 <Typography component="h1" variant="h5">
                     Welcome Back!
                 </Typography>
-                <form className={classes.form}>
+                <form className={classes.form} onSubmit={loginHandler}>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -54,6 +76,7 @@ const Login = (props) => {
                         name="email"
                         autoComplete="email"
                         autoFocus
+                        onChange={emailHandler}
                     />
                     <TextField
                         variant="outlined"
@@ -65,6 +88,7 @@ const Login = (props) => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        onChange={passwordHandler}
                     />
                     <Button
                         type="submit"
@@ -75,19 +99,20 @@ const Login = (props) => {
                     >
                     Sign In
                     </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Typography variant="body2" color='primary'>
-                                Forgot password?
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Typography variant="body2" component={Link} className={classes.noDecoration} color='primary' to='/signup'>
-                                Don't have an account? Sign Up
-                            </Typography>
-                        </Grid>
-                    </Grid>
                 </form>
+                <Grid container>
+                    <Grid item xs>
+                        <Typography variant="body2" color='primary'>
+                            Forgot password?
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="body2" component={Link} className={classes.noDecoration} color='primary' to='/signup'>
+                            Don't have an account? Sign Up
+                        </Typography>
+                    </Grid>
+                </Grid>
+                
             </div>
         </Container>
         )
