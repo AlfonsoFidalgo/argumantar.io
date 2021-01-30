@@ -38,12 +38,13 @@ const Login = (props) => {
                 <Typography component="h1" variant="h5">
                     Welcome Back!
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form}>
                     <TextField
                         variant="outlined"
                         margin="normal"
                         required
                         fullWidth
+                        type="email"
                         id="email"
                         label="Email Address"
                         name="email"
@@ -62,11 +63,11 @@ const Login = (props) => {
                         autoComplete="current-password"
                     />
                     <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
                     >
                     Sign In
                     </Button>
