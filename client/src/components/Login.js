@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, TextField, Typography, Button, Avatar, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     submit: {
       margin: theme.spacing(3, 0, 2),
     },
+    noDecoration: {
+        textDecoration: 'none'
+    }
   }));
 
 
@@ -73,12 +77,12 @@ const Login = (props) => {
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Typography variant="body2">
+                            <Typography variant="body2" color='primary'>
                                 Forgot password?
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <Typography variant="body2">
+                            <Typography variant="body2" component={Link} className={classes.noDecoration} color='primary' to='/signup'>
                                 Don't have an account? Sign Up
                             </Typography>
                         </Grid>

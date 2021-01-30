@@ -5,6 +5,7 @@ import { Grid } from '@material-ui/core';
 import Header from './components/Header';
 import QuestionsFeed from './components/QuestionsFeed';
 import Login from './components/Login';
+import Signup from './components/Signup';
 import theme from './Theme';
 
 function App() {
@@ -21,8 +22,8 @@ function App() {
               <Switch>
                 <Route exact path='/' component={QuestionsFeed}/>
                 <Route exact path='/newpost' component={() => <div>NEW POST GOES HERE</div>}/>
-                <Route exact path='/signup' component={() => <div>SIGN UP PAGE GOES HERE</div>}/>
                 <Route exact path='/login' component={Login}/>
+                <Route exact path='/signup' component={Signup}/>
               </Switch>
             </Grid>
             <Grid item xs={false} sm={2}/>
