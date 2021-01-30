@@ -71,6 +71,18 @@ const Login = (props) => {
                     >
                     Sign In
                     </Button>
+                    <Grid container>
+                        <Grid item xs>
+                            <Typography variant="body2">
+                                Forgot password?
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="body2">
+                                Don't have an account? Sign Up
+                            </Typography>
+                        </Grid>
+                    </Grid>
                 </form>
             </div>
         </Container>
