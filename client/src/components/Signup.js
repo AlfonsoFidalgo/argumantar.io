@@ -106,6 +106,7 @@ export default function Signup(props) {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                type="email"
                 value={emailState}
                 onChange={emailHandler}
               />
