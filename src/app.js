@@ -33,7 +33,7 @@ module.exports = () => {
     app.use(followersRouter);
     app.use((error, req, res, next) => {
         const status = error.statusCode || 500;
-        const message = error.message;
+        const message = {message: error.message, data: error.errors};
         res.status(status).json(message)
     });
 
