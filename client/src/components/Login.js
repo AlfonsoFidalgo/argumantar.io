@@ -33,10 +33,15 @@ const Login = (props) => {
     const [emailState, setEmailState] = useState('');
     const [passwordState, setPasswordState] = useState('');
 
+    const cleanEmail = (eml) => {
+        const [firtPart, secondPart] = eml.split('@');
+        return firtPart.replaceAll('.','') + '@' + secondPart;
+    };
+
     const loginHandler = (e) => {
         e.preventDefault();
         const data = {
-            email: emailState,
+            email: cleanEmail(emailState),
             password: passwordState
         }
         axios.post('http://localhost:3001/user/login', data)
