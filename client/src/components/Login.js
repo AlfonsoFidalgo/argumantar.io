@@ -41,7 +41,7 @@ const Login = (props) => {
         }
         axios.post('http://localhost:3001/user/login', data)
         .then(response => console.log(response.data))
-        .catch(err => console.log(err));
+        .catch(err => console.log(err.response.data));
     };
 
     const emailHandler = (e) => {
@@ -76,6 +76,7 @@ const Login = (props) => {
                         name="email"
                         autoComplete="email"
                         autoFocus
+                        value={emailState}
                         onChange={emailHandler}
                     />
                     <TextField
@@ -88,6 +89,7 @@ const Login = (props) => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        value={passwordState}
                         onChange={passwordHandler}
                     />
                     <Button
