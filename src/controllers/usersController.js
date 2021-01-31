@@ -11,6 +11,7 @@ exports.signup = async (req, res, next) => {
         error.statusCode = 403;
         error.errors = errors.array();
         next(error);
+        return;
         //return res.status(422).json({message: 'validation error, please check fields', errors: errors.array()});
     };
     const newUser = {
