@@ -6,6 +6,7 @@ import Header from './components/Header';
 import QuestionsFeed from './components/QuestionsFeed';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Post from './components/Post';
 import theme from './Theme';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                 <Route exact path='/newpost' component={() => <div>NEW POST GOES HERE</div>}/>
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/signup' component={Signup}/>
+                <Route path='/post/:id' component={Post}/>
               </Switch>
             </Grid>
             <Grid item xs={false} sm={2}/>
