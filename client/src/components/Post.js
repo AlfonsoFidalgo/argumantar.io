@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid } from '@material-ui/core';
 import moment from 'moment';
@@ -62,6 +63,22 @@ const Post = (props) => {
                     {agreeRateState * 100}% agree, {disagreeRateState * 100}% disagree.
                 </Typography>
             </CardContent>
+            <CardActions>
+                <Grid container>
+                    <Grid item xs={6}>
+                        <Button 
+                        component={Link} 
+                        to='/'
+                        color="primary" variant="outlined" size="small">Back</Button>
+                    </Grid>
+                    <Grid item xs={6} className={classes.choiceButtons}>
+                        <ButtonGroup color="primary" size="small" aria-label="outlined secondary button group">
+                            <Button>Agree</Button>
+                            <Button>Disagree</Button>
+                        </ButtonGroup>
+                    </Grid>
+                </Grid>
+            </CardActions>
         </Card>
     );
 };
