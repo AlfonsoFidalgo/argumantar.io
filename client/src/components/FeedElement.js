@@ -47,7 +47,20 @@ const FeedElement = (props) => {
                 <CardActions>
                     <Grid container>
                         <Grid item xs={6}>
-                            <Button component={Link} to={'/post/' + props.questionId} color="primary" variant="outlined" size="small">Read More</Button>
+                            <Button 
+                            component={Link} 
+                            to={{pathname: '/post/' + props.questionId,
+                                state: {
+                                    user: props.user,
+                                    date: props.date,
+                                    title: props.title,
+                                    body: props.body,
+                                    numArgs: props.arguments,
+                                    agreeRate: props.agreeRate,
+                                    disagreeRate: props.disagreeRate                                    
+                                }}
+                            } 
+                            color="primary" variant="outlined" size="small">Read More</Button>
                         </Grid>
                         <Grid item xs={6} className={classes.choiceButtons}>
                             <ButtonGroup color="primary" size="small" aria-label="outlined secondary button group">
