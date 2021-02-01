@@ -41,7 +41,7 @@ const Post = (props) => {
         setNumArgsState(props.location.state.numArgs);
         setAgreeRateState(props.location.state.agreeRate);
         setDisagreeRateState(props.location.state.disagreeRate);
-    });
+    }, [props]);
 
 
     const classes = useStyles();
