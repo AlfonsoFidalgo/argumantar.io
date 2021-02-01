@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid } from '@material-ui/core';
+import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid, TextField } from '@material-ui/core';
 import moment from 'moment';
 
 const useStyles = makeStyles({
@@ -21,7 +21,8 @@ const useStyles = makeStyles({
     },
     choiceButtons: {
         display: 'flex',
-        flexDirection: 'row-reverse'
+        flexDirection: 'row-reverse',
+        marginBottom: 14
     }
   });
 
@@ -76,6 +77,16 @@ const Post = (props) => {
                             <Button>Agree</Button>
                             <Button>Disagree</Button>
                         </ButtonGroup>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                        id="standard-multiline-static"
+                        label="Share your arguments"
+                        multiline
+                        fullWidth
+                        variant="outlined"
+                        rows={6}
+                        />
                     </Grid>
                 </Grid>
             </CardActions>
