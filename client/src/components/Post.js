@@ -39,6 +39,7 @@ const Post = (props) => {
     const [numArgsState, setNumArgsState] = useState();
     const [agreeRateState, setAgreeRateState] = useState();
     const [disagreeRateState, setDisagreeRateState] = useState(); 
+    const [argumentState, setArgumentState] = useState();
 
     useEffect(() => {
         setUserState(props.location.state.user);
@@ -50,6 +51,9 @@ const Post = (props) => {
         setDisagreeRateState(props.location.state.disagreeRate);
     }, [props]);
 
+    const handleArgument = (e) => {
+        setArgumentState(e.target.value);
+    };
 
     const classes = useStyles();
     return (
@@ -91,6 +95,8 @@ const Post = (props) => {
                         fullWidth
                         variant="outlined"
                         rows={6}
+                        onChange={handleArgument}
+                        value={argumentState}
                         />
                     </Grid>
                     <Grid item xs={12}>
