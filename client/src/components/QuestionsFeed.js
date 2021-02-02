@@ -1,7 +1,8 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import axios from 'axios';
-import { Grid, CircularProgress } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import FeedElement from './FeedElement';
+import Spinner from './Spinner';
 
 
 class QuestionsFeed extends Component {
@@ -27,7 +28,7 @@ class QuestionsFeed extends Component {
     }
 
     render(){
-        let feedEvents = (<Grid item ><CircularProgress /></Grid>);
+        let feedEvents = (<Spinner />);
         if (!this.state.loading){
             feedEvents = this.state.questions.map(question => {
                 return (
