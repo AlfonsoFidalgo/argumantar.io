@@ -18,8 +18,8 @@ function App() {
               <Header />
             </Grid>
           <Grid item container>
-            <Grid item xs={false} sm={2}/>
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={false} sm={1}/>
+            <Grid item xs={12} sm={10}>
               <Switch>
                 <Route exact path='/' component={QuestionsFeed}/>
                 <Route exact path='/newpost' component={() => <div>NEW POST GOES HERE</div>}/>
@@ -28,7 +28,7 @@ function App() {
                 <Route path='/post/:id' component={Post}/>
               </Switch>
             </Grid>
-            <Grid item xs={false} sm={2}/>
+            <Grid item xs={false} sm={1}/>
           </Grid>
         </Grid>
       </BrowserRouter>
