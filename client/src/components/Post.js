@@ -4,27 +4,32 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid, TextField } from '@material-ui/core';
 import moment from 'moment';
 
-const useStyles = makeStyles({
+
+
+const useStyles = makeStyles(theme => ({
     root: {
-      minWidth: 275,
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      fontSize: 14,
-    },
-    pos: {
-      marginBottom: 0,
-    },
-    choiceButtons: {
-        display: 'flex',
-        flexDirection: 'row-reverse',
-        marginBottom: 14
-    }
-  });
+        minWidth: 275,
+      },
+      bullet: {
+        display: 'inline-block',
+        margin: '0 2px',
+        transform: 'scale(0.8)',
+      },
+      title: {
+        fontSize: 14,
+      },
+      pos: {
+        marginBottom: 0,
+      },
+      choiceButtons: {
+          display: 'flex',
+          flexDirection: 'row-reverse',
+          marginBottom: theme.spacing(1)
+      },
+      argumentBox: {
+          marginBottom: theme.spacing(1)
+      }
+}));
 
 const Post = (props) => {
     const [userState, setUserState] = useState();
@@ -73,12 +78,12 @@ const Post = (props) => {
                         color="primary" variant="outlined" size="small">Back</Button>
                     </Grid>
                     <Grid item xs={6} className={classes.choiceButtons}>
-                        <ButtonGroup color="primary" size="small" aria-label="outlined secondary button group">
+                        <ButtonGroup color="primary" size="small" fullWidth aria-label="outlined secondary button group">
                             <Button>Agree</Button>
                             <Button>Disagree</Button>
                         </ButtonGroup>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} className={classes.argumentBox}>
                         <TextField
                         id="standard-multiline-static"
                         label="Share your arguments"
@@ -87,6 +92,9 @@ const Post = (props) => {
                         variant="outlined"
                         rows={6}
                         />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button color="primary" variant="contained" fullWidth>Send</Button>
                     </Grid>
                 </Grid>
             </CardActions>
