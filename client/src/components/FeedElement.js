@@ -63,7 +63,7 @@ const FeedElement = (props) => {
                             color="primary" variant="outlined" size="small">Read More</Button>
                         </Grid>
                         <Grid item xs={6} className={classes.choiceButtons}>
-                            <ButtonGroup color="primary" size="small" aria-label="outlined secondary button group">
+                            <ButtonGroup color="primary" size="small" fullWidth aria-label="outlined secondary button group">
                                 <Button>Agree</Button>
                                 <Button>Disagree</Button>
                             </ButtonGroup>
