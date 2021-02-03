@@ -17,7 +17,7 @@ const ArgumentMeta = (props) => {
         <React.Fragment>
         <Grid container>
             <Grid item xs={6}>
-                <Typography color="textSecondary">{props.username} - {props.date}</Typography>
+                <Typography color="textSecondary" variant="body2">{props.username} - {props.date}</Typography>
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
                 <ButtonGroup size="small" >
