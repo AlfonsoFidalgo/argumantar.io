@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, ButtonGroup, IconButton } from '@material-ui/core';
 import { ThumbUp, ThumbDown } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
@@ -16,11 +16,13 @@ const ArgumentMeta = (props) => {
     return(
         <Grid container>
             <Grid item xs={6}>
-                <Typography color="textSecondary">Username - Date</Typography>
+                <Typography color="textSecondary">{props.username} - {props.date}</Typography>
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
-                <ThumbUp/>
-                <ThumbDown/>
+                <ButtonGroup size="small" >
+                    <IconButton><ThumbUp/></IconButton>
+                    <IconButton><ThumbDown/></IconButton>
+                </ButtonGroup>
             </Grid>
         </Grid>
     )
