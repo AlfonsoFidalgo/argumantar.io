@@ -56,29 +56,29 @@ const Post = (props) => {
         setArgumentState(e.target.value);
     };
 
-    const handleAgree = (e) => {
-        if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
-            //initial state: no choice made (both outlined)
-            setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
-        } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
-            //initial state: agree was selected
-            setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
-        } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
-            //initial state: agree was selected
-            setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
-        };
-    };
-
-    const handleDisagree = (e) => {
-        if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
-            //initial state: no choice made (both outlined)
-            setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
-        } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
-            //initial state: agree was selected
-            setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
-        } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
-            //initial state: agree was selected
-            setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
+    const handleChoice = (e, choice) => {
+        if (choice === 'agree'){
+            if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
+                //initial state: no choice made (both outlined)
+                setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
+            } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
+                //initial state: agree was selected
+                setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
+            } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
+                //initial state: agree was selected
+                setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
+            }
+        } else if (choice === 'disagree'){
+            if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
+                //initial state: no choice made (both outlined)
+                setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
+            } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
+                //initial state: agree was selected
+                setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
+            } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
+                //initial state: agree was selected
+                setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
+            };
         };
     };
 
@@ -110,8 +110,8 @@ const Post = (props) => {
                     </Grid>
                     <Grid item xs={6} className={classes.choiceButtons}>
                         <ButtonGroup color="primary" size="small" fullWidth aria-label="outlined secondary button group">
-                            <Button variant={choiceButtonsState.agree} onClick={handleAgree}>Agree</Button>
-                            <Button variant={choiceButtonsState.disagree} onClick={handleDisagree}>Disagree</Button>
+                            <Button variant={choiceButtonsState.agree} onClick={(e) => handleChoice(e, 'agree')}>Agree</Button>
+                            <Button variant={choiceButtonsState.disagree} onClick={(e) => handleChoice(e, 'disagree')}>Disagree</Button>
                         </ButtonGroup>
                     </Grid>
                     <Grid item xs={12} className={classes.argumentBox}>
