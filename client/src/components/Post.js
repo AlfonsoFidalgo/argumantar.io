@@ -40,6 +40,7 @@ const Post = (props) => {
     const [agreeRateState, setAgreeRateState] = useState();
     const [disagreeRateState, setDisagreeRateState] = useState(); 
     const [argumentState, setArgumentState] = useState();
+    const [choiceButtonsState, setChoiceButtonsState] = useState({agree: 'outlined', disagree: 'outlined'});
 
     useEffect(() => {
         setUserState(props.location.state.user);
@@ -53,6 +54,32 @@ const Post = (props) => {
 
     const handleArgument = (e) => {
         setArgumentState(e.target.value);
+    };
+
+    const handleAgree = (e) => {
+        if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
+            //initial state: no choice made (both outlined)
+            setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
+        } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
+            //initial state: agree was selected
+            setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
+        } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
+            //initial state: agree was selected
+            setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
+        };
+    };
+
+    const handleDisagree = (e) => {
+        if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
+            //initial state: no choice made (both outlined)
+            setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
+        } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
+            //initial state: agree was selected
+            setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
+        } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
+            //initial state: agree was selected
+            setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
+        };
     };
 
     const classes = useStyles();
@@ -83,8 +110,8 @@ const Post = (props) => {
                     </Grid>
                     <Grid item xs={6} className={classes.choiceButtons}>
                         <ButtonGroup color="primary" size="small" fullWidth aria-label="outlined secondary button group">
-                            <Button>Agree</Button>
-                            <Button>Disagree</Button>
+                            <Button variant={choiceButtonsState.agree} onClick={handleAgree}>Agree</Button>
+                            <Button variant={choiceButtonsState.disagree} onClick={handleDisagree}>Disagree</Button>
                         </ButtonGroup>
                     </Grid>
                     <Grid item xs={12} className={classes.argumentBox}>
