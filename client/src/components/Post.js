@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid, TextField, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid, TextField } from '@material-ui/core';
 import moment from 'moment';
+import Arguments from './Arguments';
 
 
 const useStyles = makeStyles(theme => ({
@@ -132,26 +132,7 @@ const Post = (props) => {
                 </Grid>
             </CardActions>
 
-            <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography variant="h6" component="h2">Agree arguments</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Typography color="textSecondary">
-                        This is an agree argument
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
-            <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography variant="h6" component="h2">Disagree arguments</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Typography color="textSecondary">
-                        This is a disagree argument
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
+            <Arguments />
         </Card>
     );
 };
