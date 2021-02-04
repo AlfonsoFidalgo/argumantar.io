@@ -43,8 +43,19 @@ const Arguments = (props) => {
             setArgumentsState(response.data);
         }
         fetchData();
-        console.log(argumentsState);
-    }, []);
+    }, [props.questionId]);
+
+    let agreeArguments;
+    if (argumentsState) {
+        agreeArguments = argumentsState.data.map(argument => {
+            return (
+                <ListItem key={argument.argument_id}>
+                    <ListItemText primary={argument.argument_body}
+                        secondary={<ArgumentMeta username={argument.argument_username} date={argument.argument_date}/>} />
+                </ListItem>
+            )   
+        });
+    };
 
     const classes = useStyles();
     return (
@@ -56,10 +67,7 @@ const Arguments = (props) => {
             <AccordionDetails >
                 
                 <List>
-                    <ListItem>
-                        <ListItemText primary='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-                         secondary={<ArgumentMeta username='fonsete' date='2 Feb 2021'/>} />
-                    </ListItem>
+                    {agreeArguments}
                 </List>
 
             </AccordionDetails>
