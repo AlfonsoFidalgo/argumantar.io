@@ -132,7 +132,7 @@ const Post = (props) => {
                 </Grid>
             </CardActions>
 
-            <Arguments />
+            <Arguments questionId={props.match.params.id}/>
         </Card>
     );
 };

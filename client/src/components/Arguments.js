@@ -39,7 +39,7 @@ const Arguments = (props) => {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await axios.get('http://localhost:3001/question/15/arguments/get');
+            const response = await axios.get(`http://localhost:3001/question/${props.questionId}/arguments/get`);
             setArgumentsState(response.data);
         }
         fetchData();
