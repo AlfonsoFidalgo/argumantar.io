@@ -10,6 +10,27 @@ class ArgumentsRepo {
         return rows;
     }
 
+    static async getArgumentsByQuestionId(questionId){
+        const query = `
+        SELECT
+            q.id as question_id,
+            o.body as option_body,
+            o.id as option_id,
+            a.body as argument_body,
+            a.id as argument_id,
+            a.created_at as argument_date,
+            u.username as argument_username,
+            u.display_name as argument_dname
+        FROM questions q
+        JOIN options o ON o.question_id = q.id
+        JOIN arguments a ON a.option_id = o.id
+        JOIN users u ON u.id = a.user_id
+        WHERE q.id = $1;
+        `;
+        const {rows} = await pool.query(query, [questionId]);
+        return rows;
+    }
+
     static async postArgument(body, userId, optionId){
         const query = `
         INSERT INTO arguments (body, user_id, option_id)

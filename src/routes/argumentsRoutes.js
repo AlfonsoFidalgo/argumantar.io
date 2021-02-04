@@ -9,6 +9,8 @@ router.post('/option/:optionId/argument/post', isAuth,
 [ body('body').trim().isLength({min: 1})],
 argumentsController.postArgument);
 
+router.get('/question/:questionId/arguments/get', argumentsController.getArgumentsByQuestionId);
+
 router.get('/argument/:id', argumentsController.getArgumentById);
 
 router.get('/option/:optionId/arguments/get', argumentsController.getArgumentsByOptionId);

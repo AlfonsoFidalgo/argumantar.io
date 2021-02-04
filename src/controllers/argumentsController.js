@@ -3,6 +3,7 @@ const {validationResult} = require('express-validator');
 const optionsRepo = require('../repos/optionsRepo');
 const argumentsRepo = require('../repos/argumentsRepo');
 const choicesRepo = require('../repos/choicesRepo');
+const questionsRepo = require('../repos/questionsRepo');
 
 exports.postArgument = async (req, res, next) => {
     const errors = validationResult(req);
@@ -66,6 +67,17 @@ exports.getArgumentsByOptionId = async (req, res, next) => {
         return res.status(404).json({message: 'Option not found.'});
     };
     const arguments = await argumentsRepo.getArgumentsByOptionId(optionId);
+    return res.status(201).json({message: 'Success', data: arguments});
+};
+
+exports.getArgumentsByQuestionId = async (req, res, next) => {
+    const questionId = req.params.questionId;
+    //check if question exists
+    const question = await questionsRepo.getQuestionById(questionId);
+    if (question.length !== 1){
+        return res.status(404).json({message: 'Question not found.'});
+    };
+    const arguments = await argumentsRepo.getArgumentsByQuestionId(questionId);
     return res.status(201).json({message: 'Success', data: arguments});
 };
 
