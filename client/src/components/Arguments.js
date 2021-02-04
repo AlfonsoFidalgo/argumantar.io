@@ -45,9 +45,19 @@ const Arguments = (props) => {
         fetchData();
     }, [props.questionId]);
 
-    let agreeArguments;
+    let agreeArguments, disagreeArguments;
     if (argumentsState) {
-        agreeArguments = argumentsState.data.map(argument => {
+        const agreeRawArgs = argumentsState.data.filter((a) => a.option_body === 'Agree');
+        const disAgreeRawArgs = argumentsState.data.filter((a) => a.option_body === 'Disagree');
+        agreeArguments = agreeRawArgs.map(argument => {
+            return (
+                <ListItem key={argument.argument_id}>
+                    <ListItemText primary={argument.argument_body}
+                        secondary={<ArgumentMeta username={argument.argument_username} date={argument.argument_date}/>} />
+                </ListItem>
+            )   
+        });
+        disagreeArguments = disAgreeRawArgs.map(argument => {
             return (
                 <ListItem key={argument.argument_id}>
                     <ListItemText primary={argument.argument_body}
@@ -65,11 +75,7 @@ const Arguments = (props) => {
                 <Typography variant="h6" component="h2">Agree arguments</Typography>
             </AccordionSummary>
             <AccordionDetails >
-                
-                <List>
-                    {agreeArguments}
-                </List>
-
+                <List> {agreeArguments} </List>
             </AccordionDetails>
         </Accordion>
         <Accordion>
@@ -77,9 +83,7 @@ const Arguments = (props) => {
                 <Typography variant="h6" component="h2">Disagree arguments</Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <Typography color="textSecondary">
-                    This is a disagree argument
-                </Typography>
+                <List> {disagreeArguments} </List>
             </AccordionDetails>
         </Accordion>
         </React.Fragment>

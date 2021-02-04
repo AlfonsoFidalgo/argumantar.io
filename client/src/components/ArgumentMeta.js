@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography, ButtonGroup, IconButton, Divider } from '@material-ui/core';
 import { ThumbUp, ThumbDown } from '@material-ui/icons';
+import moment from 'moment'
 
 const useStyles = makeStyles(theme => ({
       choiceButtons: {
@@ -17,7 +18,7 @@ const ArgumentMeta = (props) => {
         <React.Fragment>
         <Grid container>
             <Grid item xs={6}>
-                <Typography color="textSecondary" variant="body2">{props.username} - {props.date}</Typography>
+                <Typography color="textSecondary" variant="body2">{props.username} - {moment(props.date).format('Do MMM YY')}</Typography>
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
                 <ButtonGroup size="small" >
