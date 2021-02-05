@@ -61,7 +61,8 @@ class QuestionRepo {
         JOIN options_ o ON o.question_id = q.question_id
         JOIN question_engagement qe ON qe.question_id = q.question_id
         FULL JOIN arguments_ a ON a.question_id = q.question_id
-        WHERE o.option_body = 'Agree';
+        WHERE o.option_body = 'Agree'
+        ORDER BY q.created_at DESC;
         `;
         const { rows } = await pool.query(query);
         return rows;
