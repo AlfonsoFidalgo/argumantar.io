@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { TextField, Typography, Button, Avatar, Container } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { makeStyles } from '@material-ui/core/styles';
@@ -28,8 +29,9 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const NewPost = (props) => {
-    const [titleState, setTitleState] = useState('');
-    const [bodyState, setBodyState] = useState('');
+    const [titleState, setTitleState] = useState();
+    const [bodyState, setBodyState] = useState();
+    const history = useHistory();
 
     const postHandler = (e) => {
         e.preventDefault();
@@ -43,8 +45,14 @@ const NewPost = (props) => {
             }
         };
         axios.post('http://localhost:3001/question/post', data, headers)
-        .then(response => console.log(response.data))
-        .catch(err => console.log(err.response.data));
+        .then(response => {
+            console.log(response.data);
+            history.push('/');
+        })
+        .catch(err => {
+            console.log(err.response.data);
+            history.push('/login');
+        });
     };
 
     const titleHandler = (e) => {

@@ -45,7 +45,10 @@ const Login = (props) => {
             password: passwordState
         }
         axios.post('http://localhost:3001/user/login', data)
-        .then(response => console.log(response.data))
+        .then(response => {
+            console.log(response.data);
+
+        })
         .catch(err => console.log(err.response.data));
     };
 
