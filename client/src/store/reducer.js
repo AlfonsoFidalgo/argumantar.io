@@ -6,27 +6,29 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-    const agreedQuestions = [...initialState.agreedQuestions];
-    const disagreedQuestions = [...initialState.disagreedQuestions];
+    const agreedQuestions = [...state.agreedQuestions];
+    const disagreedQuestions = [...state.disagreedQuestions];
     switch (action.type){
         case actionTypes.AGREE:
+            agreedQuestions.push(action.questionId);
             return {
                 ...state,
-                agreedQuestions: agreedQuestions.push(action.payload.questionId)
+                agreedQuestions: agreedQuestions
             }
         case actionTypes.REMOVE_AGREE:
-            agreedQuestions.splice(agreedQuestions.indexOf(action.payload.questionId), 1);
+            agreedQuestions.splice(agreedQuestions.indexOf(action.questionId), 1);
             return {
                 ...state,
                 agreedQuestions: agreedQuestions
             }
         case actionTypes.DISAGREE:
+            disagreedQuestions.push(action.questionId);
             return {
                 ...state,
-                disagreedQuestions: disagreedQuestions.push(action.payload.questionId)
+                disagreedQuestions: disagreedQuestions
             }
         case actionTypes.REMOVE_DISAGREE:
-            disagreedQuestions.splice(disagreedQuestions.indexOf(action.payload.questionId), 1)
+            disagreedQuestions.splice(disagreedQuestions.indexOf(action.questionId), 1)
             return {
                 ...state,
                 disagreedQuestions: disagreedQuestions
