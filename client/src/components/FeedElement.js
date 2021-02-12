@@ -114,8 +114,8 @@ const FeedElement = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        agreed: state.agreedQuestions,
-        disagreed: state.disagreedQuestions
+        agreed: state.agrees.agreedQuestions,
+        disagreed: state.agrees.disagreedQuestions
     }
 }
 
