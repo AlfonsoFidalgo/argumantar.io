@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid } from '@material-ui/core';
 import moment from 'moment';
-import * as actionTypes from '../store/actions';
+import * as actions from '../store/actions';
 
 const useStyles = makeStyles({
     root: {
@@ -121,10 +121,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAgree: (questionId) => dispatch({type: actionTypes.AGREE, questionId: questionId}),
-        onDisagree: (questionId) => dispatch({type: actionTypes.DISAGREE, questionId: questionId}),
-        onRemoveAgree: (questionId) => dispatch({type: actionTypes.REMOVE_AGREE, questionId: questionId}),
-        onRemoveDisagree: (questionId) => dispatch({type: actionTypes.REMOVE_DISAGREE, questionId: questionId})
+        onAgree: (questionId) => dispatch(actions.agree(questionId)),
+        onDisagree: (questionId) => dispatch(actions.disagree(questionId)),
+        onRemoveAgree: (questionId) => dispatch(actions.removeAgree(questionId)),
+        onRemoveDisagree: (questionId) => dispatch(actions.removeDisagree(questionId))
     }
 }
 
