@@ -31,8 +31,6 @@ const FeedElement = (props) => {
     const [choiceButtonsState, setChoiceButtonsState] = useState({agree: 'outlined', disagree: 'outlined'});
     const classes = useStyles();
 
-    console.log('agreed: ', props.agreed);
-    console.log('disagreed: ', props.disagreed);
     const handleChoice = (e, choice) => {
         if (choice === 'agree'){
             if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
