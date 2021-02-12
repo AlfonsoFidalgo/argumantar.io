@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import reducer from './store/reducer';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import agreeReducer from './store/reducers/agreeReducer';
 
 
 //middleware
@@ -18,7 +18,11 @@ const logger = (store) => {
     }
 };
 
-const store = createStore(reducer, applyMiddleware(logger));
+const rootReducer = combineReducers({
+    agrees: agreeReducer
+});
+
+const store = createStore(rootReducer, applyMiddleware(logger));
 
 ReactDOM.render(
     <Provider store={store}>
