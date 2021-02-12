@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid } from '@material-ui/core';
 import moment from 'moment';
+import * as actionTypes from '../store/actions';
 
 const useStyles = makeStyles({
     root: {
@@ -33,23 +35,31 @@ const FeedElement = (props) => {
         if (choice === 'agree'){
             if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
                 //initial state: no choice made (both outlined)
+                props.onAgree(props.questionId);
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
                 //initial state: agree was selected
+                props.onRemoveAgree(props.questionId);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
-                //initial state: agree was selected
+                //initial state: disagree was selected
+                props.onRemoveDisagree(props.questionId);
+                props.onAgree(props.questionId);
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
             }
         } else if (choice === 'disagree'){
             if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
                 //initial state: no choice made (both outlined)
+                props.onDisagree(props.questionId);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
                 //initial state: agree was selected
+                props.onRemoveAgree(props.questionId);
+                props.onDisagree(props.questionId);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
-                //initial state: agree was selected
+                //initial state: disagree was selected
+                props.onRemoveDisagree(props.questionId);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
             };
         };
@@ -102,4 +112,20 @@ const FeedElement = (props) => {
     )
 };
 
-export default FeedElement;
+const mapStateToProps = (state) => {
+    return {
+        agreed: state.agreedQuestions,
+        disagreed: state.disagreedQuestions
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onAgree: (questionId) => dispatch({type: actionTypes.AGREE, questionId: questionId}),
+        onDisagree: (questionId) => dispatch({type: actionTypes.DISAGREE, questionId: questionId}),
+        onRemoveAgree: (questionId) => dispatch({type: actionTypes.REMOVE_AGREE, questionId: questionId}),
+        onRemoveDisagree: (questionId) => dispatch({type: actionTypes.REMOVE_DISAGREE, questionId: questionId})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FeedElement);
