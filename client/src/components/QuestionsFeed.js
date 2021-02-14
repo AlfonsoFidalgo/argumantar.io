@@ -50,10 +50,7 @@ class QuestionsFeed extends Component {
                             title={question.question_title}
                             body={question.question_body}
                             arguments={question.num_arguments}
-                            // eslint-disable-next-line eqeqeq
-                            //agreeRate={question.question_engagement == 0 ? 0 : question.agree_support / question.question_engagement}
                             agreeRate={agreeRate}
-                            // eslint-disable-next-line eqeqeq
                             disagreeRate={disagreeRate}
                             />
                         </Grid>
