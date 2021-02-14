@@ -8,7 +8,6 @@ import Spinner from './Spinner';
 class QuestionsFeed extends Component {
     state = {
         questions: [],
-        selectedQuestion: null,
         loading: true
     }
     
@@ -17,14 +16,6 @@ class QuestionsFeed extends Component {
         .then((response => {
             this.setState({questions: response.data, loading: false});
         }));
-    }
-    
-    questionClicked = (id) => {
-        this.state.questions.forEach(q => {
-        if (q.id === id){
-            this.setState({selectedQuestion: q});
-        };
-        });
     }
 
     render(){
