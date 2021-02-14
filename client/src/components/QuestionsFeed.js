@@ -31,6 +31,16 @@ class QuestionsFeed extends Component {
         let feedEvents = (<Spinner />);
         if (!this.state.loading){
             feedEvents = this.state.questions.map(question => {
+                const numVotes = question.agree_votes + question.disagree_votes;
+                let agreeRate;
+                let disagreeRate;
+                if (numVotes > 0){
+                    agreeRate = parseInt(question.agree_votes) / (parseInt(question.agree_votes) + parseInt(question.disagree_votes));
+                    disagreeRate = parseInt(question.disagree_votes) / (parseInt(question.agree_votes) + parseInt(question.disagree_votes))
+                } else {
+                    agreeRate = 0;
+                    disagreeRate = 0;
+                }
                 return (
                         <Grid item xs={12} sm={12} key={question.question_id}>
                             <FeedElement
@@ -41,9 +51,10 @@ class QuestionsFeed extends Component {
                             body={question.question_body}
                             arguments={question.num_arguments}
                             // eslint-disable-next-line eqeqeq
-                            agreeRate={question.question_engagement == 0 ? 0 : question.agree_support / question.question_engagement}
+                            //agreeRate={question.question_engagement == 0 ? 0 : question.agree_support / question.question_engagement}
+                            agreeRate={agreeRate}
                             // eslint-disable-next-line eqeqeq
-                            disagreeRate={question.question_engagement == 0 ? 0 : (question.question_engagement - question.agree_support)/ question.question_engagement}
+                            disagreeRate={disagreeRate}
                             />
                         </Grid>
                 )
