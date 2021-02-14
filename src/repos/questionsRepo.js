@@ -98,7 +98,6 @@ class QuestionRepo {
 
     static async getQuestionById(id){
         const query = `
-        --improved feed with additional columns and more structured
         WITH 
             questions_ as
             (
@@ -159,8 +158,8 @@ class QuestionRepo {
         FROM questions_ q
         JOIN agree_options aop ON aop.question_id = q.question_id
         JOIN disagree_options dop ON dop.question_id = q.question_id
-        FULL JOIN arguments_ a ON a.question_id = q.question_id;
-        WHERE question_id = $1
+        FULL JOIN arguments_ a ON a.question_id = q.question_id
+        WHERE q.question_id = $1
         `;
         const { rows } = await pool.query(query, [id]);
         return rows;
