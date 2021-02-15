@@ -5,6 +5,8 @@ const router = express.Router();
 
 router.post('/choice/:optionId', isAuth, choicesController.postChoice);
 
-router.delete('/choice/:id', isAuth, choicesController.deleteChoice);
+router.delete('/choice/:optionId', isAuth, choicesController.deleteChoiceByOptionId);
+
+//router.delete('/choice/:id', isAuth, choicesController.deleteChoice);
 
 module.exports = router;

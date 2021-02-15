@@ -25,6 +25,26 @@ exports.postChoice = async (req, res, next) => {
     return res.status(201).json({message: `Choice posted successfully.`, data: rows});
 };
 
+exports.deleteChoiceByOptionId = async (req, res, next) => {
+    const optionId = req.params.optionId;
+    //check if option exists
+    const option = await optionsRepo.getOptionById(optionId);
+    if(option.length !== 1){
+        return res.status(404).json({message: 'Option not found.'});
+    };
+    //fetch the choice_id from the option_id / user_id combination 
+    const rows = await choicesRepo.checkEligibility(optionId, req.userId);
+    if (rows.length !== 1){
+        return res.status(403).json({message: 'User didnt choose that option.'});
+    }
+    const choiceId = rows[0].id;
+    await choicesRepo.deleteChoice(choiceId); 
+    //should also delete any argument associated with the user_id / option_id combination (if any)
+    //find arguments where option_id = choice.option_id and user_id = req.userId
+    await argumentsRepo.deleteArgumentAfterChoice(optionId, req.userId);
+    return res.status(201).json({message: `Choice deleted successfully.`});
+};
+
 exports.deleteChoice = async (req, res, next) => {
     const choiceId = req.params.id;
     //check if choice exists and belongs to user
