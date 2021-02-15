@@ -57,6 +57,9 @@ const Arguments = (props) => {
                 </ListItem>
             )   
         });
+        if (agreeArguments.length === 0) {
+            agreeArguments = <Typography color='textSecondary'>There are no arguments yet.</Typography>
+        };
         disagreeArguments = disAgreeRawArgs.map(argument => {
             return (
                 <ListItem key={argument.argument_id}>
@@ -65,6 +68,9 @@ const Arguments = (props) => {
                 </ListItem>
             )   
         });
+        if (disagreeArguments.length === 0) {
+            disagreeArguments = <Typography color='textSecondary'>There are no arguments yet.</Typography>
+        };
     };
 
     const classes = useStyles();
