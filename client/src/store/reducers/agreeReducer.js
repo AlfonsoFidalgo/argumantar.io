@@ -2,7 +2,8 @@ import * as actionTypes from '../actions';
 
 const initialState = {
     agreedQuestions: [],
-    disagreedQuestions: []
+    disagreedQuestions: [],
+    questions: []
 };
 
 const reducer = (state = initialState, action) => {

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import { Grid } from '@material-ui/core';
 import FeedElement from './FeedElement';
@@ -52,4 +53,10 @@ class QuestionsFeed extends Component {
     }
 }
 
-export default QuestionsFeed;
+const mapStateToProps = state => {
+    return {
+        questions: state.questions
+    };
+};
+
+export default connect(mapStateToProps)(QuestionsFeed);
