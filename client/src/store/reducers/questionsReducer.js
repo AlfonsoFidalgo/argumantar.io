@@ -8,7 +8,10 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type){
         case actionTypes.FETCH_QUESTIONS:
-            return state
+            return {
+                ...state,
+                questions: action.posts
+            }
         default:
             return state
     }
