@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Grid } from '@material-ui/core';
 import FeedElement from './FeedElement';
 import Spinner from './Spinner';
-
+import * as actions from '../store/actions';
 
 class QuestionsFeed extends Component {
     state = {
@@ -13,13 +13,14 @@ class QuestionsFeed extends Component {
     }
     
     componentDidMount (){
-        axios.get('http://localhost:3001/questions')
-        .then((response => {
-            this.setState({questions: response.data, loading: false});
-        }));
+        // axios.get('http://localhost:3001/questions')
+        // .then((response => {
+        //     this.setState({questions: response.data, loading: false});
+        // }));
     }
 
     render(){
+        console.log('FROM QuestionsFeed: ', this.props.questions);
         let feedEvents = (<Spinner />);
         if (!this.state.loading){
             feedEvents = this.state.questions.map(question => {
@@ -58,5 +59,11 @@ const mapStateToProps = state => {
         questions: state.questions
     };
 };
+
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         onQuestionsLoad: () => dispatch(actions.fetchQuestions())
+//     }
+// }
 
 export default connect(mapStateToProps)(QuestionsFeed);
