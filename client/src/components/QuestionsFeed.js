@@ -12,7 +12,6 @@ class QuestionsFeed extends Component {
     }
 
     render(){
-        console.log('FROM QuestionsFeed: ', this.props);
         let feedEvents = (<Spinner />);
         if (this.props.questions){
             feedEvents = this.props.questions.map(question => {
