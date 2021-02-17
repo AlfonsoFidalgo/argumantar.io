@@ -1,7 +1,8 @@
 import * as actionTypes from '../actions';
 
 const initialState = {
-    questions: []
+    questions: [],
+    loading: true
 };
 
 const reducer = (state = initialState, action) => {
