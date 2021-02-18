@@ -69,16 +69,16 @@ const FeedElement = (props) => {
             <Card className={classes.root}>
                 <CardContent>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
-                        {props.user} - {moment(props.date).format('Do MMM YY')}
+                        {props.username} - {moment(props.createdAt).format('Do MMM YY')}
                     </Typography>
                     <Typography variant="h6" component="h2">
-                        {props.title}
+                        {props.questionTitle}
                     </Typography>
                     <Typography variant="body1" component="p">
-                        {props.body}
+                        {props.questionBody}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        {props.arguments} people talking about this. <br/>
+                        {props.numArguments} people talking about this. <br/>
                         {props.agreeRate *100}% agree, {props.disagreeRate *100}% disagree.
                     </Typography>
                 </CardContent>
@@ -89,13 +89,15 @@ const FeedElement = (props) => {
                             component={Link} 
                             to={{pathname: '/post/' + props.questionId,
                                 state: {
-                                    user: props.user,
-                                    date: props.date,
-                                    title: props.title,
-                                    body: props.body,
-                                    numArgs: props.arguments,
+                                    username: props.username,
+                                    createdAt: props.createdAt,
+                                    questionTitle: props.questionTitle,
+                                    questionBody: props.questionBody,
+                                    numArguments: props.numArguments,
                                     agreeRate: props.agreeRate,
-                                    disagreeRate: props.disagreeRate                                    
+                                    disagreeRate: props.disagreeRate,
+                                    agreeOptionId: props.agree_option_id,
+                                    disagreeOptionId: props.disagree_option_id
                                 }}
                             } 
                             color="primary" variant="outlined" size="small">Read More</Button>

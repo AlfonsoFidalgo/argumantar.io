@@ -40,16 +40,20 @@ const Post = (props) => {
     const [agreeRateState, setAgreeRateState] = useState();
     const [disagreeRateState, setDisagreeRateState] = useState(); 
     const [argumentState, setArgumentState] = useState();
+    const [agreeOptionIdState, setAgreeOptionIdState] = useState();
+    const [disagreeOptionIdState, setDisagreeOptionIdState] = useState();
     const [choiceButtonsState, setChoiceButtonsState] = useState({agree: 'outlined', disagree: 'outlined'});
 
     useEffect(() => {
-        setUserState(props.location.state.user);
-        setDateState(props.location.state.date);
-        setTitleState(props.location.state.title);
-        setBodyState(props.location.state.body);
-        setNumArgsState(props.location.state.numArgs);
+        setUserState(props.location.state.username);
+        setDateState(props.location.state.createdAt);
+        setTitleState(props.location.state.questionTitle);
+        setBodyState(props.location.state.questionBody);
+        setNumArgsState(props.location.state.numArguments);
         setAgreeRateState(props.location.state.agreeRate);
         setDisagreeRateState(props.location.state.disagreeRate);
+        setAgreeOptionIdState(props.location.state.agreeOptionId);
+        setDisagreeOptionIdState(props.location.state.disagreeOptionId);
     }, [props]);
 
     const handleArgument = (e) => {
