@@ -36,6 +36,8 @@ class QuestionsFeed extends Component {
                             arguments={question.num_arguments}
                             agreeRate={agreeRate}
                             disagreeRate={disagreeRate}
+                            agreeOptionId={question.agree_option_id}
+                            disagreeOptionId={question.disagree_option_id}
                             />
                         </Grid>
                 )
