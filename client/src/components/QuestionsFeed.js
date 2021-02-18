@@ -1,27 +1,20 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import FeedElement from './FeedElement';
 import Spinner from './Spinner';
-
+import * as actions from '../store/actions';
 
 class QuestionsFeed extends Component {
-    state = {
-        questions: [],
-        loading: true
-    }
-    
     componentDidMount (){
-        axios.get('http://localhost:3001/questions')
-        .then((response => {
-            this.setState({questions: response.data, loading: false});
-        }));
+        console.log('FROM QuestionsFeed: ', this.props);
+        this.props.onQuestionsLoad();
     }
 
     render(){
         let feedEvents = (<Spinner />);
-        if (!this.state.loading){
-            feedEvents = this.state.questions.map(question => {
+        if (this.props.questions){
+            feedEvents = this.props.questions.map(question => {
                 const numVotes = question.agree_votes + question.disagree_votes;
                 let agreeRate;
                 let disagreeRate;
@@ -52,4 +45,16 @@ class QuestionsFeed extends Component {
     }
 }
 
-export default QuestionsFeed;
+const mapStateToProps = state => {
+    return {
+        questions: state.questions.questions
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onQuestionsLoad: () => dispatch(actions.fetchQuestions())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionsFeed);

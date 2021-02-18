@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import agreeReducer from './store/reducers/agreeReducer';
+import questionsReducer from './store/reducers/questionsReducer';
 
 
 //middleware
@@ -19,10 +21,11 @@ const logger = (store) => {
 };
 
 const rootReducer = combineReducers({
-    agrees: agreeReducer
+    agrees: agreeReducer,
+    questions: questionsReducer
 });
 
-const store = createStore(rootReducer, applyMiddleware(logger));
+const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 
 ReactDOM.render(
     <Provider store={store}>
