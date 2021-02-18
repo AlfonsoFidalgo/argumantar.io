@@ -28,12 +28,12 @@ class QuestionsFeed extends Component {
                 return (
                         <Grid item xs={12} sm={12} key={question.question_id}>
                             <FeedElement
-                            user={question.username}
+                            username={question.username}
                             questionId={question.question_id}
-                            date={question.created_at}
-                            title={question.question_title}
-                            body={question.question_body}
-                            arguments={question.num_arguments}
+                            createdAt={question.created_at}
+                            questionTitle={question.question_title}
+                            questionBody={question.question_body}
+                            numArguments={question.num_arguments}
                             agreeRate={agreeRate}
                             disagreeRate={disagreeRate}
                             agreeOptionId={question.agree_option_id}
