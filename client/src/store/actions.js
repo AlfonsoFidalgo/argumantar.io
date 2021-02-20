@@ -34,6 +34,19 @@ export const authFail = (error) => {
 export const auth = (email, password) => {
     return dispatch => {
         dispatch(authStart());
+        const data = {
+            email: email,
+            password: password
+        };
+        axios.post('http://localhost:3001/user/login', data)
+        .then(response => {
+            console.log(response);
+            dispatch(authSuccess(response.data));
+        })
+        .catch(error => {
+            console.log(error);
+            dispatch(authFail(error.response.data));
+        })
     };
 };
 
