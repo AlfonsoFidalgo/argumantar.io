@@ -5,7 +5,40 @@ export const DISAGREE = 'DISAGREE';
 export const REMOVE_AGREE = 'REMOVE_AGREE';
 export const REMOVE_DISAGREE = 'REMOVE_DISAGREE';
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
+export const AUTH_START = 'AUTH_START';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAIL = 'AUTH_FAIL';
 
+
+//AUTH
+export const authStart = () => {
+    return {
+        type: AUTH_START
+    };
+};
+
+export const authSuccess = (authData) => {
+    return {
+        type: AUTH_SUCCESS,
+        authData: authData
+    };
+};
+
+export const authFail = (error) => {
+    return {
+        type: AUTH_FAIL,
+        error: error
+    };
+};
+
+export const auth = (email, password) => {
+    return dispatch => {
+        dispatch(authStart());
+    };
+};
+
+
+//FETCHING QUESTIONS
 export const setQuestions = (questions) => {
     return {
         type: FETCH_QUESTIONS,
@@ -23,6 +56,7 @@ export const fetchQuestions = () => {
     };
 };
 
+// AGREES AND DISAGREES
 export const agree = (questionId) => {
     return {
         type: AGREE,
