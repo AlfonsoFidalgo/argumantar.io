@@ -4,7 +4,6 @@ import { Grid, TextField, Typography, Button, Avatar, Container } from '@materia
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import * as actions from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
