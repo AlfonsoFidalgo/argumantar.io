@@ -5,7 +5,54 @@ export const DISAGREE = 'DISAGREE';
 export const REMOVE_AGREE = 'REMOVE_AGREE';
 export const REMOVE_DISAGREE = 'REMOVE_DISAGREE';
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
+export const AUTH_START = 'AUTH_START';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAIL = 'AUTH_FAIL';
 
+
+//AUTH
+export const authStart = () => {
+    return {
+        type: AUTH_START
+    };
+};
+
+export const authSuccess = (token, userId) => {
+    return {
+        type: AUTH_SUCCESS,
+        token: token,
+        userId: userId
+    };
+};
+
+export const authFail = (error) => {
+    return {
+        type: AUTH_FAIL,
+        error: error.message
+    };
+};
+
+export const auth = (email, password) => {
+    return dispatch => {
+        dispatch(authStart());
+        const data = {
+            email: email,
+            password: password
+        };
+        axios.post('http://localhost:3001/user/login', data)
+        .then(response => {
+            console.log(response.data);
+            dispatch(authSuccess(response.data.token, response.data.userId));
+        })
+        .catch(error => {
+            console.log(error);
+            dispatch(authFail(error.response.data));
+        })
+    };
+};
+
+
+//FETCHING QUESTIONS
 export const setQuestions = (questions) => {
     return {
         type: FETCH_QUESTIONS,
@@ -23,6 +70,7 @@ export const fetchQuestions = () => {
     };
 };
 
+// AGREES AND DISAGREES
 export const agree = (questionId) => {
     return {
         type: AGREE,

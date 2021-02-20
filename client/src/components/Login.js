@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Grid, TextField, Typography, Button, Avatar, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import * as actions from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -44,12 +45,7 @@ const Login = (props) => {
             email: cleanEmail(emailState),
             password: passwordState
         }
-        axios.post('http://localhost:3001/user/login', data)
-        .then(response => {
-            console.log(response.data);
-
-        })
-        .catch(err => console.log(err.response.data));
+        props.onAuth(data.email, data.password);
     };
 
     const emailHandler = (e) => {
@@ -129,4 +125,10 @@ const Login = (props) => {
     )
 };
 
-export default Login;
+const mapDispatchToProps = dispatch => {
+    return {
+        onAuth: (email, password) => dispatch(actions.auth(email, password))
+    }
+};
+
+export default connect(null, mapDispatchToProps)(Login);
