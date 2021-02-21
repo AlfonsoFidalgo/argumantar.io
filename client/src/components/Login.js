@@ -4,6 +4,7 @@ import { Grid, TextField, Typography, Button, Avatar, Container } from '@materia
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import Spinner from './Spinner';
 import * as actions from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,17 +59,8 @@ const Login = (props) => {
 
     const classes = useStyles();
 
-    return (
-        (
-        <Container component="main" maxWidth="xs">
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Welcome Back!
-                </Typography>
-                <form className={classes.form} onSubmit={loginHandler}>
+    let loginForm = (
+        <form className={classes.form} onSubmit={loginHandler}>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -106,6 +98,23 @@ const Login = (props) => {
                     Sign In
                     </Button>
                 </form>
+    );
+
+    if (props.loading) {
+        loginForm = <Spinner />
+    };
+
+    return (
+        (
+        <Container component="main" maxWidth="xs">
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Welcome Back!
+                </Typography>
+                {loginForm}
                 <Grid container>
                     <Grid item xs>
                         <Typography variant="body2" color='primary'>
@@ -125,10 +134,16 @@ const Login = (props) => {
     )
 };
 
+const mapStateToProps = state => {
+    return {
+        loading: state.auth.loading
+    }
+};
+
 const mapDispatchToProps = dispatch => {
     return {
         onAuth: (email, password) => dispatch(actions.auth(email, password))
     }
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
