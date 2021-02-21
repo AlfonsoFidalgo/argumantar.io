@@ -59,6 +59,13 @@ const Login = (props) => {
 
     const classes = useStyles();
 
+    let errorMessage = false;
+    let errorText = null;
+    if (props.error) {
+        errorMessage = true
+        errorText = 'Invalid email or password.'
+    }
+
     let loginForm = (
         <form className={classes.form} onSubmit={loginHandler}>
                     <TextField
@@ -76,6 +83,8 @@ const Login = (props) => {
                         onChange={emailHandler}
                     />
                     <TextField
+                        error={errorMessage}
+                        helperText={errorText}
                         variant="outlined"
                         margin="normal"
                         required
@@ -136,7 +145,8 @@ const Login = (props) => {
 
 const mapStateToProps = state => {
     return {
-        loading: state.auth.loading
+        loading: state.auth.loading,
+        error: state.auth.error
     }
 };
 
