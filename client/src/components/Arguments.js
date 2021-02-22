@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { List, ListItem, ListItemText, Typography,
     Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
@@ -9,16 +9,15 @@ import * as actions from '../store/actions';
 
 
 const Arguments = (props) => {
-    const [argumentsState, setArgumentsState] = useState();
-
     useEffect(() => {
         props.onQuestionLoad(props.questionId);
     }, []);
 
-    let agreeArguments, disagreeArguments;
-    if (argumentsState) {
-        const agreeRawArgs = argumentsState.data.filter((a) => a.option_body === 'Agree');
-        const disAgreeRawArgs = argumentsState.data.filter((a) => a.option_body === 'Disagree');
+    let agreeArguments = (<Spinner />);
+    let disagreeArguments = (<Spinner />);
+    if (props.arguments) {
+        const agreeRawArgs = props.arguments.filter((a) => a.option_body === 'Agree');
+        const disAgreeRawArgs = props.arguments.filter((a) => a.option_body === 'Disagree');
         agreeArguments = agreeRawArgs.map(argument => {
             return (
                 <ListItem key={argument.argument_id}>
