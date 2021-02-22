@@ -59,10 +59,10 @@ const Login = (props) => {
 
     const classes = useStyles();
 
-    let errorMessage = false;
+    let showErrorMessage = false;
     let errorText = null;
     if (props.error) {
-        errorMessage = true
+        showErrorMessage = true
         errorText = 'Invalid email or password.'
     }
 
@@ -83,7 +83,7 @@ const Login = (props) => {
                         onChange={emailHandler}
                     />
                     <TextField
-                        error={errorMessage}
+                        error={showErrorMessage}
                         helperText={errorText}
                         variant="outlined"
                         margin="normal"
