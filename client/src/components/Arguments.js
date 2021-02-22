@@ -1,54 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { List, ListItem, ListItemText, Typography,
     Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import axios from 'axios';
+import Spinner from './Spinner';
 import ArgumentMeta from './ArgumentMeta';
-
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        minWidth: 275,
-        width: 'auto'
-      },
-      bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-      },
-      title: {
-        fontSize: 14,
-      },
-      pos: {
-        marginBottom: 0,
-      },
-      choiceButtons: {
-          display: 'flex',
-          flexDirection: 'row-reverse',
-          marginBottom: theme.spacing(1)
-      },
-      argumentBox: {
-          marginBottom: theme.spacing(1)
-      }
-}));
+import * as actions from '../store/actions';
 
 
 const Arguments = (props) => {
-    const [argumentsState, setArgumentsState] = useState();
-
     useEffect(() => {
-        async function fetchData() {
-            const response = await axios.get(`http://localhost:3001/question/${props.questionId}/arguments/get`);
-            setArgumentsState(response.data);
-        }
-        fetchData();
-    }, [props.questionId]);
+        props.onQuestionLoad(props.questionId);
+    }, []);
 
-    let agreeArguments, disagreeArguments;
-    if (argumentsState) {
-        const agreeRawArgs = argumentsState.data.filter((a) => a.option_body === 'Agree');
-        const disAgreeRawArgs = argumentsState.data.filter((a) => a.option_body === 'Disagree');
+    let agreeArguments = (<Spinner />);
+    let disagreeArguments = (<Spinner />);
+    if (props.arguments) {
+        const agreeRawArgs = props.arguments.filter((a) => a.option_body === 'Agree');
+        const disAgreeRawArgs = props.arguments.filter((a) => a.option_body === 'Disagree');
         agreeArguments = agreeRawArgs.map(argument => {
             return (
                 <ListItem key={argument.argument_id}>
@@ -73,7 +42,6 @@ const Arguments = (props) => {
         };
     };
 
-    const classes = useStyles();
     return (
         <React.Fragment>
         <Accordion>
@@ -96,4 +64,16 @@ const Arguments = (props) => {
     )
 };
 
-export default Arguments;
+const mapStateToProps = state => {
+    return {
+        arguments: state.arguments.arguments
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onQuestionLoad: (questionId) => dispatch(actions.fetchArguments(questionId))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Arguments);

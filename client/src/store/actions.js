@@ -4,11 +4,31 @@ export const AGREE = 'AGREE';
 export const DISAGREE = 'DISAGREE';
 export const REMOVE_AGREE = 'REMOVE_AGREE';
 export const REMOVE_DISAGREE = 'REMOVE_DISAGREE';
+
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
+
+export const FETCH_ARGUMENTS = 'FETCH_ARGUMENTS';
+
 export const AUTH_START = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAIL = 'AUTH_FAIL';
 
+//ARGUMENTS
+export const setArguments = (args) => {
+    return {
+        type: FETCH_ARGUMENTS,
+        arguments: args
+    };
+};
+
+export const fetchArguments = (questionId) => {
+    return dispatch => {
+        axios.get(`http://localhost:3001/question/${questionId}/arguments/get`)
+        .then((response => {
+            dispatch(setArguments(response.data.data))
+        }));
+    };
+};
 
 //AUTH
 export const authStart = () => {
