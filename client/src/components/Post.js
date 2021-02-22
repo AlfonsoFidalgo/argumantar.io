@@ -96,8 +96,8 @@ const Post = (props) => {
     console.log(props)
 
     if (props.activeQuestion){
-        const agreeVotes = props.activeQuestion[0].agree_votes;
-        const disagreeVotes = props.activeQuestion[0].disagree_votes;
+        const agreeVotes = parseInt(props.activeQuestion[0].agree_votes);
+        const disagreeVotes = parseInt(props.activeQuestion[0].disagree_votes);
         activeQuestion = (
             <Card className={classes.root}>
                 <CardContent>
