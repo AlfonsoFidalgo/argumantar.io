@@ -35,16 +35,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Post = (props) => {
-    // const [userState, setUserState] = useState();
-    // const [dateState, setDateState] = useState();
-    // const [titleState, setTitleState] = useState();
-    // const [bodyState, setBodyState] = useState();
-    // const [numArgsState, setNumArgsState] = useState();
-    // const [agreeRateState, setAgreeRateState] = useState();
-    // const [disagreeRateState, setDisagreeRateState] = useState(); 
     const [argumentState, setArgumentState] = useState();
-    // const [agreeOptionIdState, setAgreeOptionIdState] = useState();
-    // const [disagreeOptionIdState, setDisagreeOptionIdState] = useState();
     const [choiceButtonsState, setChoiceButtonsState] = useState({agree: 'outlined', disagree: 'outlined'});
 
     useEffect(() => {
@@ -93,7 +84,6 @@ const Post = (props) => {
     };
 
     let activeQuestion = (<Grid container spacing={2}><Spinner /></Grid>);
-    console.log(props)
 
     if (props.activeQuestion){
         const agreeVotes = parseInt(props.activeQuestion[0].agree_votes);
