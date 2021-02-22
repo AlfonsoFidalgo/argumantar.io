@@ -7,33 +7,6 @@ import axios from 'axios';
 import ArgumentMeta from './ArgumentMeta';
 
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        minWidth: 275,
-        width: 'auto'
-      },
-      bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-      },
-      title: {
-        fontSize: 14,
-      },
-      pos: {
-        marginBottom: 0,
-      },
-      choiceButtons: {
-          display: 'flex',
-          flexDirection: 'row-reverse',
-          marginBottom: theme.spacing(1)
-      },
-      argumentBox: {
-          marginBottom: theme.spacing(1)
-      }
-}));
-
-
 const Arguments = (props) => {
     const [argumentsState, setArgumentsState] = useState();
 
@@ -73,7 +46,6 @@ const Arguments = (props) => {
         };
     };
 
-    const classes = useStyles();
     return (
         <React.Fragment>
         <Accordion>
