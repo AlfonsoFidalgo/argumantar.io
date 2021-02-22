@@ -55,7 +55,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onQuestionsLoad: () => dispatch(actions.fetchQuestions())
-    }
-}
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionsFeed);

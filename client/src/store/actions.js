@@ -6,6 +6,7 @@ export const REMOVE_AGREE = 'REMOVE_AGREE';
 export const REMOVE_DISAGREE = 'REMOVE_DISAGREE';
 
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
+export const FETCH_QUESTION = 'FETCH_QUESTION';
 
 export const FETCH_ARGUMENTS = 'FETCH_ARGUMENTS';
 
@@ -73,11 +74,28 @@ export const auth = (email, password) => {
 };
 
 
+//FETCHING A QUESTION
+export const setQuestion = (question) => {
+    return {
+        type: FETCH_QUESTION,
+        question: question
+    };
+};
+
+export const fetchQuestion = (id) => {
+    return dispatch => {
+        axios.get(`http://localhost:3001/question/${id}`)
+        .then((response => {
+            dispatch(setQuestion(response.data))
+        }));
+    };
+};
+
 //FETCHING QUESTIONS
 export const setQuestions = (questions) => {
     return {
         type: FETCH_QUESTIONS,
-        posts: questions
+        questions: questions
     };
 };
 
