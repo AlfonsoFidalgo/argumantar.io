@@ -7,7 +7,6 @@ import * as actions from '../store/actions';
 
 class QuestionsFeed extends Component {
     componentDidMount (){
-        console.log('FROM QuestionsFeed: ', this.props);
         this.props.onQuestionsLoad();
     }
 

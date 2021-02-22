@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 import { List, ListItem, ListItemText, Typography,
     Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import axios from 'axios';
+import Spinner from './Spinner';
 import ArgumentMeta from './ArgumentMeta';
+import * as actions from '../store/actions';
 
 
 const Arguments = (props) => {
     const [argumentsState, setArgumentsState] = useState();
 
     useEffect(() => {
-        async function fetchData() {
-            const response = await axios.get(`http://localhost:3001/question/${props.questionId}/arguments/get`);
-            setArgumentsState(response.data);
-        }
-        fetchData();
-    }, [props.questionId]);
+        props.onQuestionLoad(props.questionId);
+    }, []);
 
     let agreeArguments, disagreeArguments;
     if (argumentsState) {
@@ -68,4 +65,16 @@ const Arguments = (props) => {
     )
 };
 
-export default Arguments;
+const mapStateToProps = state => {
+    return {
+        arguments: state.arguments.arguments
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onQuestionLoad: (questionId) => dispatch(actions.fetchArguments(questionId))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Arguments);

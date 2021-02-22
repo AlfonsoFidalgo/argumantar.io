@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import agreeReducer from './store/reducers/agreeReducer';
 import questionsReducer from './store/reducers/questionsReducer';
 import authReducer from './store/reducers/authReducer';
+import argumentsReducer from './store/reducers/argumentsReducer';
 
 
 //middleware
@@ -24,7 +25,8 @@ const logger = (store) => {
 const rootReducer = combineReducers({
     agrees: agreeReducer,
     questions: questionsReducer,
-    auth: authReducer
+    auth: authReducer,
+    arguments: argumentsReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(logger, thunk));
