@@ -17,11 +17,12 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (token, userId) => {
+export const authSuccess = (token, userId, username) => {
     return {
         type: AUTH_SUCCESS,
         token: token,
-        userId: userId
+        userId: userId,
+        username: username
     };
 };
 
@@ -42,7 +43,7 @@ export const auth = (email, password) => {
         axios.post('http://localhost:3001/user/login', data)
         .then(response => {
             console.log(response.data);
-            dispatch(authSuccess(response.data.token, response.data.userId));
+            dispatch(authSuccess(response.data.token, response.data.userId, response.data.username));
         })
         .catch(error => {
             console.log(error);
