@@ -92,7 +92,7 @@ const Post = (props) => {
         };
     };
 
-    let activeQuestion = <Spinner />;
+    let activeQuestion = (<Grid container spacing={2}><Spinner /></Grid>);
     console.log(props)
 
     if (props.activeQuestion){
