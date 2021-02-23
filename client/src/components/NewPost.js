@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { TextField, Typography, Button, Avatar, Container } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
+import * as actions from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -31,28 +33,29 @@ const useStyles = makeStyles((theme) => ({
 const NewPost = (props) => {
     const [titleState, setTitleState] = useState();
     const [bodyState, setBodyState] = useState();
-    const history = useHistory();
+    // const history = useHistory();
 
     const postHandler = (e) => {
         e.preventDefault();
-        const data = {
-            title: titleState.trim(),
-            body: bodyState.trim()
-        };
-        const headers = {
-            headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hcnl3bG9kQGdtYWlsLmNvbSIsInVzZXJJZCI6MTQsImlhdCI6MTYxMjU1MjIxMSwiZXhwIjoxNjEyNTU1ODExfQ.OwQtccPOewgUiFVg7Y0FE4zDvEZvvE6URMwHxOWS654'
-            }
-        };
-        axios.post('http://localhost:3001/question/post', data, headers)
-        .then(response => {
-            console.log(response.data);
-            history.push('/');
-        })
-        .catch(err => {
-            console.log(err.response.data);
-            history.push('/login');
-        });
+        // const data = {
+        //     title: titleState.trim(),
+        //     body: bodyState.trim()
+        // };
+        props.newPost(titleState.trim(), bodyState.trim(), props.token);
+        // const headers = {
+        //     headers: {
+        //         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hcnl3bG9kQGdtYWlsLmNvbSIsInVzZXJJZCI6MTQsImlhdCI6MTYxMjU1MjIxMSwiZXhwIjoxNjEyNTU1ODExfQ.OwQtccPOewgUiFVg7Y0FE4zDvEZvvE6URMwHxOWS654'
+        //     }
+        // };
+        // axios.post('http://localhost:3001/question/post', data, headers)
+        // .then(response => {
+        //     console.log(response.data);
+        //     history.push('/');
+        // })
+        // .catch(err => {
+        //     console.log(err.response.data);
+        //     history.push('/login');
+        // });
     };
 
     const titleHandler = (e) => {
@@ -113,4 +116,18 @@ const NewPost = (props) => {
     )
 };
 
-export default NewPost;
+const mapStateToProps = state => {
+    return {
+        loading: state.questions.loading,
+        error: state.questions.error,
+        token: state.auth.token
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        newPost: (title, body, token) => dispatch(actions.postQuestion(title, body, token))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewPost);

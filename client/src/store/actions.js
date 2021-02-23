@@ -8,6 +8,10 @@ export const REMOVE_DISAGREE = 'REMOVE_DISAGREE';
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
 export const FETCH_QUESTION = 'FETCH_QUESTION';
 
+export const POST_QUESTION_START = 'POST_QUESTION_START';
+export const POST_QUESTION_SUCCESS = 'POST_QUESTION_SUCCESS';
+export const POST_QUESTION_FAIL = 'POST_QUESTION_FAIL';
+
 export const FETCH_ARGUMENTS = 'FETCH_ARGUMENTS';
 
 export const AUTH_START = 'AUTH_START';
@@ -63,16 +67,62 @@ export const auth = (email, password) => {
         };
         axios.post('http://localhost:3001/user/login', data)
         .then(response => {
-            console.log(response.data);
             dispatch(authSuccess(response.data.token, response.data.userId, response.data.username));
         })
         .catch(error => {
-            console.log(error);
             dispatch(authFail(error.response.data));
         })
     };
 };
 
+//POSTING A QUESTION
+export const postQuestionStart = () => {
+    return {
+        type: POST_QUESTION_START
+    }
+}
+
+// export const postQuestionSuccess = (title, body) => {
+//     return {
+//         type: POST_QUESTION_SUCCESS,
+//         title: title,
+//         body: body
+//     }
+// }
+
+export const postQuestionFail = (error) => {
+    return {
+        type: POST_QUESTION_FAIL,
+        error: error.message
+    };
+}
+
+export const postQuestion = (title, body, token) => {
+    return dispatch => {
+        dispatch(postQuestionStart());
+        const data = {
+            title: title,
+            body: body
+        };
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
+        axios.post('http://localhost:3001/question/post', data, headers)
+        .then(response => {
+            console.log(response.data);
+            // dispatch(postQuestionSuccess(response.data));
+        })
+        .catch(error => {
+            console.log(error.response.data);
+            dispatch(postQuestionFail(error.response.data));
+        });
+    }
+}
 
 //FETCHING A QUESTION
 export const setQuestion = (question) => {
