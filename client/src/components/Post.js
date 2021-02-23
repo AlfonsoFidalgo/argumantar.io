@@ -40,15 +40,6 @@ const Post = (props) => {
 
     useEffect(() => {
         props.onQuestionLoad(props.match.params.id);
-        // setUserState(props.location.state.username);
-        // setDateState(props.location.state.createdAt);
-        // setTitleState(props.location.state.questionTitle);
-        // setBodyState(props.location.state.questionBody);
-        // setNumArgsState(props.location.state.numArguments);
-        // setAgreeRateState(props.location.state.agreeRate);
-        // setDisagreeRateState(props.location.state.disagreeRate);
-        // setAgreeOptionIdState(props.location.state.agreeOptionId);
-        // setDisagreeOptionIdState(props.location.state.disagreeOptionId);
     }, []);
 
     const classes = useStyles();
@@ -88,6 +79,9 @@ const Post = (props) => {
     if (props.activeQuestion){
         const agreeVotes = parseInt(props.activeQuestion[0].agree_votes);
         const disagreeVotes = parseInt(props.activeQuestion[0].disagree_votes);
+        //condition ? exprIfTrue : exprIfFalse
+        const agreeRate = (agreeVotes + disagreeVotes) > 0 ? (agreeVotes / (agreeVotes + disagreeVotes)) : 0;
+        const disagreeRate = (agreeVotes + disagreeVotes) > 0 ? (disagreeVotes / (agreeVotes + disagreeVotes)) : 0
         activeQuestion = (
             <Card className={classes.root}>
                 <CardContent>
@@ -102,7 +96,7 @@ const Post = (props) => {
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
                         {props.activeQuestion[0].num_arguments} people talking about this. <br/>
-                        {(agreeVotes / (agreeVotes + disagreeVotes)) * 100}% agree, {(disagreeVotes / (agreeVotes + disagreeVotes)) * 100}% disagree.
+                        {agreeRate * 100}% agree, {disagreeRate * 100}% disagree.
                     </Typography>
                 </CardContent>
                 <CardActions>
