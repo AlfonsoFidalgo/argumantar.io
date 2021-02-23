@@ -82,14 +82,6 @@ export const postQuestionStart = () => {
     }
 }
 
-// export const postQuestionSuccess = (title, body) => {
-//     return {
-//         type: POST_QUESTION_SUCCESS,
-//         title: title,
-//         body: body
-//     }
-// }
-
 export const postQuestionFail = (error) => {
     return {
         type: POST_QUESTION_FAIL,
