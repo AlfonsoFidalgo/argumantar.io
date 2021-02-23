@@ -82,13 +82,13 @@ export const postQuestionStart = () => {
     }
 }
 
-export const postQuestionSuccess = (title, body) => {
-    return {
-        type: POST_QUESTION_SUCCESS,
-        title: title,
-        body: body
-    }
-}
+// export const postQuestionSuccess = (title, body) => {
+//     return {
+//         type: POST_QUESTION_SUCCESS,
+//         title: title,
+//         body: body
+//     }
+// }
 
 export const postQuestionFail = (error) => {
     return {
@@ -112,11 +112,11 @@ export const postQuestion = (title, body, token) => {
         axios.post('http://localhost:3001/question/post', data, headers)
         .then(response => {
             console.log(response.data);
-            dispatch(postQuestionSuccess(response.data.title, response.data.body));
+            // dispatch(postQuestionSuccess(response.data));
         })
         .catch(error => {
             console.log(error.response.data);
-            dispatch(authFail(error.response.data));
+            dispatch(postQuestionFail(error.response.data));
         });
     }
 }
