@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { TextField, Typography, Button, Avatar, Container } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
+import * as actions from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
