@@ -104,11 +104,14 @@ export const postQuestion = (title, body, token) => {
             title: title,
             body: body
         };
-        const headers = {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        };
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
         axios.post('http://localhost:3001/question/post', data, headers)
         .then(response => {
             console.log(response.data);
