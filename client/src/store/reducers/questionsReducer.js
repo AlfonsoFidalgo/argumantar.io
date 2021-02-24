@@ -31,12 +31,12 @@ const reducer = (state = initialState, action) => {
                 error: action.error,
                 loading: false
             }
-        case actionTypes.POST_QUESTION_SUCCESS:
-            return {
-                ...state,
-                error: null,
-                loading: false
-            }
+        // case actionTypes.POST_QUESTION_SUCCESS:
+        //     return {
+        //         ...state,
+        //         error: null,
+        //         loading: false
+        //     }
         default:
             return state
     }

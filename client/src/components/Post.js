@@ -40,7 +40,12 @@ const Post = (props) => {
 
     useEffect(() => {
         props.onQuestionLoad(props.match.params.id);
+        props.loadArguments(props.match.params.id);
     }, []);
+
+    const postArgument = () => {
+        props.postArgument(5, argumentState, props.token, props.match.params.id);
+    };
 
     const classes = useStyles();
 
@@ -95,8 +100,8 @@ const Post = (props) => {
                         {props.activeQuestion[0].question_body}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        {props.activeQuestion[0].num_arguments} people talking about this. <br/>
-                        {agreeRate * 100}% agree, {disagreeRate * 100}% disagree.
+                        {props.activeQuestion[0].num_arguments} arguments <br/>
+                        {agreeRate * 100}% agree {disagreeRate * 100}% disagree
                     </Typography>
                 </CardContent>
                 <CardActions>
@@ -126,7 +131,7 @@ const Post = (props) => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button color="primary" variant="contained" fullWidth>Send</Button>
+                            <Button color="primary" variant="contained" fullWidth onClick={postArgument}>Send</Button>
                         </Grid>
                     </Grid>
                 </CardActions>
@@ -141,13 +146,17 @@ const Post = (props) => {
 
 const mapStateToProps = state => {
     return {
-        activeQuestion: state.questions.activeQuestion
+        activeQuestion: state.questions.activeQuestion,
+        arguments: state.arguments.arguments,
+        token: state.auth.token
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onQuestionLoad: (questionId) => dispatch(actions.fetchQuestion(questionId))
+        onQuestionLoad: (questionId) => dispatch(actions.fetchQuestion(questionId)),
+        loadArguments: (questionId) => dispatch(actions.fetchArguments(questionId)),
+        postArgument: (optionId, body, token, questionId) => dispatch(actions.postArgument(optionId, body, token, questionId))
     };
 };
 

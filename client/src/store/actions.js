@@ -9,16 +9,19 @@ export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
 export const FETCH_QUESTION = 'FETCH_QUESTION';
 
 export const POST_QUESTION_START = 'POST_QUESTION_START';
-export const POST_QUESTION_SUCCESS = 'POST_QUESTION_SUCCESS';
 export const POST_QUESTION_FAIL = 'POST_QUESTION_FAIL';
 
 export const FETCH_ARGUMENTS = 'FETCH_ARGUMENTS';
+
+export const POST_ARGUMENT_START = 'POST_ARGUMENT_START';
+export const POST_ARGUMENT_SUCCESS = 'POST_ARGUMENT_SUCCESS';
+export const POST_ARGUMENT_FAIL = 'POST_ARGUMENT_FAIL';
 
 export const AUTH_START = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAIL = 'AUTH_FAIL';
 
-//ARGUMENTS
+//FETCHING ARGUMENTS
 export const setArguments = (args) => {
     return {
         type: FETCH_ARGUMENTS,
@@ -35,6 +38,45 @@ export const fetchArguments = (questionId) => {
     };
 };
 
+//POSTING ARGUMENTS
+export const postArgumentStart = () => {
+    return {
+        type: POST_ARGUMENT_START
+    }
+};
+
+export const postArgumentFail = (error) => {
+    return {
+        type: POST_ARGUMENT_FAIL,
+        error: error.message
+    };
+};
+
+export const postArgument = (optionId, body, token, questionId) => {
+    return dispatch => {
+        dispatch(postArgumentStart());
+        const data = {
+            body: body
+        };
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
+        axios.post(`http://localhost:3001/option/${optionId}/argument/post`, data, headers)
+        .then(response => {
+            console.log(response.data);
+            dispatch(fetchArguments(questionId));
+        })
+        .catch(error => {
+            console.log(error.response.data);
+            dispatch(postArgumentFail(error.response.data));
+        });
+    }
+}
 //AUTH
 export const authStart = () => {
     return {
