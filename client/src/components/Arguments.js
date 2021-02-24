@@ -1,18 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { List, ListItem, ListItemText, Typography,
     Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Spinner from './Spinner';
 import ArgumentMeta from './ArgumentMeta';
-import * as actions from '../store/actions';
 
 
 const Arguments = (props) => {
-    useEffect(() => {
-        props.onQuestionLoad(props.questionId);
-    }, []);
-
     let agreeArguments = (<Spinner />);
     let disagreeArguments = (<Spinner />);
     if (props.arguments) {
@@ -70,10 +65,4 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onQuestionLoad: (questionId) => dispatch(actions.fetchArguments(questionId))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Arguments);
+export default connect(mapStateToProps)(Arguments);

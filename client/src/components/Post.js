@@ -40,6 +40,7 @@ const Post = (props) => {
 
     useEffect(() => {
         props.onQuestionLoad(props.match.params.id);
+        props.loadArguments(props.match.params.id);
     }, []);
 
     const classes = useStyles();
@@ -141,13 +142,15 @@ const Post = (props) => {
 
 const mapStateToProps = state => {
     return {
-        activeQuestion: state.questions.activeQuestion
+        activeQuestion: state.questions.activeQuestion,
+        arguments: state.arguments.arguments
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onQuestionLoad: (questionId) => dispatch(actions.fetchQuestion(questionId))
+        onQuestionLoad: (questionId) => dispatch(actions.fetchQuestion(questionId)),
+        loadArguments: (questionId) => dispatch(actions.fetchArguments(questionId))
     };
 };
 
