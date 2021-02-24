@@ -21,7 +21,7 @@ export const AUTH_START = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAIL = 'AUTH_FAIL';
 
-//ARGUMENTS
+//FETCHING ARGUMENTS
 export const setArguments = (args) => {
     return {
         type: FETCH_ARGUMENTS,
@@ -38,6 +38,7 @@ export const fetchArguments = (questionId) => {
     };
 };
 
+//POSTING ARGUMENTS
 export const postArgumentStart = () => {
     return {
         type: POST_ARGUMENT_START
@@ -51,7 +52,7 @@ export const postArgumentFail = (error) => {
     };
 };
 
-export const postArgument = (optionId, body, token) => {
+export const postArgument = (optionId, body, token, questionId) => {
     return dispatch => {
         dispatch(postArgumentStart());
         const data = {
@@ -68,6 +69,7 @@ export const postArgument = (optionId, body, token) => {
         axios.post(`http://localhost:3001/option/${optionId}/argument/post`, data, headers)
         .then(response => {
             console.log(response.data);
+            dispatch(fetchArguments(questionId));
         })
         .catch(error => {
             console.log(error.response.data);
