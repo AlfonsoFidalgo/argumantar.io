@@ -78,8 +78,8 @@ const FeedElement = (props) => {
                         {props.questionBody}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        {props.numArguments} people talking about this. <br/>
-                        {props.agreeRate *100}% agree, {props.disagreeRate *100}% disagree.
+                        {props.numArguments} arguments <br/>
+                        {props.agreeRate *100}% agree {props.disagreeRate *100}% disagree
                     </Typography>
                 </CardContent>
                 <CardActions>
