@@ -43,6 +43,10 @@ const Post = (props) => {
         props.loadArguments(props.match.params.id);
     }, []);
 
+    const postArgument = () => {
+        props.postArgument(5, argumentState, props.token, props.match.params.id);
+    };
+
     const classes = useStyles();
 
     const handleArgument = (e) => {
@@ -127,7 +131,7 @@ const Post = (props) => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button color="primary" variant="contained" fullWidth>Send</Button>
+                            <Button color="primary" variant="contained" fullWidth onClick={postArgument}>Send</Button>
                         </Grid>
                     </Grid>
                 </CardActions>
@@ -143,14 +147,16 @@ const Post = (props) => {
 const mapStateToProps = state => {
     return {
         activeQuestion: state.questions.activeQuestion,
-        arguments: state.arguments.arguments
+        arguments: state.arguments.arguments,
+        token: state.auth.token
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onQuestionLoad: (questionId) => dispatch(actions.fetchQuestion(questionId)),
-        loadArguments: (questionId) => dispatch(actions.fetchArguments(questionId))
+        loadArguments: (questionId) => dispatch(actions.fetchArguments(questionId)),
+        postArgument: (optionId, body, token, questionId) => dispatch(actions.postArgument(optionId, body, token, questionId))
     };
 };
 
