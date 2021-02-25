@@ -48,7 +48,6 @@ exports.login = async (req, res, next) => {
             const error = new Error('wrong password provided');
             error.statusCode = 401;
             next(error);
-            //res.status(401).json({message: 'wrong password provided'});
         } else {
             const token = jwt.sign({
                 email: user[0].email,
@@ -58,15 +57,14 @@ exports.login = async (req, res, next) => {
             {
                 expiresIn: '1h'
             });
-
-            res.status(200).json({token: token, userId: user[0].id, username: user[0].username });
+            const choices = await usersRepo.fetchChoices(user[0].id);
+            res.status(200).json({token: token, userId: user[0].id, username: user[0].username, choices: choices });
         }
         
     } else {
         const error = new Error('email not found');
         error.statusCode = 401;
         next(error);
-        //res.status(401).json({message: `no user with email ${email} was found`});
     };  
 };
 
