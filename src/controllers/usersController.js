@@ -57,8 +57,8 @@ exports.login = async (req, res, next) => {
             {
                 expiresIn: '1h'
             });
-
-            res.status(200).json({token: token, userId: user[0].id, username: user[0].username });
+            const choices = await usersRepo.fetchChoices(user[0].id);
+            res.status(200).json({token: token, userId: user[0].id, username: user[0].username, choices: choices });
         }
         
     } else {

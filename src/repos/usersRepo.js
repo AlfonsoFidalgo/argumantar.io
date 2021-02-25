@@ -30,7 +30,9 @@ class UserRepo {
 
     static async fetchChoices(userId){
         const query = `
-        SELECT * FROM choices WHERE user_id = $1;
+        SELECT 
+            id, created_at, option_id
+        FROM choices WHERE user_id = $1;
         `;
         const {rows} = await pool.query(query, [userId]);
         return rows
