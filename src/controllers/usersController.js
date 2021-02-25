@@ -48,7 +48,6 @@ exports.login = async (req, res, next) => {
             const error = new Error('wrong password provided');
             error.statusCode = 401;
             next(error);
-            //res.status(401).json({message: 'wrong password provided'});
         } else {
             const token = jwt.sign({
                 email: user[0].email,
@@ -66,7 +65,6 @@ exports.login = async (req, res, next) => {
         const error = new Error('email not found');
         error.statusCode = 401;
         next(error);
-        //res.status(401).json({message: `no user with email ${email} was found`});
     };  
 };
 
