@@ -4,6 +4,7 @@ export const AGREE = 'AGREE';
 export const DISAGREE = 'DISAGREE';
 export const REMOVE_AGREE = 'REMOVE_AGREE';
 export const REMOVE_DISAGREE = 'REMOVE_DISAGREE';
+export const SET_CHOICES = 'SET_CHOICES';
 
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
 export const FETCH_QUESTION = 'FETCH_QUESTION';
@@ -109,6 +110,7 @@ export const auth = (email, password) => {
         };
         axios.post('http://localhost:3001/user/login', data)
         .then(response => {
+            dispatch(setChoices(response.data.choices));
             dispatch(authSuccess(response.data.token, response.data.userId, response.data.username));
         })
         .catch(error => {
@@ -194,6 +196,13 @@ export const fetchQuestions = () => {
 };
 
 // AGREES AND DISAGREES
+export const setChoices = (choices) => {
+    return {
+        type: SET_CHOICES,
+        choices: choices
+    };
+};
+
 export const agree = (questionId) => {
     return {
         type: AGREE,
