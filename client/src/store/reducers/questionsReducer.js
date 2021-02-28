@@ -12,7 +12,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.FETCH_QUESTIONS:
             return {
                 ...state,
-                questions: action.questions
+                questions: action.questions,
+                activeQuestion: null
             }
         case actionTypes.FETCH_QUESTION:
             return {
