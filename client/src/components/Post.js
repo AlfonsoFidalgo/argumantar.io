@@ -41,9 +41,19 @@ const Post = (props) => {
     useEffect(() => {
         props.onQuestionLoad(props.match.params.id);
         props.loadArguments(props.match.params.id);
+
+        if (props.choices && props.activeQuestion){
+            const userChoices = props.choices.map(choice => choice.option_id);
+            if (userChoices.includes(props.activeQuestion[0].agree_option_id)){
+                setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
+            } else if (userChoices.includes(props.activeQuestion[0].disagree_option_id)){
+                setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
+            }
+        }
     }, []);
 
     const postArgument = () => {
+        //5 is the hardcoded optionId
         props.postArgument(5, argumentState, props.token, props.match.params.id);
     };
 
@@ -148,7 +158,8 @@ const mapStateToProps = state => {
     return {
         activeQuestion: state.questions.activeQuestion,
         arguments: state.arguments.arguments,
-        token: state.auth.token
+        token: state.auth.token,
+        choices: state.choices.choices
     };
 };
 
