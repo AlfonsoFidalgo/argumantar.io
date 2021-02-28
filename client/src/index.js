@@ -4,7 +4,6 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import agreeReducer from './store/reducers/agreeReducer';
 import questionsReducer from './store/reducers/questionsReducer';
 import authReducer from './store/reducers/authReducer';
 import argumentsReducer from './store/reducers/argumentsReducer';
@@ -24,7 +23,6 @@ const logger = (store) => {
 };
 
 const rootReducer = combineReducers({
-    agrees: agreeReducer,
     questions: questionsReducer,
     auth: authReducer,
     arguments: argumentsReducer,
