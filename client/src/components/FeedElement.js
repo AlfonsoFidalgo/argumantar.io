@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid } from '@material-ui/core';
@@ -28,6 +29,17 @@ const useStyles = makeStyles({
 const FeedElement = (props) => {
     const [choiceButtonsState, setChoiceButtonsState] = useState({agree: 'outlined', disagree: 'outlined'});
     const classes = useStyles();
+
+    useEffect(() => {
+        if (props.choices && props.agreeOptionId && props.disagreeOptionId){
+            const userChoices = props.choices.map(choice => choice.option_id);
+            if (userChoices.includes(props.agreeOptionId)){
+                setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
+            } else if (userChoices.includes(props.disagreeOptionId)){
+                setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
+            }
+        }
+    }, [props.choices, props.agreeOptionId, props.disagreeOptionId]);
 
     const handleChoice = (e, choice) => {
         if (choice === 'agree'){
@@ -105,5 +117,11 @@ const FeedElement = (props) => {
 };
 
 
+const mapStateToProps = state => {
+    return {
+        token: state.auth.token,
+        choices: state.choices.choices
+    };
+};
 
-export default FeedElement;
+export default connect(mapStateToProps)(FeedElement);
