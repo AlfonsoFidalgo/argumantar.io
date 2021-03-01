@@ -63,7 +63,8 @@ class QuestionRepo {
         FROM questions_ q
         JOIN agree_options aop ON aop.question_id = q.question_id
         JOIN disagree_options dop ON dop.question_id = q.question_id
-        FULL JOIN arguments_ a ON a.question_id = q.question_id; 
+        FULL JOIN arguments_ a ON a.question_id = q.question_id
+        ORDER BY num_arguments DESC, q.created_at DESC;
         `;
         const { rows } = await pool.query(query);
         return rows;
