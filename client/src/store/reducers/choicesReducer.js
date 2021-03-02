@@ -5,6 +5,7 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
+    const allChoices = [...state.choices];
     switch (action.type){
         case actionTypes.SET_CHOICES:
             return {
@@ -12,8 +13,10 @@ const reducer = (state = initialState, action) => {
                 choices: action.choices
             }
         case actionTypes.ADD_CHOICE:
+            allChoices.push(action.choice);
             return {
-                ...state
+                ...state,
+                choices: allChoices
             }
         default:
             return state
