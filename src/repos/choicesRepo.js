@@ -13,7 +13,7 @@ class ChoicesRepo {
     static async postChoice(optionId, userId){
         const query = `
         INSERT INTO choices (option_id, user_id)
-        VALUES ($1, $2);
+        VALUES ($1, $2) RETURNING *;
         `;
         const {rows} = await pool.query(query, [optionId, userId]);
         return rows;
