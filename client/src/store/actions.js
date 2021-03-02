@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-export const AGREE = 'AGREE';
-export const DISAGREE = 'DISAGREE';
-export const REMOVE_AGREE = 'REMOVE_AGREE';
-export const REMOVE_DISAGREE = 'REMOVE_DISAGREE';
+// export const AGREE = 'AGREE';
+// export const DISAGREE = 'DISAGREE';
+// export const REMOVE_AGREE = 'REMOVE_AGREE';
+// export const REMOVE_DISAGREE = 'REMOVE_DISAGREE';
+export const ADD_CHOICE = 'ADD_CHOICE';
 export const SET_CHOICES = 'SET_CHOICES';
 
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
@@ -203,30 +204,57 @@ export const setChoices = (choices) => {
     };
 };
 
-export const agree = (questionId) => {
+export const addChoice = (optionId) => {
     return {
-        type: AGREE,
-        questionId: questionId
+        type: ADD_CHOICE,
+        choice: optionId
     }
 }
 
-export const disagree = (questionId) => {
-    return {
-        type: DISAGREE,
-        questionId: questionId
+export const postChoice = (optionId, token) => {
+    return dispatch => {
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
+        axios.post(`http://localhost:3001/choice/${optionId}`, null, headers)
+        .then(response => {
+            dispatch(addChoice(optionId));
+        })
+        .catch(error => {
+            console.log('postChoice failed ', error);
+        })
     }
-}
+};
 
-export const removeAgree = (questionId) => {
-    return {
-        type: REMOVE_AGREE,
-        questionId: questionId
-    }
-}
+// export const agree = (optionId) => {
+//     return {
+//         type: AGREE,
+//         optionId: optionId
+//     }
+// }
 
-export const removeDisagree = (questionId) => {
-    return {
-        type: REMOVE_AGREE,
-        questionId: questionId
-    }
-}
+// export const disagree = (optionId) => {
+//     return {
+//         type: DISAGREE,
+//         optionId: optionId
+//     }
+// }
+
+// export const removeAgree = (optionId) => {
+//     return {
+//         type: REMOVE_AGREE,
+//         optionId: optionId
+//     }
+// }
+
+// export const removeDisagree = (optionId) => {
+//     return {
+//         type: REMOVE_AGREE,
+//         optionId: optionId
+//     }
+// }

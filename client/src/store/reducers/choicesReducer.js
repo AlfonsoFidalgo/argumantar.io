@@ -11,6 +11,10 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 choices: action.choices
             }
+        case actionTypes.ADD_CHOICE:
+            return {
+                ...state
+            }
         default:
             return state
     }  
