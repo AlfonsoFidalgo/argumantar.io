@@ -204,10 +204,10 @@ export const setChoices = (choices) => {
     };
 };
 
-export const addChoice = (optionId) => {
+export const addChoice = (choice) => {
     return {
         type: ADD_CHOICE,
-        choice: optionId
+        choice: choice[0]
     }
 }
 
@@ -223,7 +223,7 @@ export const postChoice = (optionId, token) => {
         }
         axios.post(`http://localhost:3001/choice/${optionId}`, null, headers)
         .then(response => {
-            dispatch(addChoice(optionId));
+            dispatch(addChoice(response.data));
         })
         .catch(error => {
             console.log('postChoice failed ', error);
