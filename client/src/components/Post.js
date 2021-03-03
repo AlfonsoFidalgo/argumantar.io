@@ -76,15 +76,20 @@ const Post = (props) => {
                 props.optionDelete(optionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
-                //initial state: agree was selected
+                //initial state: disagree was selected, so we need to remove the disagree and add agree
+                //NOT WORKING PROPERLY I think I need a specific action to mind changers due to async comms
+                props.optionDelete(props.activeQuestion[0].disagree_option_id, props.token);
+                props.optionChosen(optionId, props.token);
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
             }
         } else if (choice === 'disagree' && props.token){
             if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
                 //initial state: no choice made (both outlined)
+                props.optionChosen(optionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
                 //initial state: agree was selected
+                props.optionDelete(optionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
                 //initial state: agree was selected
