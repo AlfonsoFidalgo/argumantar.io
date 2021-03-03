@@ -58,9 +58,9 @@ const Post = (props) => {
     }, [props.activeQuestion, props.choices, props.choicesLoading, chosenOptionId])
 
     const postArgument = () => {
-        //5 is the hardcoded optionId
         if (chosenOptionId){
             props.postArgument(chosenOptionId, argumentState, props.token, props.match.params.id);
+            setArgumentState('');
         }
     };
 
