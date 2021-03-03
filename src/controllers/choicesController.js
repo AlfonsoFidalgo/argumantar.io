@@ -38,11 +38,11 @@ exports.deleteChoiceByOptionId = async (req, res, next) => {
         return res.status(403).json({message: 'User didnt choose that option.'});
     }
     const choiceId = rows[0].id;
-    await choicesRepo.deleteChoice(choiceId); 
+    const deletedChoice = await choicesRepo.deleteChoice(choiceId); 
     //should also delete any argument associated with the user_id / option_id combination (if any)
     //find arguments where option_id = choice.option_id and user_id = req.userId
     await argumentsRepo.deleteArgumentAfterChoice(optionId, req.userId);
-    return res.status(201).json({message: `Choice deleted successfully.`});
+    return res.status(201).json({message: `Choice deleted successfully.`, data: deletedChoice});
 };
 
 exports.deleteChoice = async (req, res, next) => {
