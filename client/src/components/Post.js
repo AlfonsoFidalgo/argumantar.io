@@ -79,8 +79,8 @@ const Post = (props) => {
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
                 //initial state: disagree was selected, so we need to remove the disagree and add agree
-                //NOT WORKING PROPERLY I think I need a specific action to mind changers due to async comms
- 
+                //NOT WORKING PROPERLY
+                props.optionChange(disagreeOptionId, agreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
             }
         } else if (choice === 'disagree' && props.token){
@@ -90,8 +90,8 @@ const Post = (props) => {
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
                 //initial state: agree was selected, we need to remove agree and add disagree
-                //NOT WORKING PROPERLY I think I need a specific action to mind changers due to async comms
-                
+                //NOT WORKING PROPERLY
+                props.optionChange(agreeOptionId, disagreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
                 //initial state: disagree was selected, remove disagree
@@ -182,7 +182,8 @@ const mapDispatchToProps = dispatch => {
         loadArguments: (questionId) => dispatch(actions.fetchArguments(questionId)),
         postArgument: (optionId, body, token, questionId) => dispatch(actions.postArgument(optionId, body, token, questionId)),
         optionChosen: (optionId, token) => dispatch(actions.postChoice(optionId, token)),
-        optionDelete: (optionId, token) => dispatch(actions.deleteChoice(optionId, token))
+        optionDelete: (optionId, token) => dispatch(actions.deleteChoice(optionId, token)),
+        optionChange: (oldOptionId, newOptionId, token) => dispatch(actions.changeChoice(oldOptionId, newOptionId, token))
     };
 };
 

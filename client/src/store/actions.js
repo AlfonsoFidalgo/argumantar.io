@@ -236,6 +236,34 @@ export const addChoiceSuccess = (choice) => {
     }
 }
 
+export const changeChoice = (oldOptionId, newOptionId, token) => {
+    return dispatch => {
+        dispatch(choiceStart());
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
+        axios.delete(`http://localhost:3001/choice/${oldOptionId}`, headers)
+        .then(response => {
+            dispatch(deleteChoiceSuccess(response.data));
+            axios.post(`http://localhost:3001/choice/${newOptionId}`, null, headers)
+            .then(response => {
+                dispatch(addChoiceSuccess(response.data));
+            })
+            .catch(error => {
+                dispatch(choiceFail(error));
+            })
+        })
+        .catch(error => {
+            dispatch(choiceFail(error));
+        })
+    }
+};
+
 export const deleteChoice = (optionId, token) => {
     return dispatch => {
         dispatch(choiceStart());
@@ -249,7 +277,6 @@ export const deleteChoice = (optionId, token) => {
         }
         axios.delete(`http://localhost:3001/choice/${optionId}`, headers)
         .then(response => {
-            console.log(response.data);
             dispatch(deleteChoiceSuccess(response.data));
         })
         .catch(error => {
