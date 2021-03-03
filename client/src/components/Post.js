@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
 const Post = (props) => {
     const [argumentState, setArgumentState] = useState();
     const [choiceButtonsState, setChoiceButtonsState] = useState({agree: 'outlined', disagree: 'outlined'});
+    const [chosenOptionId, setChosenOptionIdState] = useState();
 
     useEffect(() => {
         props.onQuestionLoad(props.match.params.id);
@@ -48,15 +49,19 @@ const Post = (props) => {
             const userChoices = props.choices.map(choice => choice.option_id);
             if (userChoices.includes(props.activeQuestion[0].agree_option_id)){
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
+                setChosenOptionIdState(props.activeQuestion[0].agree_option_id);
             } else if (userChoices.includes(props.activeQuestion[0].disagree_option_id)){
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
+                setChosenOptionIdState(props.activeQuestion[0].disagree_option_id);
             }
         }
-    }, [props.activeQuestion, props.choices, props.choicesLoading])
+    }, [props.activeQuestion, props.choices, props.choicesLoading, chosenOptionId])
 
     const postArgument = () => {
         //5 is the hardcoded optionId
-        props.postArgument(5, argumentState, props.token, props.match.params.id);
+        if (chosenOptionId){
+            props.postArgument(chosenOptionId, argumentState, props.token, props.match.params.id);
+        }
     };
 
     const classes = useStyles();
@@ -73,28 +78,34 @@ const Post = (props) => {
                 //initial state: no choice made (both outlined)
                 props.optionChosen(agreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
+                setChosenOptionIdState(agreeOptionId);
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
                 //initial state: agree was selected, so we need to unselect it (delete choice)
                 props.optionDelete(agreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
+                setChosenOptionIdState(null);
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
                 //initial state: disagree was selected, so we need to remove the disagree and add agree
                 props.optionChange(disagreeOptionId, agreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
+                setChosenOptionIdState(agreeOptionId);
             }
         } else if (choice === 'disagree' && props.token){
             if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
                 //initial state: no choice made (both outlined)
                 props.optionChosen(disagreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
+                setChosenOptionIdState(disagreeOptionId);
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
                 //initial state: agree was selected, we need to remove agree and add disagree
                 props.optionChange(agreeOptionId, disagreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
+                setChosenOptionIdState(disagreeOptionId);
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
                 //initial state: disagree was selected, remove disagree
                 props.optionDelete(disagreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
+                setChosenOptionIdState(null);
             };
         };
     };
