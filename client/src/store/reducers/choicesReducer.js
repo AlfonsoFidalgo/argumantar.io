@@ -24,12 +24,21 @@ const reducer = (state = initialState, action) => {
         case actionTypes.CHOICE_FAIL:
             return {
                 ...state,
-                error: action.error
+                error: action.error,
+                loading: false
             }
         case actionTypes.ADD_CHOICE_SUCCESS:
             return {
                 ...state,
                 choices: state.choices.concat(action.choice),
+                error: null,
+                loading: false
+            }
+        case actionTypes.DELETE_CHOICE_SUCCESS:
+            const newChoices = state.choices.filter(ch => ch.option_id !== action.choice.option_id);
+            return {
+                ...state,
+                choices: newChoices,
                 error: null,
                 loading: false
             }

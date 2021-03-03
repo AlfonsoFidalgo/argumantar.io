@@ -69,10 +69,11 @@ const Post = (props) => {
         if (choice === 'agree' && props.token){
             if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
                 //initial state: no choice made (both outlined)
-                props.optionChosen(optionId, props.token)
+                props.optionChosen(optionId, props.token);
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
-                //initial state: agree was selected
+                //initial state: agree was selected, so we need to unselect it (delete choice)
+                props.optionDelete(optionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
                 //initial state: agree was selected
@@ -172,7 +173,8 @@ const mapDispatchToProps = dispatch => {
         onQuestionLoad: (questionId) => dispatch(actions.fetchQuestion(questionId)),
         loadArguments: (questionId) => dispatch(actions.fetchArguments(questionId)),
         postArgument: (optionId, body, token, questionId) => dispatch(actions.postArgument(optionId, body, token, questionId)),
-        optionChosen: (optionId, token) => dispatch(actions.postChoice(optionId, token))
+        optionChosen: (optionId, token) => dispatch(actions.postChoice(optionId, token)),
+        optionDelete: (optionId, token) => dispatch(actions.deleteChoice(optionId, token))
     };
 };
 
