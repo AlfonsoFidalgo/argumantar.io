@@ -250,7 +250,7 @@ export const deleteChoice = (optionId, token) => {
         axios.delete(`http://localhost:3001/choice/${optionId}`, headers)
         .then(response => {
             console.log(response.data);
-            //dispatch(deleteChoiceSuccess(response.data));
+            dispatch(deleteChoiceSuccess(response.data));
         })
         .catch(error => {
             dispatch(choiceFail(error));
