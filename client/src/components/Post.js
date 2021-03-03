@@ -89,10 +89,11 @@ const Post = (props) => {
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
                 //initial state: agree was selected
-                props.optionDelete(optionId, props.token);
+                
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
-                //initial state: agree was selected
+                //initial state: disagree was selected
+                props.optionDelete(optionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
             };
         };
