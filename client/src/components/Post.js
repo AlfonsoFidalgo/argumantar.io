@@ -65,35 +65,37 @@ const Post = (props) => {
         setArgumentState(e.target.value);
     };
 
-    const handleChoice = (e, choice, optionId) => {
+    const handleChoice = (e, choice) => {
+        const agreeOptionId = props.activeQuestion[0].agree_option_id;
+        const disagreeOptionId = props.activeQuestion[0].disagree_option_id;
         if (choice === 'agree' && props.token){
             if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
                 //initial state: no choice made (both outlined)
-                props.optionChosen(optionId, props.token);
+                props.optionChosen(agreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
                 //initial state: agree was selected, so we need to unselect it (delete choice)
-                props.optionDelete(optionId, props.token);
+                props.optionDelete(agreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
                 //initial state: disagree was selected, so we need to remove the disagree and add agree
                 //NOT WORKING PROPERLY I think I need a specific action to mind changers due to async comms
-                props.optionDelete(props.activeQuestion[0].disagree_option_id, props.token);
-                props.optionChosen(optionId, props.token);
+ 
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
             }
         } else if (choice === 'disagree' && props.token){
             if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
                 //initial state: no choice made (both outlined)
-                props.optionChosen(optionId, props.token);
+                props.optionChosen(disagreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
-                //initial state: agree was selected
+                //initial state: agree was selected, we need to remove agree and add disagree
+                //NOT WORKING PROPERLY I think I need a specific action to mind changers due to async comms
                 
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
-                //initial state: disagree was selected
-                props.optionDelete(optionId, props.token);
+                //initial state: disagree was selected, remove disagree
+                props.optionDelete(disagreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
             };
         };
