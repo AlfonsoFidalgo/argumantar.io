@@ -44,7 +44,7 @@ const Post = (props) => {
     }, []);
 
     useEffect(() => {
-        if (props.choices && props.activeQuestion && props.choicesLoading){
+        if (props.choices && props.activeQuestion && !props.choicesLoading){
             const userChoices = props.choices.map(choice => choice.option_id);
             if (userChoices.includes(props.activeQuestion[0].agree_option_id)){
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
