@@ -4,7 +4,9 @@ import axios from 'axios';
 // export const DISAGREE = 'DISAGREE';
 // export const REMOVE_AGREE = 'REMOVE_AGREE';
 // export const REMOVE_DISAGREE = 'REMOVE_DISAGREE';
-export const ADD_CHOICE = 'ADD_CHOICE';
+export const CHOICE_START = 'CHOICE_START';
+export const ADD_CHOICE_SUCCESS = 'ADD_CHOICE_SUCCESS';
+export const CHOICE_FAIL = 'CHOICE_FAIL';
 export const SET_CHOICES = 'SET_CHOICES';
 
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
@@ -204,15 +206,31 @@ export const setChoices = (choices) => {
     };
 };
 
-export const addChoice = (choice) => {
+
+//CHOICES
+export const choiceStart = () => {
     return {
-        type: ADD_CHOICE,
-        choice: choice[0]
+        type: CHOICE_START
+    }
+}
+
+export const choiceFail = (error) => {
+    return {
+        type: CHOICE_FAIL,
+        error: error.message
+    }
+}
+
+export const addChoiceSuccess = (choice) => {
+    return {
+        type: ADD_CHOICE_SUCCESS,
+        choice: choice.data[0]
     }
 }
 
 export const postChoice = (optionId, token) => {
     return dispatch => {
+        dispatch(choiceStart());
         let headers = null;
         if (token){
             headers = {
@@ -223,38 +241,10 @@ export const postChoice = (optionId, token) => {
         }
         axios.post(`http://localhost:3001/choice/${optionId}`, null, headers)
         .then(response => {
-            dispatch(addChoice(response.data));
+            dispatch(addChoiceSuccess(response.data));
         })
         .catch(error => {
             console.log('postChoice failed ', error);
         })
     }
 };
-
-// export const agree = (optionId) => {
-//     return {
-//         type: AGREE,
-//         optionId: optionId
-//     }
-// }
-
-// export const disagree = (optionId) => {
-//     return {
-//         type: DISAGREE,
-//         optionId: optionId
-//     }
-// }
-
-// export const removeAgree = (optionId) => {
-//     return {
-//         type: REMOVE_AGREE,
-//         optionId: optionId
-//     }
-// }
-
-// export const removeDisagree = (optionId) => {
-//     return {
-//         type: REMOVE_AGREE,
-//         optionId: optionId
-//     }
-// }
