@@ -44,7 +44,7 @@ const Post = (props) => {
     }, []);
 
     useEffect(() => {
-        if (props.choices && props.activeQuestion){
+        if (props.choices && props.activeQuestion && !props.choicesLoading){
             const userChoices = props.choices.map(choice => choice.option_id);
             if (userChoices.includes(props.activeQuestion[0].agree_option_id)){
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
@@ -52,7 +52,7 @@ const Post = (props) => {
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             }
         }
-    }, [props.activeQuestion, props.choices])
+    }, [props.activeQuestion, props.choices, props.choicesLoading])
 
     const postArgument = () => {
         //5 is the hardcoded optionId
@@ -66,26 +66,36 @@ const Post = (props) => {
     };
 
     const handleChoice = (e, choice) => {
-        if (choice === 'agree'){
+        const agreeOptionId = props.activeQuestion[0].agree_option_id;
+        const disagreeOptionId = props.activeQuestion[0].disagree_option_id;
+        if (choice === 'agree' && props.token){
             if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
                 //initial state: no choice made (both outlined)
+                props.optionChosen(agreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
-                //initial state: agree was selected
+                //initial state: agree was selected, so we need to unselect it (delete choice)
+                props.optionDelete(agreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
-                //initial state: agree was selected
+                //initial state: disagree was selected, so we need to remove the disagree and add agree
+                //NOT WORKING PROPERLY
+                props.optionChange(disagreeOptionId, agreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
             }
-        } else if (choice === 'disagree'){
+        } else if (choice === 'disagree' && props.token){
             if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
                 //initial state: no choice made (both outlined)
+                props.optionChosen(disagreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
-                //initial state: agree was selected
+                //initial state: agree was selected, we need to remove agree and add disagree
+                //NOT WORKING PROPERLY
+                props.optionChange(agreeOptionId, disagreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
-                //initial state: agree was selected
+                //initial state: disagree was selected, remove disagree
+                props.optionDelete(disagreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
             };
         };
@@ -96,7 +106,6 @@ const Post = (props) => {
     if (props.activeQuestion){
         const agreeVotes = parseInt(props.activeQuestion[0].agree_votes);
         const disagreeVotes = parseInt(props.activeQuestion[0].disagree_votes);
-        //condition ? exprIfTrue : exprIfFalse
         const agreeRate = (agreeVotes + disagreeVotes) > 0 ? (agreeVotes / (agreeVotes + disagreeVotes)) : 0;
         const disagreeRate = (agreeVotes + disagreeVotes) > 0 ? (disagreeVotes / (agreeVotes + disagreeVotes)) : 0
         activeQuestion = (
@@ -126,8 +135,8 @@ const Post = (props) => {
                         </Grid>
                         <Grid item xs={6} className={classes.choiceButtons}>
                             <ButtonGroup color="primary" size="small" fullWidth aria-label="outlined secondary button group">
-                                <Button variant={choiceButtonsState.agree} onClick={(e) => handleChoice(e, 'agree')}>Agree</Button>
-                                <Button variant={choiceButtonsState.disagree} onClick={(e) => handleChoice(e, 'disagree')}>Disagree</Button>
+                                <Button variant={choiceButtonsState.agree} onClick={(e) => handleChoice(e, 'agree', props.activeQuestion[0].agree_option_id)}>Agree</Button>
+                                <Button variant={choiceButtonsState.disagree} onClick={(e) => handleChoice(e, 'disagree', props.activeQuestion[0].disagree_option_id)}>Disagree</Button>
                             </ButtonGroup>
                         </Grid>
                         <Grid item xs={12} className={classes.argumentBox}>
@@ -161,7 +170,9 @@ const mapStateToProps = state => {
         activeQuestion: state.questions.activeQuestion,
         arguments: state.arguments.arguments,
         token: state.auth.token,
-        choices: state.choices.choices
+        choices: state.choices.choices,
+        choicesLoading: state.choices.loading,
+        choicesError: state.choices.error
     };
 };
 
@@ -169,7 +180,10 @@ const mapDispatchToProps = dispatch => {
     return {
         onQuestionLoad: (questionId) => dispatch(actions.fetchQuestion(questionId)),
         loadArguments: (questionId) => dispatch(actions.fetchArguments(questionId)),
-        postArgument: (optionId, body, token, questionId) => dispatch(actions.postArgument(optionId, body, token, questionId))
+        postArgument: (optionId, body, token, questionId) => dispatch(actions.postArgument(optionId, body, token, questionId)),
+        optionChosen: (optionId, token) => dispatch(actions.postChoice(optionId, token)),
+        optionDelete: (optionId, token) => dispatch(actions.deleteChoice(optionId, token)),
+        optionChange: (oldOptionId, newOptionId, token) => dispatch(actions.changeChoice(oldOptionId, newOptionId, token))
     };
 };
 

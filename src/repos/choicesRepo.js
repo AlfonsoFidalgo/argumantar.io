@@ -13,7 +13,7 @@ class ChoicesRepo {
     static async postChoice(optionId, userId){
         const query = `
         INSERT INTO choices (option_id, user_id)
-        VALUES ($1, $2);
+        VALUES ($1, $2) RETURNING id, created_at, option_id;
         `;
         const {rows} = await pool.query(query, [optionId, userId]);
         return rows;
@@ -21,7 +21,7 @@ class ChoicesRepo {
 
     static async deleteChoice(choiceId){
         const query = `
-        DELETE FROM choices WHERE id = $1;
+        DELETE FROM choices WHERE id = $1 RETURNING id, created_at, option_id;
         `;
         const {rows} = await pool.query(query, [choiceId]);
         return rows;

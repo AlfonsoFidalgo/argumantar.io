@@ -1,9 +1,13 @@
 import axios from 'axios';
 
-export const AGREE = 'AGREE';
-export const DISAGREE = 'DISAGREE';
-export const REMOVE_AGREE = 'REMOVE_AGREE';
-export const REMOVE_DISAGREE = 'REMOVE_DISAGREE';
+// export const AGREE = 'AGREE';
+// export const DISAGREE = 'DISAGREE';
+// export const REMOVE_AGREE = 'REMOVE_AGREE';
+// export const REMOVE_DISAGREE = 'REMOVE_DISAGREE';
+export const CHOICE_START = 'CHOICE_START';
+export const ADD_CHOICE_SUCCESS = 'ADD_CHOICE_SUCCESS';
+export const DELETE_CHOICE_SUCCESS = 'DELETE_CHOICE_SUCCESS';
+export const CHOICE_FAIL = 'CHOICE_FAIL';
 export const SET_CHOICES = 'SET_CHOICES';
 
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
@@ -203,30 +207,101 @@ export const setChoices = (choices) => {
     };
 };
 
-export const agree = (questionId) => {
+
+//CHOICES
+export const choiceStart = () => {
     return {
-        type: AGREE,
-        questionId: questionId
+        type: CHOICE_START
     }
 }
 
-export const disagree = (questionId) => {
+export const choiceFail = (error) => {
     return {
-        type: DISAGREE,
-        questionId: questionId
+        type: CHOICE_FAIL,
+        error: error.message
     }
 }
 
-export const removeAgree = (questionId) => {
+export const deleteChoiceSuccess = (choice) => {
     return {
-        type: REMOVE_AGREE,
-        questionId: questionId
+        type: DELETE_CHOICE_SUCCESS,
+        choice: choice.data[0]
     }
 }
 
-export const removeDisagree = (questionId) => {
+export const addChoiceSuccess = (choice) => {
     return {
-        type: REMOVE_AGREE,
-        questionId: questionId
+        type: ADD_CHOICE_SUCCESS,
+        choice: choice.data[0]
     }
 }
+
+export const changeChoice = (oldOptionId, newOptionId, token) => {
+    return dispatch => {
+        dispatch(choiceStart());
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
+        axios.delete(`http://localhost:3001/choice/${oldOptionId}`, headers)
+        .then(response => {
+            dispatch(deleteChoiceSuccess(response.data));
+            axios.post(`http://localhost:3001/choice/${newOptionId}`, null, headers)
+            .then(response => {
+                dispatch(addChoiceSuccess(response.data));
+            })
+            .catch(error => {
+                dispatch(choiceFail(error));
+            })
+        })
+        .catch(error => {
+            dispatch(choiceFail(error));
+        })
+    }
+};
+
+export const deleteChoice = (optionId, token) => {
+    return dispatch => {
+        dispatch(choiceStart());
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
+        axios.delete(`http://localhost:3001/choice/${optionId}`, headers)
+        .then(response => {
+            dispatch(deleteChoiceSuccess(response.data));
+        })
+        .catch(error => {
+            dispatch(choiceFail(error));
+        })
+    }
+};
+
+export const postChoice = (optionId, token) => {
+    return dispatch => {
+        dispatch(choiceStart());
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
+        axios.post(`http://localhost:3001/choice/${optionId}`, null, headers)
+        .then(response => {
+            dispatch(addChoiceSuccess(response.data));
+        })
+        .catch(error => {
+            dispatch(choiceFail(error));
+        })
+    }
+};
