@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid } from '@material-ui/core';
 import moment from 'moment';
+import * as actions from '../store/actions';
 
 const useStyles = makeStyles({
     root: {
@@ -120,8 +121,18 @@ const FeedElement = (props) => {
 const mapStateToProps = state => {
     return {
         token: state.auth.token,
-        choices: state.choices.choices
+        choices: state.choices.choices,
+        choicesLoading: state.choices.loading,
+        choicesError: state.choices.error
     };
 };
 
-export default connect(mapStateToProps)(FeedElement);
+const mapDispatchToProps = dispatch => {
+    return {
+        optionChosen: (optionId, token) => dispatch(actions.postChoice(optionId, token)),
+        optionDelete: (optionId, token) => dispatch(actions.deleteChoice(optionId, token)),
+        optionChange: (oldOptionId, newOptionId, token) => dispatch(actions.changeChoice(oldOptionId, newOptionId, token))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FeedElement);
