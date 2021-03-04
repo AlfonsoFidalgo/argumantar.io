@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid } from '@material-ui/core';
 import moment from 'moment';
+import * as actions from '../store/actions';
 
 const useStyles = makeStyles({
     root: {
@@ -27,41 +28,51 @@ const useStyles = makeStyles({
   });
 
 const FeedElement = (props) => {
-    const [choiceButtonsState, setChoiceButtonsState] = useState({agree: 'outlined', disagree: 'outlined'});
     const classes = useStyles();
 
+    const [choiceButtonsState, setChoiceButtonsState] = useState({agree: 'outlined', disagree: 'outlined'});
+    const [chosenOptionId, setChosenOptionIdState] = useState();
+
     useEffect(() => {
-        if (props.choices && props.agreeOptionId && props.disagreeOptionId){
+        if (props.choices && props.agreeOptionId && props.disagreeOptionId && !props.choicesLoading){
             const userChoices = props.choices.map(choice => choice.option_id);
             if (userChoices.includes(props.agreeOptionId)){
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
+                setChosenOptionIdState(props.agreeOptionId);
             } else if (userChoices.includes(props.disagreeOptionId)){
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
+                setChosenOptionIdState(props.disagreeOptionId);
             }
         }
-    }, [props.choices, props.agreeOptionId, props.disagreeOptionId]);
+    }, [props.choices, props.agreeOptionId, props.disagreeOptionId, props.choicesLoading, props.token]);
 
     const handleChoice = (e, choice) => {
-        if (choice === 'agree'){
+        if (choice === 'agree' && props.token){
             if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
                 //initial state: no choice made (both outlined)
+                props.optionChosen(props.agreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
                 //initial state: agree was selected
+                props.optionDelete(props.agreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
                 //initial state: disagree was selected
+                props.optionChange(props.disagreeOptionId, props.agreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
             }
-        } else if (choice === 'disagree'){
+        } else if (choice === 'disagree' && props.token){
             if (choiceButtonsState.agree === 'outlined' && choiceButtonsState.disagree === 'outlined'){
                 //initial state: no choice made (both outlined)
+                props.optionChosen(props.disagreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'contained' &&  choiceButtonsState.disagree === 'outlined'){
                 //initial state: agree was selected
+                props.optionChange(props.agreeOptionId, props.disagreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
                 //initial state: disagree was selected
+                props.optionDelete(props.disagreeOptionId, props.token);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
             };
         };
@@ -120,8 +131,18 @@ const FeedElement = (props) => {
 const mapStateToProps = state => {
     return {
         token: state.auth.token,
-        choices: state.choices.choices
+        choices: state.choices.choices,
+        choicesLoading: state.choices.loading,
+        choicesError: state.choices.error
     };
 };
 
-export default connect(mapStateToProps)(FeedElement);
+const mapDispatchToProps = dispatch => {
+    return {
+        optionChosen: (optionId, token) => dispatch(actions.postChoice(optionId, token)),
+        optionDelete: (optionId, token) => dispatch(actions.deleteChoice(optionId, token)),
+        optionChange: (oldOptionId, newOptionId, token) => dispatch(actions.changeChoice(oldOptionId, newOptionId, token))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FeedElement);
