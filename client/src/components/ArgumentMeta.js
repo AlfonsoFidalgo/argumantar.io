@@ -22,8 +22,8 @@ const ArgumentMeta = (props) => {
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
                 <ButtonGroup size="small" >
-                    <IconButton size='small'><ThumbUp/></IconButton>
-                    <IconButton size='small'><ThumbDown/></IconButton>
+                    <IconButton ><ThumbUp fontSize='small' /> {props.upvotes} </IconButton>
+                    <IconButton ><ThumbDown fontSize='small' /> {props.downvotes} </IconButton>
                 </ButtonGroup>
             </Grid>
         </Grid>
