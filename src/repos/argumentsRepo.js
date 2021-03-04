@@ -20,7 +20,9 @@ class ArgumentsRepo {
             a.id as argument_id,
             a.created_at as argument_date,
             u.username as argument_username,
-            u.display_name as argument_dname
+            u.display_name as argument_dname,
+            (select count(id) from votes where v_type = 'upvote' and argument_id = a.id) as upvotes,
+            (select count(id) from votes where v_type = 'downvote' and argument_id = a.id) as downvotes
         FROM questions q
         JOIN options o ON o.question_id = q.id
         JOIN arguments a ON a.option_id = o.id
