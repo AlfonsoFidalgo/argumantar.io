@@ -1,9 +1,5 @@
 import axios from 'axios';
 
-// export const AGREE = 'AGREE';
-// export const DISAGREE = 'DISAGREE';
-// export const REMOVE_AGREE = 'REMOVE_AGREE';
-// export const REMOVE_DISAGREE = 'REMOVE_DISAGREE';
 export const CHOICE_START = 'CHOICE_START';
 export const ADD_CHOICE_SUCCESS = 'ADD_CHOICE_SUCCESS';
 export const DELETE_CHOICE_SUCCESS = 'DELETE_CHOICE_SUCCESS';
