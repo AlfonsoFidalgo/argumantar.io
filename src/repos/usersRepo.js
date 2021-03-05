@@ -38,6 +38,21 @@ class UserRepo {
         return rows
     }
 
+    static async fetchVotes(userId){
+        const query = `
+        SELECT
+            id,
+            created_at,
+            argument_id,
+            comment_id,
+            v_type
+        FROM votes
+        WHERE user_id = $1;
+        `;
+        const {rows} = await pool.query(query, [userId]);
+        return rows;
+    }
+
     static async findUserByUsername(username){
         const query = `
         SELECT * FROM users WHERE username = $1;
