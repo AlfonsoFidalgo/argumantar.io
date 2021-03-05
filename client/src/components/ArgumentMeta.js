@@ -15,35 +15,51 @@ const useStyles = makeStyles(theme => ({
 
 const ArgumentMeta = (props) => {
     const [argumentVote, setArgumentVote] = useState({upvote: '', downvote: ''});
+    const [numUpvotes, setNumUpvotes] = useState(0);
+    const [numDownvotes, setNumDownvotes] = useState(0);
+
+    useEffect(() => {
+        setNumUpvotes(parseInt(props.upvotes));
+        setNumDownvotes(parseInt(props.downvotes));
+    }, [props.upvotes, props.downvotes]);
 
     useEffect(() => {
         if (props.userVote === 'upvote') {
-            setArgumentVote({upvote: 'primary'});
+            setArgumentVote({upvote: 'primary', downvote: ''});
         } else if (props.userVote === 'downvote') {
-            setArgumentVote({downvote: 'primary'});
+            setArgumentVote({downvote: 'primary', upvote: ''});
         }
     }, [props.userVote]);
 
     const classes = useStyles();
     
     const handleVote = (e, vote) => {
-        if (argumentVote.upvote === 'primary' && vote === 'upvote'){
-            //upvoted the argument and clicked upvote: remove upvote
-            setArgumentVote({upvote: '', downvote: ''});
-        } else if (argumentVote.upvote !== 'primary' && vote === 'upvote'){
-            //didn't upvote the argument and wasnt colored: add upvote
-            setArgumentVote({upvote: 'primary', downvote: ''});
-        } else if (argumentVote.upvote === 'primary' && vote === 'downvote'){
-            //upvote was selected and clicked downvote
-            setArgumentVote({upvote: '', downvote: 'primary'});
-        } else if (argumentVote.downvote !== 'primary' && vote === 'downvote'){
-            //downvote was not selected and clicked downvote
-            setArgumentVote({upvote: '', downvote: 'primary'});
-        } else if (argumentVote.downvote === 'primary' && vote === 'downvote'){
-            //downvote was preselected and clicked: remove downvote
-            setArgumentVote({upvote: '', downvote: ''});
+        if (vote === 'upvote'){
+            if (argumentVote.upvote === 'primary' && argumentVote.downvote === '') {
+                setArgumentVote({upvote: '', downvote: ''});
+                setNumUpvotes(numUpvotes - 1);
+            } else if (argumentVote.upvote === '' && argumentVote.downvote === 'primary'){
+                setArgumentVote({upvote: 'primary', downvote: ''});
+                setNumUpvotes(numUpvotes + 1);
+                setNumDownvotes(numDownvotes - 1);
+            } else if (argumentVote.upvote === '' && argumentVote.downvote === ''){
+                setArgumentVote({upvote: 'primary', downvote: ''});
+                setNumUpvotes(numUpvotes + 1);
+            }
+        } else if (vote === 'downvote'){
+            if (argumentVote.upvote === 'primary' && argumentVote.downvote === '') {
+                setArgumentVote({upvote: '', downvote: 'primary'});
+                setNumUpvotes(numUpvotes - 1);
+                setNumDownvotes(numDownvotes + 1);
+            } else if (argumentVote.upvote === '' && argumentVote.downvote === 'primary'){
+                setArgumentVote({upvote: '', downvote: ''});
+                setNumDownvotes(numDownvotes - 1);
+            } else if (argumentVote.upvote === '' && argumentVote.downvote === ''){
+                setArgumentVote({upvote: '', downvote: 'primary'});
+                setNumDownvotes(numDownvotes + 1);
+            }
         }
-    };
+    }
 
     return(
         <React.Fragment>
@@ -53,8 +69,8 @@ const ArgumentMeta = (props) => {
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
                 <ButtonGroup size="small" >
-                    <IconButton onClick={(e) => handleVote(e, 'upvote')}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {props.upvotes} </IconButton>
-                    <IconButton onClick={(e) => handleVote(e, 'downvote')}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {props.downvotes} </IconButton>
+                    <IconButton onClick={(e) => handleVote(e, 'upvote')}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {numUpvotes} </IconButton>
+                    <IconButton onClick={(e) => handleVote(e, 'downvote')}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
                 </ButtonGroup>
             </Grid>
         </Grid>
