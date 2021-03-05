@@ -14,10 +14,17 @@ const Arguments = (props) => {
         const agreeRawArgs = props.arguments.filter((a) => a.option_body === 'Agree');
         const disAgreeRawArgs = props.arguments.filter((a) => a.option_body === 'Disagree');
         agreeArguments = agreeRawArgs.map(argument => {
+            let userVote = null;
+            props.votes.forEach(vote => {
+                if (vote.argument_id === argument.argument_id){
+                    userVote = vote.v_type
+                }
+            });
             return (
                 <ListItem key={argument.argument_id}>
                     <ListItemText primary={argument.argument_body}
-                        secondary={<ArgumentMeta username={argument.argument_username} date={argument.argument_date} upvotes={argument.upvotes} downvotes={argument.downvotes} />} />
+                        secondary={<ArgumentMeta username={argument.argument_username} date={argument.argument_date} 
+                        upvotes={argument.upvotes} downvotes={argument.downvotes} userVote={userVote} />} />
                 </ListItem>
             )   
         });
@@ -25,10 +32,17 @@ const Arguments = (props) => {
             agreeArguments = <Typography color='textSecondary'>There are no arguments yet.</Typography>
         };
         disagreeArguments = disAgreeRawArgs.map(argument => {
+            let userVote = null;
+            props.votes.forEach(vote => {
+                if (vote.argument_id === argument.argument_id){
+                    userVote = vote.v_type
+                }
+            });
             return (
                 <ListItem key={argument.argument_id}>
                     <ListItemText primary={argument.argument_body}
-                        secondary={<ArgumentMeta username={argument.argument_username} date={argument.argument_date} upvotes={argument.upvotes} downvotes={argument.downvotes} />} />
+                        secondary={<ArgumentMeta username={argument.argument_username} date={argument.argument_date} 
+                        upvotes={argument.upvotes} downvotes={argument.downvotes} userVote={userVote} />} />
                 </ListItem>
             )   
         });
@@ -61,7 +75,8 @@ const Arguments = (props) => {
 
 const mapStateToProps = state => {
     return {
-        arguments: state.arguments.arguments
+        arguments: state.arguments.arguments,
+        votes: state.votes.votes
     };
 };
 

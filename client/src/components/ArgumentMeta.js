@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography, ButtonGroup, IconButton, Divider } from '@material-ui/core';
 import { ThumbUp, ThumbDown } from '@material-ui/icons';
@@ -13,10 +14,35 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ArgumentMeta = (props) => {
-    const classes = useStyles();
+    const [argumentVote, setArgumentVote] = useState({upvote: '', downvote: ''});
 
+    useEffect(() => {
+        if (props.userVote === 'upvote') {
+            setArgumentVote({upvote: 'primary'});
+        } else if (props.userVote === 'downvote') {
+            setArgumentVote({downvote: 'primary'});
+        }
+    }, [props.userVote]);
+
+    const classes = useStyles();
+    
     const handleVote = (e, vote) => {
-        console.log(vote);
+        if (argumentVote.upvote === 'primary' && vote === 'upvote'){
+            //upvoted the argument and clicked upvote: remove upvote
+            setArgumentVote({upvote: '', downvote: ''});
+        } else if (argumentVote.upvote !== 'primary' && vote === 'upvote'){
+            //didn't upvote the argument and wasnt colored: add upvote
+            setArgumentVote({upvote: 'primary', downvote: ''});
+        } else if (argumentVote.upvote === 'primary' && vote === 'downvote'){
+            //upvote was selected and clicked downvote
+            setArgumentVote({upvote: '', downvote: 'primary'});
+        } else if (argumentVote.downvote !== 'primary' && vote === 'downvote'){
+            //downvote was not selected and clicked downvote
+            setArgumentVote({upvote: '', downvote: 'primary'});
+        } else if (argumentVote.downvote === 'primary' && vote === 'downvote'){
+            //downvote was preselected and clicked: remove downvote
+            setArgumentVote({upvote: '', downvote: ''});
+        }
     };
 
     return(
@@ -27,8 +53,8 @@ const ArgumentMeta = (props) => {
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
                 <ButtonGroup size="small" >
-                    <IconButton onClick={(e) => handleVote(e, 'upvote')}><ThumbUp fontSize='small' color='primary'/> {props.upvotes} </IconButton>
-                    <IconButton onClick={(e) => handleVote(e, 'downvote')}><ThumbDown fontSize='small' /> {props.downvotes} </IconButton>
+                    <IconButton onClick={(e) => handleVote(e, 'upvote')}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {props.upvotes} </IconButton>
+                    <IconButton onClick={(e) => handleVote(e, 'downvote')}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {props.downvotes} </IconButton>
                 </ButtonGroup>
             </Grid>
         </Grid>
@@ -37,4 +63,10 @@ const ArgumentMeta = (props) => {
     )
 };
 
-export default ArgumentMeta
+const mapStateToProps = state => {
+    return {
+        votes: state.votes.votes
+    };
+};
+
+export default connect(mapStateToProps)(ArgumentMeta)
