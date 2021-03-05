@@ -117,7 +117,6 @@ export const auth = (email, password) => {
         axios.post('http://localhost:3001/user/login', data)
         .then(response => {
             dispatch(setChoices(response.data.choices));
-            dispatch(setVotes(response.data.votes));
             dispatch(authSuccess(response.data.token, response.data.userId, response.data.username));
         })
         .catch(error => {
@@ -175,11 +174,21 @@ export const setQuestion = (question) => {
     };
 };
 
-export const fetchQuestion = (id) => {
+export const fetchQuestion = (id, token = null) => {
     return dispatch => {
-        axios.get(`http://localhost:3001/question/${id}`)
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
+        axios.get(`http://localhost:3001/question/${id}`, headers)
         .then((response => {
-            dispatch(setQuestion(response.data))
+            console.log(response.data);
+            dispatch(setVotes(response.data.votes));
+            dispatch(setQuestion(response.data.question));
         }));
     };
 };

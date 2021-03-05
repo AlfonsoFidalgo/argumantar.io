@@ -11,7 +11,9 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SET_VOTES:
             return {
                 ...state,
-                votes: action.votes
+                votes: action.votes,
+                loading: false,
+                error: null
             }
         default:
             return state

@@ -40,7 +40,7 @@ const Post = (props) => {
     const [chosenOptionId, setChosenOptionIdState] = useState();
 
     useEffect(() => {
-        props.onQuestionLoad(props.match.params.id);
+        props.onQuestionLoad(props.match.params.id, props.token);
         props.loadArguments(props.match.params.id);
     }, []);
 
@@ -187,7 +187,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onQuestionLoad: (questionId) => dispatch(actions.fetchQuestion(questionId)),
+        onQuestionLoad: (questionId, token) => dispatch(actions.fetchQuestion(questionId, token)),
         loadArguments: (questionId) => dispatch(actions.fetchArguments(questionId)),
         postArgument: (optionId, body, token, questionId) => dispatch(actions.postArgument(optionId, body, token, questionId)),
         optionChosen: (optionId, token) => dispatch(actions.postChoice(optionId, token)),
