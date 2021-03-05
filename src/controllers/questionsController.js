@@ -10,7 +10,14 @@ exports.getQuestions = async (req, res, next) => {
 exports.getQuestionById = async (req, res, next) => {
     const questionId = req.params.id;
     const question = await questionsRepo.getQuestionById(questionId);
-    res.status(200).json(question);
+    let votes = [];
+    if (req.userId) {
+        const votes = await questionsRepo.fetchVotes(req.userId, questionId);
+        res.status(200).json({question: question, votes: votes});
+    } else {
+        res.status(200).json({question: question, votes: votes});
+    }
+    
 };
 
 exports.deleteQuestionById = async (req, res, next) => {

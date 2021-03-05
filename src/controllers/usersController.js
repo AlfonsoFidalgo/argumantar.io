@@ -58,8 +58,8 @@ exports.login = async (req, res, next) => {
                 expiresIn: '1h'
             });
             const choices = await usersRepo.fetchChoices(user[0].id);
-            const votes = await usersRepo.fetchVotes(user[0].id);
-            res.status(200).json({token: token, userId: user[0].id, username: user[0].username, choices: choices, votes: votes });
+            // const votes = await usersRepo.fetchVotes(user[0].id);
+            res.status(200).json({token: token, userId: user[0].id, username: user[0].username, choices: choices });
         }
         
     } else {

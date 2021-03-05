@@ -165,6 +165,25 @@ class QuestionRepo {
         const { rows } = await pool.query(query, [id]);
         return rows;
     }
+
+    static async fetchVotes(userId, questionId){
+        const query = `
+        SELECT
+            v.id,
+            v.created_at,
+            v.argument_id,
+            v.comment_id,
+            v.v_type,
+            o.question_id
+        FROM votes v
+        JOIN arguments a ON a.id = v.argument_id
+        JOIN options o ON o.id = a.option_id
+        WHERE v.user_id = $1
+        AND o.question_id = $2;
+        `;
+        const {rows} = await pool.query(query, [userId, questionId]);
+        return rows;
+    }
 };
 
 module.exports = QuestionRepo;

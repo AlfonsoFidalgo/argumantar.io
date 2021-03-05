@@ -1,7 +1,8 @@
 const express = require('express');
-const {body} = require('express-validator');
+const {body, check} = require('express-validator');
 const questionsController = require('../controllers/questionsController');
 const isAuth = require('../middleware/is-auth');
+const checkAuth = require('../middleware/check-auth');
 const router = express.Router();
 
 
@@ -11,7 +12,7 @@ router.post('/question/post', isAuth,
     [ body('title').trim().isLength({min: 1}), body('body').trim().isLength({min: 1})], 
     questionsController.postQuestion);
 
-router.get('/question/:id', questionsController.getQuestionById);
+router.get('/question/:id', checkAuth, questionsController.getQuestionById);
 
 router.put('/question/update/:id', isAuth,
     [ body('title').trim().isLength({min: 1}), body('body').trim().isLength({min: 1})],
