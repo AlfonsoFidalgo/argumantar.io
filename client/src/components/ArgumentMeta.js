@@ -14,6 +14,11 @@ const useStyles = makeStyles(theme => ({
 
 const ArgumentMeta = (props) => {
     const classes = useStyles();
+
+    const handleVote = (e, vote) => {
+        console.log(vote);
+    };
+
     return(
         <React.Fragment>
         <Grid container>
@@ -22,8 +27,8 @@ const ArgumentMeta = (props) => {
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
                 <ButtonGroup size="small" >
-                    <IconButton ><ThumbUp fontSize='small' /> {props.upvotes} </IconButton>
-                    <IconButton ><ThumbDown fontSize='small' /> {props.downvotes} </IconButton>
+                    <IconButton onClick={(e) => handleVote(e, 'upvote')}><ThumbUp fontSize='small' color='primary'/> {props.upvotes} </IconButton>
+                    <IconButton onClick={(e) => handleVote(e, 'downvote')}><ThumbDown fontSize='small' /> {props.downvotes} </IconButton>
                 </ButtonGroup>
             </Grid>
         </Grid>

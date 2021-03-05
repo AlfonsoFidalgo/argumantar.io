@@ -6,6 +6,12 @@ export const DELETE_CHOICE_SUCCESS = 'DELETE_CHOICE_SUCCESS';
 export const CHOICE_FAIL = 'CHOICE_FAIL';
 export const SET_CHOICES = 'SET_CHOICES';
 
+export const  VOTE_START = 'VOTE_START';
+export const ADD_VOTE_SUCCESS = 'ADD_VOTE_SUCCESS';
+export const DELETE_VOTE_SUCCESS = 'DELETE_VOTE_SUCCESS';
+export const  VOTE_FAIL = 'VOTE_FAIL';
+export const SET_VOTES = 'SET_VOTES';
+
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
 export const FETCH_QUESTION = 'FETCH_QUESTION';
 
@@ -111,6 +117,7 @@ export const auth = (email, password) => {
         axios.post('http://localhost:3001/user/login', data)
         .then(response => {
             dispatch(setChoices(response.data.choices));
+            dispatch(setVotes(response.data.votes));
             dispatch(authSuccess(response.data.token, response.data.userId, response.data.username));
         })
         .catch(error => {
@@ -300,4 +307,37 @@ export const postChoice = (optionId, token) => {
             dispatch(choiceFail(error));
         })
     }
+};
+
+
+//ARGUMENT VOTES
+// export const  VOTE_START = 'VOTE_START';
+// export const ADD_VOTE_SUCCESS = 'ADD_VOTE_SUCCESS';
+// export const DELETE_VOTE_SUCCESS = 'DELETE_VOTE_SUCCESS';
+// export const  VOTE_FAIL = 'VOTE_FAIL';
+
+export const voteStart = () => {
+    return {
+        type: VOTE_START
+    }
+}
+
+export const addVoteSuccess = () => {
+    return {
+        type: ADD_VOTE_SUCCESS
+    }
+}
+
+export const voteFail = (error) => {
+    return {
+        type: VOTE_FAIL,
+        error: error.message
+    }
+}
+
+export const setVotes = (votes) => {
+    return {
+        type: SET_VOTES,
+        votes: votes
+    };
 };

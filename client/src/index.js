@@ -8,6 +8,7 @@ import questionsReducer from './store/reducers/questionsReducer';
 import authReducer from './store/reducers/authReducer';
 import argumentsReducer from './store/reducers/argumentsReducer';
 import choicesReducer from './store/reducers/choicesReducer';
+import votesReducer from './store/reducers/votesReducer';
 
 
 //middleware
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
     questions: questionsReducer,
     auth: authReducer,
     arguments: argumentsReducer,
-    choices: choicesReducer
+    choices: choicesReducer,
+    votes: votesReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(logger, thunk));
