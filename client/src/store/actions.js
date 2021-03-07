@@ -6,6 +6,12 @@ export const DELETE_CHOICE_SUCCESS = 'DELETE_CHOICE_SUCCESS';
 export const CHOICE_FAIL = 'CHOICE_FAIL';
 export const SET_CHOICES = 'SET_CHOICES';
 
+export const  VOTE_START = 'VOTE_START';
+export const ADD_VOTE_SUCCESS = 'ADD_VOTE_SUCCESS';
+export const DELETE_VOTE_SUCCESS = 'DELETE_VOTE_SUCCESS';
+export const  VOTE_FAIL = 'VOTE_FAIL';
+export const SET_VOTES = 'SET_VOTES';
+
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
 export const FETCH_QUESTION = 'FETCH_QUESTION';
 
@@ -168,11 +174,21 @@ export const setQuestion = (question) => {
     };
 };
 
-export const fetchQuestion = (id) => {
+export const fetchQuestion = (id, token = null) => {
     return dispatch => {
-        axios.get(`http://localhost:3001/question/${id}`)
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
+        axios.get(`http://localhost:3001/question/${id}`, headers)
         .then((response => {
-            dispatch(setQuestion(response.data))
+            console.log(response.data);
+            dispatch(setVotes(response.data.votes));
+            dispatch(setQuestion(response.data.question));
         }));
     };
 };
@@ -298,6 +314,92 @@ export const postChoice = (optionId, token) => {
         })
         .catch(error => {
             dispatch(choiceFail(error));
+        })
+    }
+};
+
+
+//ARGUMENT VOTES
+// export const  VOTE_START = 'VOTE_START';
+// export const ADD_VOTE_SUCCESS = 'ADD_VOTE_SUCCESS';
+// export const DELETE_VOTE_SUCCESS = 'DELETE_VOTE_SUCCESS';
+// export const  VOTE_FAIL = 'VOTE_FAIL';
+
+export const voteStart = () => {
+    return {
+        type: VOTE_START
+    }
+}
+
+export const addVoteSuccess = () => {
+    return {
+        type: ADD_VOTE_SUCCESS
+        //vote: vote
+    }
+}
+
+export const deleteVoteSuccess = () => {
+    return {
+        type: DELETE_VOTE_SUCCESS
+        //vote: vote
+    }
+}
+
+export const voteFail = (error) => {
+    return {
+        type: VOTE_FAIL,
+        error: error.message
+    }
+}
+
+export const setVotes = (votes) => {
+    return {
+        type: SET_VOTES,
+        votes: votes
+    };
+};
+
+export const postVote = (argumentId, token, voteType) => {
+    return dispatch => {
+        dispatch(voteStart());
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
+        const body = {
+            type: `${voteType}`
+        };
+        axios.post(`http://localhost:3001/vote/argument/${argumentId}`, body, headers)
+        .then(response => {
+            dispatch(addVoteSuccess(response.data));
+        })
+        .catch(error => {
+            dispatch(voteFail(error));
+        })
+    }
+};
+
+export const deleteVote = (argumentId, token) => {
+    return dispatch => {
+        dispatch(voteStart());
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
+        axios.delete(`http://localhost:3001/vote/argument/${argumentId}`, headers)
+        .then(response => {
+            dispatch(deleteVoteSuccess(response.data));
+        })
+        .catch(error => {
+            dispatch(voteFail(error));
         })
     }
 };
