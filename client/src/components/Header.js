@@ -1,6 +1,7 @@
 import { AppBar, Toolbar, Typography, useScrollTrigger, Tabs, Tab, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 
@@ -40,7 +41,7 @@ const usedStyles = makeStyles(theme => ({
     }
 }));
 
-const Header = () => {
+const Header = (props) => {
     const classes = usedStyles();
     const [value, setValue] = useState(0);
 
@@ -58,6 +59,16 @@ const Header = () => {
         }
     }, [value]);
 
+    let profileLink = (
+        <Tab component={Link} to='/login' label="Log In" />
+    );
+
+    if (props.isAuth) {
+        profileLink = (
+            <Tab component={Link} to='/logout' label={`Log Out (${props.username})`} />
+        )
+    }
+
     return (
         <React.Fragment>
             <ElevationScroll>
@@ -69,7 +80,7 @@ const Header = () => {
                         <Tabs value={value} onChange={handleChange} className={classes.tabContainer} classes={{indicator: classes.styledIndicator}} >
                             <Tab component={Link} to='/' label="Home" />
                             <Tab component={Link} to='/newpost' label="New Post" />
-                            <Tab component={Link} to='/login' label="Log In" />
+                            {profileLink}
                         </Tabs>
                     </Toolbar>
                 </AppBar>
@@ -79,4 +90,11 @@ const Header = () => {
     )
 };
 
-export default Header;
+const mapStateToProps = state => {
+    return {
+        isAuth: state.auth.token !== null,
+        username: state.auth.username
+    };
+};
+
+export default connect(mapStateToProps)(Header);
