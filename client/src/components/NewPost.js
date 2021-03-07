@@ -86,6 +86,7 @@ const NewPost = (props) => {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        disabled={props.token === null}
                     >
                     Publish
                     </Button>
