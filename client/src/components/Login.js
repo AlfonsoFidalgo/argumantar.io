@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Grid, TextField, Typography, Button, Avatar, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -113,6 +114,10 @@ const Login = (props) => {
         loginForm = <Spinner />
     };
 
+    if (props.token){
+        return  <Redirect to='/' />
+    };
+
     return (
         (
         <Container component="main" maxWidth="xs">
@@ -147,7 +152,8 @@ const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
         error: state.auth.error,
-        choices: state.choices.choices
+        choices: state.choices.choices,
+        token: state.auth.token
     }
 };
 
