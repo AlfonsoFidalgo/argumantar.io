@@ -27,6 +27,7 @@ export const POST_ARGUMENT_FAIL = 'POST_ARGUMENT_FAIL';
 export const AUTH_START = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAIL = 'AUTH_FAIL';
+export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
 //FETCHING ARGUMENTS
 export const setArguments = (args) => {
@@ -91,6 +92,21 @@ export const authStart = () => {
     };
 };
 
+export const logout = () => {
+    return {
+        type: AUTH_LOGOUT
+    }
+}
+
+export const checkAuthTimeout = (expirationTime) => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(logout());
+            dispatch(setChoices([]));
+        }, expirationTime)
+    };
+};
+
 export const authSuccess = (token, userId, username) => {
     return {
         type: AUTH_SUCCESS,
@@ -118,6 +134,7 @@ export const auth = (email, password) => {
         .then(response => {
             dispatch(setChoices(response.data.choices));
             dispatch(authSuccess(response.data.token, response.data.userId, response.data.username));
+            dispatch(checkAuthTimeout(3600000));
         })
         .catch(error => {
             dispatch(authFail(error.response.data));
