@@ -15,6 +15,25 @@ const reducer = (state = initialState, action) => {
                 loading: false,
                 error: null
             }
+        case actionTypes.VOTE_START:
+            return {
+                ...state,
+                error: false,
+                loading: true
+            }
+        case actionTypes.ADD_VOTE_SUCCESS:
+            return {
+                ...state,
+                error: false,
+                loading: false,
+                votes: state.votes.concat(action.vote)
+            }
+        case actionTypes.VOTE_FAIL:
+            return {
+                ...state,
+                error: action.error,
+                loading: false
+            }
         default:
             return state
     }

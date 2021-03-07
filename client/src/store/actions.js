@@ -331,9 +331,10 @@ export const voteStart = () => {
     }
 }
 
-export const addVoteSuccess = () => {
+export const addVoteSuccess = (vote) => {
     return {
-        type: ADD_VOTE_SUCCESS
+        type: ADD_VOTE_SUCCESS,
+        vote: vote
     }
 }
 
@@ -349,4 +350,28 @@ export const setVotes = (votes) => {
         type: SET_VOTES,
         votes: votes
     };
+};
+
+export const postVote = (argumentId, token, voteType) => {
+    return dispatch => {
+        dispatch(voteStart());
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
+        const body = {
+            type: `${voteType}`
+        };
+        axios.post(`http://localhost:3001/vote/${argumentId}`, body, headers)
+        .then(response => {
+            dispatch(addVoteSuccess(response.data));
+        })
+        .catch(error => {
+            dispatch(voteFail(error));
+        })
+    }
 };

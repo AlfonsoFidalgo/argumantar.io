@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography, ButtonGroup, IconButton, Divider } from '@material-ui/core';
 import { ThumbUp, ThumbDown } from '@material-ui/icons';
 import moment from 'moment'
+import * as actions from '../store/actions';
 
 const useStyles = makeStyles(theme => ({
       choiceButtons: {
@@ -83,6 +84,12 @@ const mapStateToProps = state => {
     return {
         votes: state.votes.votes
     };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        voteArgument: (argumentId, token, voteType) => dispatch(actions.postVote(argumentId, token, voteType))
+    }
 };
 
 export default connect(mapStateToProps)(ArgumentMeta)
