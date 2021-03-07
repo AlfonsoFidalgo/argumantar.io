@@ -7,6 +7,7 @@ const Logout = (props) => {
 
     useEffect(() => {
         props.onLogout();
+        props.wipeChoices();
     });
 
     return (
@@ -16,7 +17,8 @@ const Logout = (props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLogout: () => dispatch(actions.logout())
+        onLogout: () => dispatch(actions.logout()),
+        wipeChoices: () => dispatch(actions.setChoices([]))
     };
 }
 
