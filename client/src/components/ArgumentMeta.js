@@ -35,7 +35,7 @@ const ArgumentMeta = (props) => {
     const classes = useStyles();
     
     const handleVote = (e, vote) => {
-        if (vote === 'upvote'){
+        if (vote === 'upvote' && props.token){
             if (argumentVote.upvote === 'primary' && argumentVote.downvote === '') {
                 setArgumentVote({upvote: '', downvote: ''});
                 setNumUpvotes(numUpvotes - 1);
@@ -44,10 +44,12 @@ const ArgumentMeta = (props) => {
                 setNumUpvotes(numUpvotes + 1);
                 setNumDownvotes(numDownvotes - 1);
             } else if (argumentVote.upvote === '' && argumentVote.downvote === ''){
+                //no upvote or downvote yet
+                props.voteArgument(props.argumentId, props.token, vote);
                 setArgumentVote({upvote: 'primary', downvote: ''});
                 setNumUpvotes(numUpvotes + 1);
             }
-        } else if (vote === 'downvote'){
+        } else if (vote === 'downvote' && props.token){
             if (argumentVote.upvote === 'primary' && argumentVote.downvote === '') {
                 setArgumentVote({upvote: '', downvote: 'primary'});
                 setNumUpvotes(numUpvotes - 1);
@@ -82,7 +84,8 @@ const ArgumentMeta = (props) => {
 
 const mapStateToProps = state => {
     return {
-        votes: state.votes.votes
+        votes: state.votes.votes,
+        token: state.auth.token
     };
 };
 
@@ -92,4 +95,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps)(ArgumentMeta)
+export default connect(mapStateToProps, mapDispatchToProps)(ArgumentMeta)
