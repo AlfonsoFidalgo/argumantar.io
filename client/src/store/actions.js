@@ -331,10 +331,17 @@ export const voteStart = () => {
     }
 }
 
-export const addVoteSuccess = (vote) => {
+export const addVoteSuccess = () => {
     return {
-        type: ADD_VOTE_SUCCESS,
-        vote: vote
+        type: ADD_VOTE_SUCCESS
+        //vote: vote
+    }
+}
+
+export const deleteVoteSuccess = () => {
+    return {
+        type: DELETE_VOTE_SUCCESS
+        //vote: vote
     }
 }
 
@@ -366,9 +373,30 @@ export const postVote = (argumentId, token, voteType) => {
         const body = {
             type: `${voteType}`
         };
-        axios.post(`http://localhost:3001/vote/${argumentId}`, body, headers)
+        axios.post(`http://localhost:3001/vote/argument/${argumentId}`, body, headers)
         .then(response => {
             dispatch(addVoteSuccess(response.data));
+        })
+        .catch(error => {
+            dispatch(voteFail(error));
+        })
+    }
+};
+
+export const deleteVote = (argumentId, token) => {
+    return dispatch => {
+        dispatch(voteStart());
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        }
+        axios.delete(`http://localhost:3001/vote/argument/${argumentId}`, headers)
+        .then(response => {
+            dispatch(deleteVoteSuccess(response.data));
         })
         .catch(error => {
             dispatch(voteFail(error));

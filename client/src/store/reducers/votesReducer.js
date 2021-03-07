@@ -25,8 +25,14 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: false,
-                loading: false,
-                votes: state.votes.concat(action.vote)
+                loading: false
+                //votes: state.votes.concat(action.vote)
+            }
+        case actionTypes.DELETE_VOTE_SUCCESS:
+            return {
+                ...state,
+                error: false,
+                loading: false
             }
         case actionTypes.VOTE_FAIL:
             return {

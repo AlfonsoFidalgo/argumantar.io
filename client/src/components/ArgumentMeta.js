@@ -37,9 +37,13 @@ const ArgumentMeta = (props) => {
     const handleVote = (e, vote) => {
         if (vote === 'upvote' && props.token){
             if (argumentVote.upvote === 'primary' && argumentVote.downvote === '') {
+                //upvote was previously clicked, so we have to delete it
+                props.removeVote(props.argumentId, props.token);
                 setArgumentVote({upvote: '', downvote: ''});
                 setNumUpvotes(numUpvotes - 1);
             } else if (argumentVote.upvote === '' && argumentVote.downvote === 'primary'){
+                //downvote previously selected
+                props.voteArgument(props.argumentId, props.token, vote);
                 setArgumentVote({upvote: 'primary', downvote: ''});
                 setNumUpvotes(numUpvotes + 1);
                 setNumDownvotes(numDownvotes - 1);
@@ -51,13 +55,19 @@ const ArgumentMeta = (props) => {
             }
         } else if (vote === 'downvote' && props.token){
             if (argumentVote.upvote === 'primary' && argumentVote.downvote === '') {
+                //upvote previously selected
+                props.voteArgument(props.argumentId, props.token, vote);
                 setArgumentVote({upvote: '', downvote: 'primary'});
                 setNumUpvotes(numUpvotes - 1);
                 setNumDownvotes(numDownvotes + 1);
             } else if (argumentVote.upvote === '' && argumentVote.downvote === 'primary'){
+                //downvote was previously clicked, so we have to delete it
+                props.removeVote(props.argumentId, props.token);
                 setArgumentVote({upvote: '', downvote: ''});
                 setNumDownvotes(numDownvotes - 1);
             } else if (argumentVote.upvote === '' && argumentVote.downvote === ''){
+                //no upvote or downvote yet
+                props.voteArgument(props.argumentId, props.token, vote);
                 setArgumentVote({upvote: '', downvote: 'primary'});
                 setNumDownvotes(numDownvotes + 1);
             }
@@ -91,7 +101,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        voteArgument: (argumentId, token, voteType) => dispatch(actions.postVote(argumentId, token, voteType))
+        voteArgument: (argumentId, token, voteType) => dispatch(actions.postVote(argumentId, token, voteType)),
+        removeVote: (argumentId, token) => dispatch(actions.deleteVote(argumentId, token))
     }
 };
 
