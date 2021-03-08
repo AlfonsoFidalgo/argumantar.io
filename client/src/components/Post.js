@@ -131,7 +131,7 @@ const Post = (props) => {
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
                         {props.activeQuestion[0].num_arguments} arguments <br/>
-                        {agreeRate * 100}% agree {disagreeRate * 100}% disagree
+                        {(agreeRate * 100).toFixed(2)}% agree {(disagreeRate * 100).toFixed(2)}% disagree
                     </Typography>
                 </CardContent>
                 <CardActions>
