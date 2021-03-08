@@ -13,6 +13,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 questions: action.questions,
+                error: null,
                 activeQuestion: null
             }
         case actionTypes.FETCH_QUESTION:
@@ -31,6 +32,13 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 error: action.error,
                 loading: false
+            }
+        case actionTypes.UPDATE_QUESTIONS:
+            return {
+                ...state,
+                error: null,
+                loading: false,
+                questions: action.questions
             }
         // case actionTypes.POST_QUESTION_SUCCESS:
         //     return {
