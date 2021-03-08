@@ -14,6 +14,7 @@ export const SET_VOTES = 'SET_VOTES';
 
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
 export const FETCH_QUESTION = 'FETCH_QUESTION';
+export const UPDATE_QUESTIONS = 'UPDATE_QUESTIONS';
 
 export const POST_QUESTION_START = 'POST_QUESTION_START';
 export const POST_QUESTION_FAIL = 'POST_QUESTION_FAIL';
@@ -188,6 +189,24 @@ export const setQuestion = (question) => {
     return {
         type: FETCH_QUESTION,
         question: question
+    };
+};
+
+export const updateQuestions = (questions, questionId, updatedValues) => {
+    const qs = questions.map((q) => {
+        if (questionId !== q.question_id){
+            return q
+        }
+
+        return {
+            ...q,
+            ...updatedValues
+        }
+    })
+
+    return {
+        type: UPDATE_QUESTIONS,
+        questions: qs
     };
 };
 

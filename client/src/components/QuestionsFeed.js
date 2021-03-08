@@ -33,6 +33,8 @@ class QuestionsFeed extends Component {
                             questionTitle={question.question_title}
                             questionBody={question.question_body}
                             numArguments={question.num_arguments}
+                            agreeVotes={question.agree_votes}
+                            disagreeVotes={question.disagree_votes}
                             agreeRate={agreeRate}
                             disagreeRate={disagreeRate}
                             agreeOptionId={question.agree_option_id}
