@@ -154,8 +154,8 @@ const Post = (props) => {
                         </Grid>
                         <Grid item xs={6} className={classes.choiceButtons}>
                             <ButtonGroup color="primary" size="small" fullWidth aria-label="outlined secondary button group">
-                                <Button variant={choiceButtonsState.agree} onClick={(e) => handleChoice(e, 'agree', props.activeQuestion[0].agree_option_id)}>Agree</Button>
-                                <Button variant={choiceButtonsState.disagree} onClick={(e) => handleChoice(e, 'disagree', props.activeQuestion[0].disagree_option_id)}>Disagree</Button>
+                                <Button variant={choiceButtonsState.agree} disabled={props.token === null} onClick={(e) => handleChoice(e, 'agree', props.activeQuestion[0].agree_option_id)}>Agree</Button>
+                                <Button variant={choiceButtonsState.disagree} disabled={props.token === null} onClick={(e) => handleChoice(e, 'disagree', props.activeQuestion[0].disagree_option_id)}>Disagree</Button>
                             </ButtonGroup>
                         </Grid>
                         <Grid item xs={12} className={classes.argumentBox}>
