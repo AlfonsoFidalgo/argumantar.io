@@ -38,6 +38,7 @@ const Post = (props) => {
     const [argumentState, setArgumentState] = useState();
     const [choiceButtonsState, setChoiceButtonsState] = useState({agree: 'outlined', disagree: 'outlined'});
     const [chosenOptionId, setChosenOptionIdState] = useState();
+    const [canPostArgument, setCanPostArgument] = useState(false);
 
     useEffect(() => {
         props.onQuestionLoad(props.match.params.id, props.token);
@@ -50,9 +51,11 @@ const Post = (props) => {
             if (userChoices.includes(props.activeQuestion[0].agree_option_id)){
                 setChoiceButtonsState({agree: 'contained', disagree: 'outlined'});
                 setChosenOptionIdState(props.activeQuestion[0].agree_option_id);
+                setCanPostArgument(true);
             } else if (userChoices.includes(props.activeQuestion[0].disagree_option_id)){
                 setChoiceButtonsState({agree: 'outlined', disagree: 'contained'});
                 setChosenOptionIdState(props.activeQuestion[0].disagree_option_id);
+                setCanPostArgument(true);
             }
         }
     }, [props.activeQuestion, props.choices, props.choicesLoading, chosenOptionId])
@@ -86,6 +89,7 @@ const Post = (props) => {
                 props.updateQuestion([{...props.activeQuestion[0], agree_votes: parseInt(props.activeQuestion[0].agree_votes) - 1}]);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
                 setChosenOptionIdState(null);
+                setCanPostArgument(false);
             } else if (choiceButtonsState.agree === 'outlined' &&  choiceButtonsState.disagree === 'contained'){
                 //initial state: disagree was selected, so we need to remove the disagree and add agree
                 props.optionChange(disagreeOptionId, agreeOptionId, props.token);
@@ -116,6 +120,7 @@ const Post = (props) => {
                 props.updateQuestion([{...props.activeQuestion[0], disagree_votes: parseInt(props.activeQuestion[0].disagree_votes) - 1}]);
                 setChoiceButtonsState({agree: 'outlined', disagree: 'outlined'});
                 setChosenOptionIdState(null);
+                setCanPostArgument(false);
             };
         };
     };
@@ -171,7 +176,7 @@ const Post = (props) => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button color="primary" variant="contained" fullWidth onClick={postArgument}>Send</Button>
+                            <Button color="primary" variant="contained" fullWidth disabled={!canPostArgument} onClick={postArgument}>Send</Button>
                         </Grid>
                     </Grid>
                 </CardActions>
