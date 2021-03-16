@@ -18,11 +18,29 @@ const ArgumentMeta = (props) => {
     const [argumentVote, setArgumentVote] = useState({upvote: '', downvote: ''});
     const [numUpvotes, setNumUpvotes] = useState(0);
     const [numDownvotes, setNumDownvotes] = useState(0);
+    const [canVoteArgument, setCanVoteArgument] = useState(false);
 
     useEffect(() => {
         setNumUpvotes(parseInt(props.upvotes));
         setNumDownvotes(parseInt(props.downvotes));
     }, [props.upvotes, props.downvotes]);
+
+    useEffect(() => {
+        if (props.token && props.activeQuestion && props.choices){
+            const userChoices = props.choices.map(choice => choice.option_id);
+            if (userChoices.includes(props.activeQuestion[0].agree_option_id)){
+                //user has agreed
+                if (props.argumentType === 'agree'){
+                    setCanVoteArgument(true);
+                }
+            } else if (userChoices.includes(props.activeQuestion[0].disagree_option_id)){
+                //user has disagreed
+                if (props.argumentType === 'disagree'){
+                    setCanVoteArgument(true);
+                }
+            }
+        }
+    }, [props.token, props.activeQuestion, props.choices, props.argumentType]);
 
     useEffect(() => {
         if (props.userVote === 'upvote') {
@@ -81,7 +99,7 @@ const ArgumentMeta = (props) => {
                 <Typography color="textSecondary" variant="body2">{props.username} - {moment(props.date).format('Do MMM YY')}</Typography>
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
-                <ButtonGroup size="small" >
+                <ButtonGroup size="small" disabled={!canVoteArgument} >
                     <IconButton onClick={(e) => handleVote(e, 'upvote')}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {numUpvotes} </IconButton>
                     <IconButton onClick={(e) => handleVote(e, 'downvote')}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
                 </ButtonGroup>
@@ -95,7 +113,9 @@ const ArgumentMeta = (props) => {
 const mapStateToProps = state => {
     return {
         votes: state.votes.votes,
-        token: state.auth.token
+        token: state.auth.token,
+        choices: state.choices.choices,
+        activeQuestion: state.questions.activeQuestion
     };
 };
 
