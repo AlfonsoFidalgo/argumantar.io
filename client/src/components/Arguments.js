@@ -24,7 +24,7 @@ const Arguments = (props) => {
                 <ListItem key={argument.argument_id}>
                     <ListItemText primary={argument.argument_body}
                         secondary={<ArgumentMeta username={argument.argument_username} date={argument.argument_date} 
-                                    upvotes={argument.upvotes} downvotes={argument.downvotes} userVote={userVote} argumentId={argument.argument_id}/>} />
+                                    upvotes={argument.upvotes} downvotes={argument.downvotes} userVote={userVote} argumentId={argument.argument_id} argumentType='agree'/>} />
                 </ListItem>
             )   
         });
@@ -42,7 +42,7 @@ const Arguments = (props) => {
                 <ListItem key={argument.argument_id}>
                     <ListItemText primary={argument.argument_body}
                         secondary={<ArgumentMeta username={argument.argument_username} date={argument.argument_date} 
-                                    upvotes={argument.upvotes} downvotes={argument.downvotes} userVote={userVote} argumentId={argument.argument_id} />} />
+                                    upvotes={argument.upvotes} downvotes={argument.downvotes} userVote={userVote} argumentId={argument.argument_id} argumentType='disagree' />} />
                 </ListItem>
             )   
         });
