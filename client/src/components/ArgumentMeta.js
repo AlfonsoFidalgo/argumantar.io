@@ -32,12 +32,18 @@ const ArgumentMeta = (props) => {
                 //user has agreed
                 if (props.argumentType === 'agree'){
                     setCanVoteArgument(true);
+                } else {
+                    setCanVoteArgument(false);
                 }
             } else if (userChoices.includes(props.activeQuestion[0].disagree_option_id)){
                 //user has disagreed
                 if (props.argumentType === 'disagree'){
                     setCanVoteArgument(true);
+                } else {
+                    setCanVoteArgument(false);
                 }
+            } else {
+                setCanVoteArgument(false);
             }
         }
     }, [props.token, props.activeQuestion, props.choices, props.argumentType]);
