@@ -64,6 +64,28 @@ class VotesRepo {
         return rowCount;
     }
 
+    static async deleteVoteAfterOptionChange(userId, questionId, optionBody){
+        const query = `
+        DELETE 
+        FROM votes
+        WHERE user_id = $1
+        AND argument_id IN (
+            SELECT 
+                id
+            FROM arguments
+            WHERE option_id = (
+                SELECT
+                    id
+                FROM options
+                WHERE question_id = $2
+                and body = $3
+            )
+        );
+        `;
+        const { rows } = await pool.query(query, [userId, questionId, optionBody]);
+        return rows;
+    }
+
     static async deleteCommentVote(userId, commentId){
         const query = `
         DELETE FROM votes
