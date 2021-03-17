@@ -1,6 +1,7 @@
 const optionsRepo = require('../repos/optionsRepo');
 const choicesRepo = require('../repos/choicesRepo');
 const argumentsRepo = require('../repos/argumentsRepo');
+const votesRepo = require('../repos/votesRepo');
 
 exports.postChoice = async (req, res, next) => {
     const optionId = req.params.optionId;
@@ -42,6 +43,10 @@ exports.deleteChoiceByOptionId = async (req, res, next) => {
     //should also delete any argument associated with the user_id / option_id combination (if any)
     //find arguments where option_id = choice.option_id and user_id = req.userId
     await argumentsRepo.deleteArgumentAfterChoice(optionId, req.userId);
+    
+    //should also delete votes of the option the user previously chose
+    await votesRepo.deleteVoteAfterOptionChange(req.userId, option[0].question_id, option[0].body);
+
     return res.status(201).json({message: `Choice deleted successfully.`, data: deletedChoice});
 };
 
