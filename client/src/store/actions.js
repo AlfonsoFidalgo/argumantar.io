@@ -124,6 +124,26 @@ export const authFail = (error) => {
     };
 };
 
+export const signup = (email, username, displayName, password) => {
+    return dispatch => {
+        dispatch(authStart());
+        const data = {
+            email,
+            username,
+            displayName,
+            password
+        };
+        axios.post('http://localhost:3001/user/signup', data)
+        .then(response => {
+            dispatch(setChoices([]));
+            dispatch(authSuccess(response.data.token, response.data.userId, response.data.username));
+            dispatch(checkAuthTimeout(3600000));
+        })
+        .catch(error => {
+            dispatch(authFail(error.response.data))
+        })
+    }
+};
 
 export const auth = (email, password) => {
     return dispatch => {
