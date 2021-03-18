@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import {Avatar, Button, TextField, Grid, makeStyles, Container, Typography} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import Spinner from './Spinner';
+import * as actions from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -27,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Signup(props) {  
+const Signup = (props) => {  
   const [emailState, setEmailState] = useState('');
   const [passwordState, setPasswordState] = useState('');
   const [usernameState, setUsernameState] = useState('');
@@ -51,9 +54,7 @@ export default function Signup(props) {
                   displayName: displayNameState,
                   password: passwordState
               };
-              axios.post('http://localhost:3001/user/signup', data)
-              .then(response => console.log(response.data))
-              .catch(err => console.log(err.response.data))
+              props.onSignup(data.email, data.username, data.displayName, data.password);
           } else {
               console.log('Please, provide a longer password (min. 8 characters)');
           }
@@ -62,15 +63,7 @@ export default function Signup(props) {
       }
   };
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
+  let signupForm = (
         <form className={classes.form} onSubmit={signupHandler} >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -157,7 +150,44 @@ export default function Signup(props) {
             </Grid>
           </Grid>
         </form>
+  );
+
+  if (props.loading) {
+    signupForm = <Spinner />
+  };
+
+  if (props.token){
+    return  <Redirect to='/' />
+  };
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        {signupForm}
       </div>
     </Container>
   );
-}
+};
+
+const mapStateToProps = state => {
+  return {
+      loading: state.auth.loading,
+      error: state.auth.error,
+      choices: state.choices.choices,
+      token: state.auth.token
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+      onSignup: (email, username, displayName, password) => dispatch(actions.signup(email, username, displayName, password))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
