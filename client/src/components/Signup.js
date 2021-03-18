@@ -53,9 +53,7 @@ const Signup = (props) => {
                   displayName: displayNameState,
                   password: passwordState
               };
-              axios.post('http://localhost:3001/user/signup', data)
-              .then(response => console.log(response.data))
-              .catch(err => console.log(err.response.data))
+              props.onSignup(data.email, data.username, data.displayName, data.password);
           } else {
               console.log('Please, provide a longer password (min. 8 characters)');
           }
