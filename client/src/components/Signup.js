@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {Avatar, Button, TextField, Grid, makeStyles, Container, Typography} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Link } from 'react-router-dom';
 import * as actions from '../store/actions';
-import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -60,6 +60,10 @@ const Signup = (props) => {
       } else {
           console.log('Password and confirmed password fields don\'t match');
       }
+  };
+
+  if (props.token){
+    return  <Redirect to='/' />
   };
 
   return (
