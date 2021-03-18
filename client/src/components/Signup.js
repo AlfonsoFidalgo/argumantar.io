@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {Avatar, Button, TextField, Grid, makeStyles, Container, Typography} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Link } from 'react-router-dom';
+import Spinner from './Spinner';
 import * as actions from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -62,19 +63,7 @@ const Signup = (props) => {
       }
   };
 
-  if (props.token){
-    return  <Redirect to='/' />
-  };
-
-  return (
-    <Container component="main" maxWidth="xs">
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
+  let signupForm = (
         <form className={classes.form} onSubmit={signupHandler} >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -161,6 +150,26 @@ const Signup = (props) => {
             </Grid>
           </Grid>
         </form>
+  );
+
+  if (props.loading) {
+    signupForm = <Spinner />
+  };
+
+  if (props.token){
+    return  <Redirect to='/' />
+  };
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        {signupForm}
       </div>
     </Container>
   );
