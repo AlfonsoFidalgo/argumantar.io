@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import {Avatar, Button, TextField, Grid, makeStyles, Container, Typography} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Link } from 'react-router-dom';
+import * as actions from '../store/actions';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Signup(props) {  
+const Signup = (props) => {  
   const [emailState, setEmailState] = useState('');
   const [passwordState, setPasswordState] = useState('');
   const [usernameState, setUsernameState] = useState('');
@@ -160,4 +162,21 @@ export default function Signup(props) {
       </div>
     </Container>
   );
-}
+};
+
+const mapStateToProps = state => {
+  return {
+      loading: state.auth.loading,
+      error: state.auth.error,
+      choices: state.choices.choices,
+      token: state.auth.token
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+      onSignup: (email, username, displayName, password) => dispatch(actions.signup(email, username, displayName, password))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
