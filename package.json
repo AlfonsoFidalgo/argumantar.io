@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "app to structure and discuss different points of view of any topic",
   "main": "index.js",
+  "engines": {
+    "node": "15.11.0",
+    "npm": "7.5.4"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
