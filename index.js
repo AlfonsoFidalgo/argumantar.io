@@ -4,11 +4,11 @@ const pool = require('./src/pool');
 const PORT = process.env.PORT || 3001;
 
 pool.connect({
-    host: 'localhost',
-    port: 5432,
-    database: 'argumentario',
-    user: 'alfonso.fidalgo',
-    password: ''
+    host: process.env.DATABASE_HOST || 'localhost',
+    port: process.env.DATABASE_PORT || 5432,
+    database: process.env.DATABASE || 'argumentario',
+    user: process.env.DATABASE_USER || 'alfonso.fidalgo',
+    password: process.env.DATABASE_PASSWORD || ''
 })
 .then(() => {
     app().listen(PORT, () => console.log(`app running on ${PORT}`));
