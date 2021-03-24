@@ -9,7 +9,7 @@ pool.connect({
     database: process.env.DATABASE || 'argumentario',
     user: process.env.DATABASE_USER || 'alfonso.fidalgo',
     password: process.env.DATABASE_PASSWORD || '',
-    ssl: true
+    ssl: { rejectUnauthorized: false }
 })
 .then(() => {
     app().listen(PORT, () => console.log(`app running on ${PORT}`));
