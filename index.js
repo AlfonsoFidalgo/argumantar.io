@@ -11,6 +11,6 @@ pool.connect({
     password: ''
 })
 .then(() => {
-    app().listen(PORT, () => console.log('app running on 3001'));
+    app().listen(PORT, () => console.log(`app running on ${PORT}`));
 })
 .catch(e => console.log(e));
