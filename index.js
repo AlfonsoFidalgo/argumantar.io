@@ -1,6 +1,8 @@
 const app = require('./src/app');
 const pool = require('./src/pool');
 
+const PORT = process.env.PORT || 3001;
+
 pool.connect({
     host: 'localhost',
     port: 5432,
@@ -9,6 +11,6 @@ pool.connect({
     password: ''
 })
 .then(() => {
-    app().listen(3001, () => console.log('app running on 3001'));
+    app().listen(PORT, () => console.log('app running on 3001'));
 })
 .catch(e => console.log(e));
