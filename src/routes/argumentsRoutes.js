@@ -5,7 +5,7 @@ const isAuth = require('../middleware/is-auth');
 const router = express.Router();
 
 
-router.post('/option/:optionId/argument/post', isAuth,
+router.post('/api/option/:optionId/argument/post', isAuth,
 [ body('body').trim().isLength({min: 1})],
 argumentsController.postArgument);
 
