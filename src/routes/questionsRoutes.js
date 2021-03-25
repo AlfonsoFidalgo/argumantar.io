@@ -6,18 +6,18 @@ const checkAuth = require('../middleware/check-auth');
 const router = express.Router();
 
 
-router.get('/questions', questionsController.getQuestions);
+router.get('api/questions', questionsController.getQuestions);
 
-router.post('/question/post', isAuth,
+router.post('api/question/post', isAuth,
     [ body('title').trim().isLength({min: 1}), body('body').trim().isLength({min: 1})], 
     questionsController.postQuestion);
 
-router.get('/question/:id', checkAuth, questionsController.getQuestionById);
+router.get('api/question/:id', checkAuth, questionsController.getQuestionById);
 
-router.put('/question/update/:id', isAuth,
+router.put('api/question/update/:id', isAuth,
     [ body('title').trim().isLength({min: 1}), body('body').trim().isLength({min: 1})],
     questionsController.updateQuestionById);
 
-router.delete('/question/delete/:id', isAuth, questionsController.deleteQuestionById);
+router.delete('api/question/delete/:id', isAuth, questionsController.deleteQuestionById);
 
 module.exports = router;
