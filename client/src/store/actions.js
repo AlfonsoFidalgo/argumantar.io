@@ -40,7 +40,7 @@ export const setArguments = (args) => {
 
 export const fetchArguments = (questionId) => {
     return dispatch => {
-        axios.get(`api/question/${questionId}/arguments/get`)
+        axios.get(`/api/question/${questionId}/arguments/get`)
         .then((response => {
             dispatch(setArguments(response.data.data))
         }));
@@ -75,7 +75,7 @@ export const postArgument = (optionId, body, token, questionId) => {
                 }
             };
         }
-        axios.post(`api/option/${optionId}/argument/post`, data, headers)
+        axios.post(`/api/option/${optionId}/argument/post`, data, headers)
         .then(response => {
             console.log(response.data);
             dispatch(fetchArguments(questionId));
@@ -133,7 +133,7 @@ export const signup = (email, username, displayName, password) => {
             displayName,
             password
         };
-        axios.post('api/user/signup', data)
+        axios.post('/api/user/signup', data)
         .then(response => {
             dispatch(auth(email, password));
         })
@@ -150,7 +150,7 @@ export const auth = (email, password) => {
             email: email,
             password: password
         };
-        axios.post('api/user/login', data)
+        axios.post('/api/user/login', data)
         .then(response => {
             dispatch(setChoices(response.data.choices));
             dispatch(authSuccess(response.data.token, response.data.userId, response.data.username));
@@ -191,7 +191,7 @@ export const postQuestion = (title, body, token) => {
                 }
             };
         }
-        axios.post('api/question/post', data, headers)
+        axios.post('/api/question/post', data, headers)
         .then(response => {
             console.log(response.data);
             // dispatch(postQuestionSuccess(response.data));
@@ -239,7 +239,7 @@ export const fetchQuestion = (id, token = null) => {
                 }
             };
         }
-        axios.get(`api/question/${id}`, headers)
+        axios.get(`/api/question/${id}`, headers)
         .then((response => {
             console.log(response.data);
             dispatch(setVotes(response.data.votes));
@@ -258,7 +258,7 @@ export const setQuestions = (questions) => {
 
 export const fetchQuestions = () => {
     return dispatch => {
-        axios.get('api/questions')
+        axios.get('/api/questions')
         .then((response => {
             //this.setState({questions: response.data, loading: false});
             dispatch(setQuestions(response.data))
@@ -314,10 +314,10 @@ export const changeChoice = (oldOptionId, newOptionId, token) => {
                 }
             };
         }
-        axios.delete(`api/choice/${oldOptionId}`, headers)
+        axios.delete(`/api/choice/${oldOptionId}`, headers)
         .then(response => {
             dispatch(deleteChoiceSuccess(response.data));
-            axios.post(`api/choice/${newOptionId}`, null, headers)
+            axios.post(`/api/choice/${newOptionId}`, null, headers)
             .then(response => {
                 dispatch(addChoiceSuccess(response.data));
             })
@@ -342,7 +342,7 @@ export const deleteChoice = (optionId, token) => {
                 }
             };
         }
-        axios.delete(`api/choice/${optionId}`, headers)
+        axios.delete(`/api/choice/${optionId}`, headers)
         .then(response => {
             dispatch(deleteChoiceSuccess(response.data));
         })
@@ -363,7 +363,7 @@ export const postChoice = (optionId, token) => {
                 }
             };
         }
-        axios.post(`api/choice/${optionId}`, null, headers)
+        axios.post(`/api/choice/${optionId}`, null, headers)
         .then(response => {
             dispatch(addChoiceSuccess(response.data));
         })
@@ -428,7 +428,7 @@ export const postVote = (argumentId, token, voteType) => {
         const body = {
             type: `${voteType}`
         };
-        axios.post(`api/vote/argument/${argumentId}`, body, headers)
+        axios.post(`/api/vote/argument/${argumentId}`, body, headers)
         .then(response => {
             dispatch(addVoteSuccess(response.data));
         })
@@ -449,7 +449,7 @@ export const deleteVote = (argumentId, token) => {
                 }
             };
         }
-        axios.delete(`api/vote/argument/${argumentId}`, headers)
+        axios.delete(`/api/vote/argument/${argumentId}`, headers)
         .then(response => {
             dispatch(deleteVoteSuccess(response.data));
         })
