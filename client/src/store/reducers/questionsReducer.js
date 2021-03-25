@@ -4,7 +4,8 @@ const initialState = {
     questions: null,
     activeQuestion: null,
     loading: false,
-    error: null
+    error: null,
+    postedQuestion: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -32,6 +33,13 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 error: action.error,
                 loading: false
+            }
+        case actionTypes.POST_QUESTION_SUCCESS:
+            return {
+                ...state,
+                error: null,
+                loading: false,
+                postedQuestion: true
             }
         case actionTypes.UPDATE_QUESTIONS:
             return {

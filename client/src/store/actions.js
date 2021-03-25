@@ -18,6 +18,7 @@ export const UPDATE_QUESTIONS = 'UPDATE_QUESTIONS';
 
 export const POST_QUESTION_START = 'POST_QUESTION_START';
 export const POST_QUESTION_FAIL = 'POST_QUESTION_FAIL';
+export const POST_QUESTION_SUCCESS = 'POST_QUESTION_SUCCESS';
 
 export const FETCH_ARGUMENTS = 'FETCH_ARGUMENTS';
 
@@ -176,6 +177,13 @@ export const postQuestionFail = (error) => {
     };
 }
 
+export const postQuestionSuccess = () => {
+    return {
+        type: POST_QUESTION_SUCCESS,
+        postedQuestion: true
+    };
+}
+
 export const postQuestion = (title, body, token) => {
     return dispatch => {
         dispatch(postQuestionStart());
@@ -194,6 +202,7 @@ export const postQuestion = (title, body, token) => {
         axios.post('/api/question/post', data, headers)
         .then(response => {
             console.log(response.data);
+            dispatch(postQuestionSuccess());
             // dispatch(postQuestionSuccess(response.data));
         })
         .catch(error => {
