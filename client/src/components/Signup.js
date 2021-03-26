@@ -36,6 +36,8 @@ const Signup = (props) => {
   const [usernameState, setUsernameState] = useState('');
   const [displayNameState, setDisplayNameState] = useState('');
   const [confirmedPasswordState, setConfirmedPasswordState] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorText, setPasswordErrorText] = useState('')
   const classes = useStyles();
   
   const usernameHandler = (e) => setUsernameState(e.target.value);
@@ -56,11 +58,31 @@ const Signup = (props) => {
               };
               props.onSignup(data.email, data.username, data.displayName, data.password);
           } else {
-              console.log('Please, provide a longer password (min. 8 characters)');
+              setPasswordError(true);
+              setPasswordErrorText('Please, provide a longer password (min. 8 characters)');
           }
       } else {
-          console.log('Password and confirmed password fields don\'t match');
+          setPasswordError(true);
+          setPasswordErrorText('Password and confirmed password fields don\'t match');
       }
+  };
+
+  if (props.token){
+    return  <Redirect to='/' />
+  };
+
+  let showUsernameError = false;
+  let usernameErrorText = null;
+  if (props.error === 'username already in use.') {
+      showUsernameError = true
+      usernameErrorText = props.error
+  };
+
+  let showEmailError = false;
+  let emailErrorText = null;
+  if (props.error === 'email already in use.') {
+      showEmailError = true
+      emailErrorText = props.error
   };
 
   let signupForm = (
@@ -68,6 +90,8 @@ const Signup = (props) => {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
+                error={showUsernameError}
+                helperText={usernameErrorText}
                 name="userName"
                 variant="outlined"
                 required
@@ -92,6 +116,8 @@ const Signup = (props) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={showEmailError}
+                helperText={emailErrorText}
                 variant="outlined"
                 required
                 fullWidth
@@ -120,6 +146,8 @@ const Signup = (props) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={passwordError}
+                helperText={passwordErrorText}
                 variant="outlined"
                 required
                 fullWidth
@@ -154,10 +182,6 @@ const Signup = (props) => {
 
   if (props.loading) {
     signupForm = <Spinner />
-  };
-
-  if (props.token){
-    return  <Redirect to='/' />
   };
 
   return (
