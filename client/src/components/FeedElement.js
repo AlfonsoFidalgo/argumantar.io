@@ -90,7 +90,7 @@ const FeedElement = (props) => {
             <Card className={classes.root}>
                 <CardContent>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
-                        {props.username} - {moment(props.createdAt).format('Do MMM YY')}
+                        {props.username} - {moment(props.createdAt).format('Do MMM YY h:mm a')}
                     </Typography>
                     <Typography variant="h6" component="h2">
                         {props.questionTitle}

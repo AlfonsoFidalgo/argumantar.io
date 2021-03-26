@@ -136,7 +136,7 @@ const Post = (props) => {
             <Card className={classes.root}>
                 <CardContent>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
-                        {props.activeQuestion[0].username} - {moment(props.activeQuestion[0].created_at).format('Do MMM YY')}
+                        {props.activeQuestion[0].username} - {moment(props.activeQuestion[0].created_at).format('Do MMM YY h:mm a')}
                     </Typography>
                     <Typography variant="h6" component="h2">
                         {props.activeQuestion[0].question_title}
