@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { TextField, Typography, Button, Avatar, Container } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
@@ -46,6 +47,11 @@ const NewPost = (props) => {
     };
 
     const classes = useStyles();
+
+    if (props.postedQuestion){
+        return  <Redirect to='/' />
+    };
+
     return (
         <Container component="main" maxWidth="xs">
             <div className={classes.paper}>
@@ -100,7 +106,8 @@ const mapStateToProps = state => {
     return {
         loading: state.questions.loading,
         error: state.questions.error,
-        token: state.auth.token
+        token: state.auth.token,
+        postedQuestion: state.questions.postedQuestion
     }
 };
 

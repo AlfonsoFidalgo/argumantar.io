@@ -37,5 +37,16 @@ module.exports = () => {
         res.status(status).json(message)
     });
 
+    if (process.env.NODE_ENV === 'production'){
+        //express serves production assets
+        app.use(express.static('client/build'));
+
+        //express serves index.html if it doesn't recognise the route
+        const path = require('path');
+        app.get('*', (req, res) => {
+            res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+        });
+    };
+
     return app;
 };

@@ -4,6 +4,9 @@ class Pool {
     _pool = null;
 
     connect(options){
+        if (options.password !== ''){
+            options.ssl = { rejectUnauthorized: false }
+        }
         this._pool = new pg.Pool(options);
         return this._pool.query('SELECT 1 + 1;');
     }
