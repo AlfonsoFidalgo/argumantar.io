@@ -44,8 +44,7 @@ module.exports = () => {
         //express serves index.html if it doesn't recognise the route
         const path = require('path');
         app.get('*', (req, res) => {
-            console.log('ok');
-            res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+            res.sendFile(path.resolve(__dirname, '..', 'client', 'build', 'index.html'));
         });
     };
 
