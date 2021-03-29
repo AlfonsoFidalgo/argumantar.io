@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { TextField, Typography, Button, Avatar, Container, InputAdornment } from '@material-ui/core';
@@ -30,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const NewPost = (props) => {
-    const [titleState, setTitleState] = useState();
-    const [bodyState, setBodyState] = useState();
+    const [titleState, setTitleState] = useState('');
+    const [bodyState, setBodyState] = useState('');
     const [postAllowed, setPostAllowed] = useState(true);
 
     const postHandler = (e) => {
@@ -39,12 +39,26 @@ const NewPost = (props) => {
         props.newPost(titleState.trim(), bodyState.trim(), props.token);
     };
 
+    useEffect(() => {
+        if (titleState.length > 150){
+            setPostAllowed(false)
+        } else {
+            setPostAllowed(true)
+        };
+
+        if (bodyState.length > 500){
+            setPostAllowed(false)
+        } else {
+            setPostAllowed(true)
+        };
+    }, [titleState, bodyState, postAllowed]);
+
     const titleHandler = (e) => {
         setTitleState(e.target.value);
     };
 
     const bodyHandler = (e) => {
-        setBodyState(e.target.value); 
+        setBodyState(e.target.value);
     };
 
     const classes = useStyles();
