@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { TextField, Typography, Button, Avatar, Container } from '@material-ui/core';
+import { TextField, Typography, Button, Avatar, Container, InputAdornment } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { makeStyles } from '@material-ui/core/styles';
 import * as actions from '../store/actions';
@@ -30,13 +30,38 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const NewPost = (props) => {
-    const [titleState, setTitleState] = useState();
-    const [bodyState, setBodyState] = useState();
+    const [titleState, setTitleState] = useState('');
+    const [bodyState, setBodyState] = useState('');
+    const [postAllowed, setPostAllowed] = useState(true);
+    const [titleError, setTitleError] = useState(false);
+    const [bodyError, setBodyError] = useState(false);
 
     const postHandler = (e) => {
         e.preventDefault();
         props.newPost(titleState.trim(), bodyState.trim(), props.token);
     };
+
+    useEffect(() => {
+        if (titleState.length > 100){
+            setPostAllowed(false);
+            setTitleError(true);
+        } else {
+            // setPostAllowed(true);
+            setTitleError(false);
+        };
+
+        if (bodyState.length > 500){
+            setPostAllowed(false);
+            setBodyError(true);
+        } else {
+            // setPostAllowed(true);
+            setBodyError(false);
+        };
+
+        if (bodyState.length < 501 && titleState.length < 101 && !titleError && !bodyError){
+            setPostAllowed(true);
+        }
+    }, [titleState, bodyState, postAllowed, bodyError, titleError]);
 
     const titleHandler = (e) => {
         setTitleState(e.target.value);
@@ -71,6 +96,12 @@ const NewPost = (props) => {
                         label="Post title"
                         name="title"
                         autoFocus
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end"><Typography variant="caption">
+                                {titleState ? titleState.length : 0}/100 </Typography>
+                                </InputAdornment>
+                        }}
+                        error={titleError}
                         value={titleState}
                         onChange={titleHandler}
                     />
@@ -83,6 +114,12 @@ const NewPost = (props) => {
                         rows={6}
                         name="body"
                         label="Write your post..."
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end"><Typography variant="caption">
+                                {bodyState ? bodyState.length : 0}/500 </Typography>
+                                </InputAdornment>
+                        }}
+                        error={bodyError}
                         value={bodyState}
                         onChange={bodyHandler}
                     />
@@ -92,7 +129,7 @@ const NewPost = (props) => {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        disabled={props.token === null}
+                        disabled={props.token === null || !postAllowed}
                     >
                     Publish
                     </Button>
