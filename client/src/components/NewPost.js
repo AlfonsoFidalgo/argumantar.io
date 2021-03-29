@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { TextField, Typography, Button, Avatar, Container } from '@material-ui/core';
+import { TextField, Typography, Button, Avatar, Container, InputAdornment } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { makeStyles } from '@material-ui/core/styles';
 import * as actions from '../store/actions';
@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 const NewPost = (props) => {
     const [titleState, setTitleState] = useState();
     const [bodyState, setBodyState] = useState();
+    const [postAllowed, setPostAllowed] = useState(true);
 
     const postHandler = (e) => {
         e.preventDefault();
@@ -43,7 +44,7 @@ const NewPost = (props) => {
     };
 
     const bodyHandler = (e) => {
-        setBodyState(e.target.value);
+        setBodyState(e.target.value); 
     };
 
     const classes = useStyles();
@@ -71,6 +72,11 @@ const NewPost = (props) => {
                         label="Post title"
                         name="title"
                         autoFocus
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end"><Typography variant="caption">
+                                {titleState ? titleState.length : 0}/150 </Typography>
+                                </InputAdornment>
+                        }}
                         value={titleState}
                         onChange={titleHandler}
                     />
@@ -83,6 +89,11 @@ const NewPost = (props) => {
                         rows={6}
                         name="body"
                         label="Write your post..."
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end"><Typography variant="caption">
+                                {bodyState ? bodyState.length : 0}/500 </Typography>
+                                </InputAdornment>
+                        }}
                         value={bodyState}
                         onChange={bodyHandler}
                     />
@@ -92,7 +103,7 @@ const NewPost = (props) => {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        disabled={props.token === null}
+                        disabled={props.token === null || !postAllowed}
                     >
                     Publish
                     </Button>
