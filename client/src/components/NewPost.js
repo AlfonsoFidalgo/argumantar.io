@@ -33,6 +33,8 @@ const NewPost = (props) => {
     const [titleState, setTitleState] = useState('');
     const [bodyState, setBodyState] = useState('');
     const [postAllowed, setPostAllowed] = useState(true);
+    const [titleError, setTitleError] = useState(false);
+    const [bodyError, setBodyError] = useState(false);
 
     const postHandler = (e) => {
         e.preventDefault();
@@ -40,18 +42,26 @@ const NewPost = (props) => {
     };
 
     useEffect(() => {
-        if (titleState.length > 150 || titleState.length === 0){
-            setPostAllowed(false)
+        if (titleState.length > 150){
+            setPostAllowed(false);
+            setTitleError(true);
         } else {
-            setPostAllowed(true)
+            // setPostAllowed(true);
+            setTitleError(false);
         };
 
-        if (bodyState.length > 500 || bodyState.length === 0){
-            setPostAllowed(false)
+        if (bodyState.length > 500){
+            setPostAllowed(false);
+            setBodyError(true);
         } else {
-            setPostAllowed(true)
+            // setPostAllowed(true);
+            setBodyError(false);
         };
-    }, [titleState, bodyState, postAllowed]);
+
+        if (bodyState.length < 501 && titleState.length < 151 && !titleError && !bodyError){
+            setPostAllowed(true);
+        }
+    }, [titleState, bodyState, postAllowed, bodyError, titleError]);
 
     const titleHandler = (e) => {
         setTitleState(e.target.value);
@@ -91,6 +101,7 @@ const NewPost = (props) => {
                                 {titleState ? titleState.length : 0}/150 </Typography>
                                 </InputAdornment>
                         }}
+                        error={titleError}
                         value={titleState}
                         onChange={titleHandler}
                     />
@@ -108,6 +119,7 @@ const NewPost = (props) => {
                                 {bodyState ? bodyState.length : 0}/500 </Typography>
                                 </InputAdornment>
                         }}
+                        error={bodyError}
                         value={bodyState}
                         onChange={bodyHandler}
                     />
