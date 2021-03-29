@@ -40,13 +40,13 @@ const NewPost = (props) => {
     };
 
     useEffect(() => {
-        if (titleState.length > 150){
+        if (titleState.length > 150 || titleState.length === 0){
             setPostAllowed(false)
         } else {
             setPostAllowed(true)
         };
 
-        if (bodyState.length > 500){
+        if (bodyState.length > 500 || bodyState.length === 0){
             setPostAllowed(false)
         } else {
             setPostAllowed(true)
