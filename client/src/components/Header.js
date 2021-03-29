@@ -75,7 +75,7 @@ const Header = (props) => {
                 <AppBar position='fixed'>
                     <Toolbar>
                         <Button component={Link} to='/' className={classes.logoContainer} onClick={() => setValue(0)} disableRipple>
-                            <Typography className={classes.typographyStyles} variant='h5'>wescuss</Typography>
+                            <Typography className={classes.typographyStyles} variant='h6'>razonalo</Typography>
                         </Button>
                         <Tabs value={value} onChange={handleChange} className={classes.tabContainer} classes={{indicator: classes.styledIndicator}} >
                             <Tab component={Link} to='/' label="Home" />
