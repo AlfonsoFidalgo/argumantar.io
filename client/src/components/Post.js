@@ -35,7 +35,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Post = (props) => {
-    const [argumentState, setArgumentState] = useState();
+    const [argumentState, setArgumentState] = useState('');
+    const [argumentError, setArgumentError] = useState(false);
     const [choiceButtonsState, setChoiceButtonsState] = useState({agree: 'outlined', disagree: 'outlined'});
     const [chosenOptionId, setChosenOptionIdState] = useState();
     const [canPostArgument, setCanPostArgument] = useState(false);
@@ -44,6 +45,14 @@ const Post = (props) => {
         props.onQuestionLoad(props.match.params.id, props.token);
         props.loadArguments(props.match.params.id);
     }, []);
+
+    useEffect(() => {
+        if (argumentState.length > 1000){
+            setArgumentError(true);
+        } else {
+            setArgumentError(false);
+        }
+    }, [argumentState])
 
     useEffect(() => {
         if (props.choices && props.activeQuestion && !props.choicesLoading){
@@ -173,6 +182,7 @@ const Post = (props) => {
                             rows={6}
                             onChange={handleArgument}
                             value={argumentState}
+                            error={argumentError}
                             InputProps={{
                                 endAdornment: <InputAdornment position="end"><Typography variant="caption">
                                     {argumentState ? argumentState.length : 0}/1000 </Typography>
@@ -181,7 +191,7 @@ const Post = (props) => {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button color="primary" variant="contained" fullWidth disabled={!canPostArgument} onClick={postArgument}>Send</Button>
+                            <Button color="primary" variant="contained" fullWidth disabled={!canPostArgument || argumentError} onClick={postArgument}>Send</Button>
                         </Grid>
                     </Grid>
                 </CardActions>
