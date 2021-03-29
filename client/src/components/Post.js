@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid, TextField } from '@material-ui/core';
+import { Card, CardActions, CardContent, Button, ButtonGroup, Typography, Grid, TextField, InputAdornment } from '@material-ui/core';
 import moment from 'moment';
 import Arguments from './Arguments';
 import Spinner from './Spinner';
@@ -173,6 +173,11 @@ const Post = (props) => {
                             rows={6}
                             onChange={handleArgument}
                             value={argumentState}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end"><Typography variant="caption">
+                                    {argumentState ? argumentState.length : 0}/1000 </Typography>
+                                    </InputAdornment>
+                            }}
                             />
                         </Grid>
                         <Grid item xs={12}>
