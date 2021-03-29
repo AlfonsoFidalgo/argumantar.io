@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {Avatar, Button, TextField, Grid, makeStyles, Container, Typography} from '@material-ui/core';
+import {Avatar, Button, TextField, Grid, makeStyles, Container, Typography, InputAdornment} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Link } from 'react-router-dom';
 import Spinner from './Spinner';
@@ -99,6 +99,11 @@ const Signup = (props) => {
                 id="userName"
                 label="Username"
                 autoFocus
+                InputProps={{
+                  endAdornment: <InputAdornment position="end"><Typography variant="caption">
+                      {usernameState ? usernameState.length : 0}/50 </Typography>
+                      </InputAdornment>
+                }}
                 value={usernameState}
                 onChange={usernameHandler}
               />
@@ -110,6 +115,11 @@ const Signup = (props) => {
                 id="displayName"
                 label="Display Name"
                 name="displayName"
+                InputProps={{
+                  endAdornment: <InputAdornment position="end"><Typography variant="caption">
+                      {displayNameState ? displayNameState.length : 0}/50 </Typography>
+                      </InputAdornment>
+                }}
                 value={displayNameState}
                 onChange={displaynameHandler}
               />
@@ -126,6 +136,11 @@ const Signup = (props) => {
                 name="email"
                 autoComplete="email"
                 type="email"
+                InputProps={{
+                  endAdornment: <InputAdornment position="end"><Typography variant="caption">
+                      {emailState ? emailState.length : 0}/100 </Typography>
+                      </InputAdornment>
+                }}
                 value={emailState}
                 onChange={emailHandler}
               />
