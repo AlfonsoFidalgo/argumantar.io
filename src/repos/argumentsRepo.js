@@ -27,7 +27,8 @@ class ArgumentsRepo {
         JOIN options o ON o.question_id = q.id
         JOIN arguments a ON a.option_id = o.id
         JOIN users u ON u.id = a.user_id
-        WHERE q.id = $1;
+        WHERE q.id = $1
+        ORDER BY upvotes DESC, argument_date DESC;
         `;
         const {rows} = await pool.query(query, [questionId]);
         return rows;
