@@ -42,7 +42,7 @@ const NewPost = (props) => {
     };
 
     useEffect(() => {
-        if (titleState.length > 150){
+        if (titleState.length > 100){
             setPostAllowed(false);
             setTitleError(true);
         } else {
@@ -58,7 +58,7 @@ const NewPost = (props) => {
             setBodyError(false);
         };
 
-        if (bodyState.length < 501 && titleState.length < 151 && !titleError && !bodyError){
+        if (bodyState.length < 501 && titleState.length < 101 && !titleError && !bodyError){
             setPostAllowed(true);
         }
     }, [titleState, bodyState, postAllowed, bodyError, titleError]);
@@ -98,7 +98,7 @@ const NewPost = (props) => {
                         autoFocus
                         InputProps={{
                             endAdornment: <InputAdornment position="end"><Typography variant="caption">
-                                {titleState ? titleState.length : 0}/150 </Typography>
+                                {titleState ? titleState.length : 0}/100 </Typography>
                                 </InputAdornment>
                         }}
                         error={titleError}
