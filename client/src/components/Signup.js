@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {Avatar, Button, TextField, Grid, makeStyles, Container, Typography, InputAdornment} from '@material-ui/core';
@@ -32,12 +32,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Signup = (props) => {  
   const [emailState, setEmailState] = useState('');
+  const [emailError, setEmailError] = useState(false);
   const [passwordState, setPasswordState] = useState('');
   const [usernameState, setUsernameState] = useState('');
+  const [usernameError, setUsernameError] = useState(false);
   const [displayNameState, setDisplayNameState] = useState('');
+  const [displayNameError, setDisplayNameError] = useState(false);
   const [confirmedPasswordState, setConfirmedPasswordState] = useState('');
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorText, setPasswordErrorText] = useState('')
+  const [signupAllowed, setSignupAllowed] = useState(true);
   const classes = useStyles();
   
   const usernameHandler = (e) => setUsernameState(e.target.value);
@@ -45,6 +49,32 @@ const Signup = (props) => {
   const emailHandler = (e) => setEmailState(e.target.value);
   const passwordHandler = (e) => setPasswordState(e.target.value);
   const confirmedPasswordHandler = (e) => setConfirmedPasswordState(e.target.value);
+
+  useEffect(() => {
+    if (usernameState.length > 50){
+      setSignupAllowed(false);
+      setUsernameError(true);
+    } else {
+      setUsernameError(false);
+    }
+    if (displayNameState.length > 50){
+      setSignupAllowed(false);
+      setDisplayNameError(true);
+    } else {
+      setDisplayNameError(false);
+    }
+    if (emailState.length > 100){
+      setSignupAllowed(false);
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+    
+    if (usernameState.length < 51 && displayNameState.length < 51 && emailState.length < 101){
+      setSignupAllowed(true);
+    }
+    
+  }, [usernameState, displayNameState, emailState, signupAllowed]);
 
   const signupHandler = (e) => {
       e.preventDefault();
@@ -90,7 +120,7 @@ const Signup = (props) => {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                error={showUsernameError}
+                error={showUsernameError || usernameError}
                 helperText={usernameErrorText}
                 name="userName"
                 variant="outlined"
@@ -120,13 +150,14 @@ const Signup = (props) => {
                       {displayNameState ? displayNameState.length : 0}/50 </Typography>
                       </InputAdornment>
                 }}
+                error={displayNameError}
                 value={displayNameState}
                 onChange={displaynameHandler}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                error={showEmailError}
+                error={showEmailError || emailError}
                 helperText={emailErrorText}
                 variant="outlined"
                 required
@@ -182,6 +213,7 @@ const Signup = (props) => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={!signupAllowed}
           >
             Sign Up
           </Button>
