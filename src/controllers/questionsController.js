@@ -40,6 +40,13 @@ exports.postQuestion = async (req, res, next) => {
     if(!errors.isEmpty()){
         return res.status(422).json({message: 'validation error, please check fields', errors: errors.array()});
     };
+    if (req.body.title.length > 100 || req.body.body.length > 500){
+        const error = new Error('validation error, please check fields.');
+        error.statusCode = 403;
+        error.errors = errors.array();
+        next(error);
+        return;
+    };
     const newQuestion = {
         user_id: req.userId,
         title: req.body.title,
