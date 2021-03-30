@@ -26,10 +26,10 @@ module.exports = () => {
     app.use((request, response, next) => {
 
         if (process.env.NODE_ENV === 'production' && !request.secure) {
-           //return response.redirect("https://" + request.headers.host + request.url);
-           console.log('req.headers.hos: ', request.headers.host);
-           console.log('req.url: ', request.url);
-           return response.redirect("https://www.razonalo.com");
+            return response.redirect("https://www.razonalo.com");
+        }
+        if (request.headers.host === 'argumentario.herokuapp.com'){
+            return response.redirect("https://www.razonalo.com");
         }
         next();
     });
