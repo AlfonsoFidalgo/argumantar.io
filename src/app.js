@@ -22,7 +22,16 @@ module.exports = () => {
         res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization, X-Auth-Token');
         next();
     });
+    app.enable('trust proxy');
+    app.use((request, response, next) => {
 
+        if (process.env.NODE_ENV === 'production' && !request.secure) {
+           //return response.redirect("https://" + request.headers.host + request.url);
+           return response.redirect("https://www.razonalo.com");
+        }
+        next();
+    });
+    
     app.use(questionsRouter);
     app.use(usersRouter);
     app.use(optionsRouter);
