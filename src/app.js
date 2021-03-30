@@ -27,11 +27,13 @@ module.exports = () => {
 
         if (process.env.NODE_ENV === 'production' && !request.secure) {
            //return response.redirect("https://" + request.headers.host + request.url);
+           console.log('req.headers.hos: ', request.headers.host);
+           console.log('req.url: ', request.url);
            return response.redirect("https://www.razonalo.com");
         }
         next();
     });
-    
+
     app.use(questionsRouter);
     app.use(usersRouter);
     app.use(optionsRouter);
