@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { List, ListItem, ListItemText, Typography,
-    Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
+    Accordion, AccordionSummary, AccordionDetails, Avatar, ListItemAvatar } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Spinner from './Spinner';
 import ArgumentMeta from './ArgumentMeta';
@@ -21,7 +21,10 @@ const Arguments = (props) => {
                 }
             });
             return (
-                <ListItem key={argument.argument_id}>
+                <ListItem key={argument.argument_id} alignItems="flex-start">
+                    <ListItemAvatar>
+                        <Avatar>{argument.argument_username[0].toUpperCase()}</Avatar>
+                    </ListItemAvatar>
                     <ListItemText primary={argument.argument_body}
                         secondary={<ArgumentMeta username={argument.argument_username} date={argument.argument_date} 
                                     upvotes={argument.upvotes} downvotes={argument.downvotes} userVote={userVote} argumentId={argument.argument_id} argumentType='agree'/>} />
@@ -39,8 +42,12 @@ const Arguments = (props) => {
                 }
             });
             return (
-                <ListItem key={argument.argument_id}>
-                    <ListItemText primary={argument.argument_body}
+                <ListItem key={argument.argument_id} alignItems="flex-start">
+                    <ListItemAvatar>
+                        <Avatar>{argument.argument_username[0].toUpperCase()}</Avatar>
+                    </ListItemAvatar>
+                    <ListItemText 
+                        primary={argument.argument_body}
                         secondary={<ArgumentMeta username={argument.argument_username} date={argument.argument_date} 
                                     upvotes={argument.upvotes} downvotes={argument.downvotes} userVote={userVote} argumentId={argument.argument_id} argumentType='disagree' />} />
                 </ListItem>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography, ButtonGroup, IconButton, Divider } from '@material-ui/core';
+import { Grid, Typography, ButtonGroup, IconButton, Divider, Button } from '@material-ui/core';
 import { ThumbUp, ThumbDown } from '@material-ui/icons';
 import moment from 'moment'
 import * as actions from '../store/actions';
@@ -109,6 +109,7 @@ const ArgumentMeta = (props) => {
                     <IconButton onClick={(e) => handleVote(e, 'upvote')}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {numUpvotes} </IconButton>
                     <IconButton onClick={(e) => handleVote(e, 'downvote')}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
                 </ButtonGroup>
+                <Button color="primary" size="small">Reply</Button>
             </Grid>
         </Grid>
         <Divider />
