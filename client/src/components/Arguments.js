@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { List, ListItem, ListItemText, Typography,
-    Accordion, AccordionSummary, AccordionDetails, Avatar, ListItemAvatar } from '@material-ui/core';
+import { List, Typography,
+    Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Spinner from './Spinner';
-import ArgumentMeta from './ArgumentMeta';
 import Argument from './Argument';
 
 

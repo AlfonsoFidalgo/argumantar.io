@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
           display: 'flex',
           flexDirection: 'row-reverse',
           marginBottom: theme.spacing(1)
+      },
+      divider: {
+          marginTop: theme.spacing(1)
       }
 }));
 
@@ -19,6 +22,7 @@ const ArgumentMeta = (props) => {
     const [numUpvotes, setNumUpvotes] = useState(0);
     const [numDownvotes, setNumDownvotes] = useState(0);
     const [canVoteArgument, setCanVoteArgument] = useState(false);
+    const [showReplyField, setShowReplyField] = useState(false);
 
     useEffect(() => {
         setNumUpvotes(parseInt(props.upvotes));
@@ -98,14 +102,20 @@ const ArgumentMeta = (props) => {
         }
     }
 
+    const replyField = (
+        <Grid item xs={12}>
+            <TextField fullWidth
+                        variant="outlined"/>
+        </Grid>
+    );
+
+    const handleReply = (e) => {
+        setShowReplyField(!showReplyField);
+    }
+
     return(
         <React.Fragment>
         <Grid container>
-            <Grid item xs={12}>
-                <TextField fullWidth
-                            variant="outlined"
-                            hidden="true"/>
-            </Grid>
             <Grid item xs={6}>
                 <Typography color="textSecondary" variant="body2">{props.username} - {moment(props.date).format('Do MMM YY')}</Typography>
             </Grid>
@@ -114,10 +124,11 @@ const ArgumentMeta = (props) => {
                     <IconButton onClick={(e) => handleVote(e, 'upvote')}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {numUpvotes} </IconButton>
                     <IconButton onClick={(e) => handleVote(e, 'downvote')}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
                 </ButtonGroup>
-                <Button color="primary" size="small">Reply</Button>
+                <Button color="primary" size="small" onClick={handleReply}>Reply</Button>
             </Grid>
+            {showReplyField ? replyField : null}
         </Grid>
-        <Divider />
+        <Divider className={classes.divider}/>
         </React.Fragment>
     )
 };
