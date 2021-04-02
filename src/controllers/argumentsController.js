@@ -44,16 +44,16 @@ exports.postArgument = async (req, res, next) => {
         return res.status(403).json({message: 'User needs to choose an option before argumenting.'});
     }
     //3. for each of the options, check if argumets are from user
-    for (let i = 0; i < allOptions.length; i++){
-        const opt = allOptions[i];
-        const args = await argumentsRepo.getArgumentsByOptionId(opt.id);
-        for (let j = 0; j < args.length; j++){
-            const arg = args[j];
-            if (arg.user_id === req.userId){
-                return res.status(403).json({message: 'User already posted argument.'});
-            };
-        };
-    };
+    // for (let i = 0; i < allOptions.length; i++){
+    //     const opt = allOptions[i];
+    //     const args = await argumentsRepo.getArgumentsByOptionId(opt.id);
+    //     for (let j = 0; j < args.length; j++){
+    //         const arg = args[j];
+    //         if (arg.user_id === req.userId){
+    //             return res.status(403).json({message: 'User already posted argument.'});
+    //         };
+    //     };
+    // };
 
     const argumentBody = req.body.body;
     const rows = await argumentsRepo.postArgument(argumentBody, req.userId, option[0].id);
