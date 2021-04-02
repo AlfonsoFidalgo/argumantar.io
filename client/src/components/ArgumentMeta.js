@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography, ButtonGroup, IconButton, Divider, Button } from '@material-ui/core';
+import { Grid, Typography, ButtonGroup, IconButton, Divider, Button, TextField } from '@material-ui/core';
 import { ThumbUp, ThumbDown } from '@material-ui/icons';
 import moment from 'moment'
 import * as actions from '../store/actions';
@@ -101,6 +101,11 @@ const ArgumentMeta = (props) => {
     return(
         <React.Fragment>
         <Grid container>
+            <Grid item xs={12}>
+                <TextField fullWidth
+                            variant="outlined"
+                            hidden="true"/>
+            </Grid>
             <Grid item xs={6}>
                 <Typography color="textSecondary" variant="body2">{props.username} - {moment(props.date).format('Do MMM YY')}</Typography>
             </Grid>
