@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography, ButtonGroup, IconButton, Divider, Button, TextField } from '@material-ui/core';
 import { ThumbUp, ThumbDown, Comment, Reply } from '@material-ui/icons';
 import moment from 'moment'
+import Comments from './Comments';
 import * as actions from '../store/actions';
 
 const useStyles = makeStyles(theme => ({
@@ -27,6 +28,7 @@ const ArgumentMeta = (props) => {
     const [numComments, setNumComments] = useState(0);
     const [canVoteArgument, setCanVoteArgument] = useState(false);
     const [showReplyField, setShowReplyField] = useState(false);
+    const [showComments, setShowComments] = useState(false);
 
     useEffect(() => {
         setNumUpvotes(parseInt(props.upvotes));
@@ -121,9 +123,13 @@ const ArgumentMeta = (props) => {
         </Grid>
     );
 
+    const toggleComments = (e) => {
+        setShowComments(!showComments)
+    };
+
     const handleReply = (e) => {
         setShowReplyField(!showReplyField);
-    }
+    };
 
     return(
         <React.Fragment>
@@ -133,15 +139,16 @@ const ArgumentMeta = (props) => {
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
                 <ButtonGroup size="small" >
-                    <IconButton><Comment fontSize='small' /> {numComments} </IconButton>
+                    <IconButton><Comment fontSize='small' onClick={toggleComments} /> {numComments} </IconButton>
                     <IconButton onClick={(e) => handleVote(e, 'upvote')} disabled={!canVoteArgument}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {numUpvotes} </IconButton>
                     <IconButton onClick={(e) => handleVote(e, 'downvote')} disabled={!canVoteArgument}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
                 </ButtonGroup>
-                <Button color="primary" size="small" onClick={handleReply} disabled={!props.token}>
+                <Button color="primary" size="small" onClick={handleReply}>
                     <IconButton > <Reply fontSize='default'/> </IconButton>
                 </Button>
             </Grid>
             {showReplyField ? replyField : null}
+            {showComments ? <Comments /> : null}
         </Grid>
         <Divider className={classes.divider}/>
         </React.Fragment>
