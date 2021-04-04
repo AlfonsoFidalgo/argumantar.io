@@ -14,7 +14,10 @@ const useStyles = makeStyles(theme => ({
       },
       divider: {
           marginTop: theme.spacing(1)
-      }
+      },
+      commentBox: {
+        marginBottom: theme.spacing(1)
+    }
 }));
 
 const ArgumentMeta = (props) => {
@@ -103,9 +106,15 @@ const ArgumentMeta = (props) => {
     }
 
     const replyField = (
-        <Grid item xs={12}>
-            <TextField fullWidth
-                        variant="outlined"/>
+        <Grid container>
+            <Grid item xs={12} className={classes.commentBox}>
+                <TextField fullWidth
+                            variant="outlined"/>
+                
+            </Grid>
+            <Grid item xs={12}>
+                <Button color="primary" fullWidth disabled={!props.token} >Comment</Button>
+            </Grid>
         </Grid>
     );
 
@@ -124,7 +133,7 @@ const ArgumentMeta = (props) => {
                     <IconButton onClick={(e) => handleVote(e, 'upvote')}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {numUpvotes} </IconButton>
                     <IconButton onClick={(e) => handleVote(e, 'downvote')}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
                 </ButtonGroup>
-                <Button color="primary" size="small" onClick={handleReply}>Reply</Button>
+                <Button color="primary" size="small" onClick={handleReply} disabled={!props.token}>Reply</Button>
             </Grid>
             {showReplyField ? replyField : null}
         </Grid>
