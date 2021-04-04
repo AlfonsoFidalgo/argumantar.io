@@ -114,6 +114,7 @@ const ArgumentMeta = (props) => {
             <Grid item xs={12} className={classes.commentBox}>
                 <TextField fullWidth
                             variant="outlined"
+                            multiline
                             label="Reply to this argument"/>
                 
             </Grid>
