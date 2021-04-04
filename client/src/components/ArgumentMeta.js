@@ -24,13 +24,15 @@ const ArgumentMeta = (props) => {
     const [argumentVote, setArgumentVote] = useState({upvote: '', downvote: ''});
     const [numUpvotes, setNumUpvotes] = useState(0);
     const [numDownvotes, setNumDownvotes] = useState(0);
+    const [numComments, setNumComments] = useState(0);
     const [canVoteArgument, setCanVoteArgument] = useState(false);
     const [showReplyField, setShowReplyField] = useState(false);
 
     useEffect(() => {
         setNumUpvotes(parseInt(props.upvotes));
         setNumDownvotes(parseInt(props.downvotes));
-    }, [props.upvotes, props.downvotes]);
+        setNumComments(parseInt(props.comments));
+    }, [props.upvotes, props.downvotes, props.comments]);
 
     useEffect(() => {
         if (props.token && props.activeQuestion && props.choices){
@@ -131,7 +133,7 @@ const ArgumentMeta = (props) => {
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
                 <ButtonGroup size="small" >
-                    <IconButton><Comment fontSize='small' /> 3 </IconButton>
+                    <IconButton><Comment fontSize='small' /> {numComments} </IconButton>
                     <IconButton onClick={(e) => handleVote(e, 'upvote')} disabled={!canVoteArgument}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {numUpvotes} </IconButton>
                     <IconButton onClick={(e) => handleVote(e, 'downvote')} disabled={!canVoteArgument}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
                 </ButtonGroup>

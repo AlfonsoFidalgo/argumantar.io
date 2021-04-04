@@ -28,6 +28,7 @@ const Arguments = (props) => {
                     argument_date={argument.argument_date}
                     upvotes={argument.upvotes} 
                     downvotes={argument.downvotes} 
+                    comments={argument.comments}
                     userVote={userVote}
                     argumentType='agree'
                 />
@@ -51,6 +52,7 @@ const Arguments = (props) => {
                     argument_date={argument.argument_date}
                     upvotes={argument.upvotes} 
                     downvotes={argument.downvotes} 
+                    comments={argument.comments}
                     userVote={userVote}
                     argumentType='disagree'
                 />
