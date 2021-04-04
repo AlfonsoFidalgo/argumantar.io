@@ -130,10 +130,10 @@ const ArgumentMeta = (props) => {
                 <Typography color="textSecondary" variant="body2">{props.username} - {moment(props.date).format('Do MMM YY')}</Typography>
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
-                <ButtonGroup size="small" disabled={!canVoteArgument} >
+                <ButtonGroup size="small" >
                     <IconButton><Comment fontSize='small' /> 3 </IconButton>
-                    <IconButton onClick={(e) => handleVote(e, 'upvote')}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {numUpvotes} </IconButton>
-                    <IconButton onClick={(e) => handleVote(e, 'downvote')}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
+                    <IconButton onClick={(e) => handleVote(e, 'upvote')} disabled={!canVoteArgument}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {numUpvotes} </IconButton>
+                    <IconButton onClick={(e) => handleVote(e, 'downvote')} disabled={!canVoteArgument}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
                 </ButtonGroup>
                 <Button color="primary" size="small" onClick={handleReply} disabled={!props.token}>
                     <IconButton > <Reply fontSize='default'/> </IconButton>
