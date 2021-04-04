@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography, ButtonGroup, IconButton, Divider, Button, TextField } from '@material-ui/core';
-import { ThumbUp, ThumbDown, Comment } from '@material-ui/icons';
+import { ThumbUp, ThumbDown, Comment, Reply } from '@material-ui/icons';
 import moment from 'moment'
 import * as actions from '../store/actions';
 
@@ -109,11 +109,12 @@ const ArgumentMeta = (props) => {
         <Grid container>
             <Grid item xs={12} className={classes.commentBox}>
                 <TextField fullWidth
-                            variant="outlined"/>
+                            variant="outlined"
+                            label="Reply to this argument"/>
                 
             </Grid>
             <Grid item xs={12}>
-                <Button color="primary" fullWidth disabled={!props.token} >Comment</Button>
+                <Button color="primary" fullWidth disabled={!props.token} >Reply</Button>
             </Grid>
         </Grid>
     );
@@ -134,7 +135,9 @@ const ArgumentMeta = (props) => {
                     <IconButton onClick={(e) => handleVote(e, 'upvote')}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {numUpvotes} </IconButton>
                     <IconButton onClick={(e) => handleVote(e, 'downvote')}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
                 </ButtonGroup>
-                <Button color="primary" size="small" onClick={handleReply} disabled={!props.token}>Reply</Button>
+                <Button color="primary" size="small" onClick={handleReply} disabled={!props.token}>
+                    <IconButton > <Reply fontSize='default'/> </IconButton>
+                </Button>
             </Grid>
             {showReplyField ? replyField : null}
         </Grid>
