@@ -126,7 +126,6 @@ const ArgumentMeta = (props) => {
 
     const handleComments = (e) => {
         setShowComments(!showComments);
-        // props.fetchComments(props.argumentId);
     };
 
     const handleReply = (e) => {
@@ -169,8 +168,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         voteArgument: (argumentId, token, voteType) => dispatch(actions.postVote(argumentId, token, voteType)),
-        removeVote: (argumentId, token) => dispatch(actions.deleteVote(argumentId, token)),
-        // fetchComments: (argumentId) => dispatch(actions.fetchComments(argumentId))
+        removeVote: (argumentId, token) => dispatch(actions.deleteVote(argumentId, token))
     }
 };
 
