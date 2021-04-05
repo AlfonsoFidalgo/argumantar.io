@@ -18,6 +18,26 @@ class CommentsRepo {
         return rows;
     }
 
+    static async getCommentsByQuestionId(questionId){
+        const query = `
+        SELECT
+        * 
+        FROM comments
+        WHERE argument_id IN (
+            SELECT 
+            id
+            FROM arguments 
+            WHERE option_id IN (
+                SELECT 
+                id
+                FROM options
+                WHERE question_id = $1
+            )
+        );`;
+        const {rows} = await pool.query(query, [questionId]);
+        return rows;
+    }
+
     static async getComment(commentId){
         const query = `
         SELECT * FROM comments WHERE id = $1;

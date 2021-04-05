@@ -27,6 +27,12 @@ exports.getComments = async (req, res, next) => {
     return res.status(201).json({data: rows});
 };
 
+exports.getCommentsByQuestionId = async (req, res, next) => {
+    const questionId = req.params.questionId;
+    const rows = await commentsRepo.getCommentsByQuestionId(questionId);
+    return res.status(201).json({data: rows});
+};
+
 exports.updateComment = async (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
