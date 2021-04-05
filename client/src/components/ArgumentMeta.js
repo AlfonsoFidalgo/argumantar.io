@@ -126,7 +126,7 @@ const ArgumentMeta = (props) => {
 
     const handleComments = (e) => {
         setShowComments(!showComments);
-        props.fetchComments(props.argumentId);
+        // props.fetchComments(props.argumentId);
     };
 
     const handleReply = (e) => {
@@ -150,7 +150,7 @@ const ArgumentMeta = (props) => {
                 </Button>
             </Grid>
             {showReplyField ? replyField : null}
-            {showComments ? <Comments /> : null}
+            {showComments ? <Comments argumentId={props.argumentId} /> : null}
         </Grid>
         <Divider className={classes.divider}/>
         </React.Fragment>
@@ -170,7 +170,7 @@ const mapDispatchToProps = dispatch => {
     return {
         voteArgument: (argumentId, token, voteType) => dispatch(actions.postVote(argumentId, token, voteType)),
         removeVote: (argumentId, token) => dispatch(actions.deleteVote(argumentId, token)),
-        fetchComments: (argumentId) => dispatch(actions.fetchComments(argumentId))
+        // fetchComments: (argumentId) => dispatch(actions.fetchComments(argumentId))
     }
 };
 
