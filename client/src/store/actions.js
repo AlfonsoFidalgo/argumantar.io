@@ -23,6 +23,7 @@ export const POST_QUESTION_SUCCESS = 'POST_QUESTION_SUCCESS';
 export const FETCH_ARGUMENTS = 'FETCH_ARGUMENTS';
 
 export const FETCH_COMMENTS = 'FETCH_COMMENTS';
+export const FETCH_COMMENTS_START = 'FETCH_COMMENTS_START';
 
 export const POST_ARGUMENT_START = 'POST_ARGUMENT_START';
 export const POST_ARGUMENT_SUCCESS = 'POST_ARGUMENT_SUCCESS';
@@ -57,13 +58,18 @@ export const setComments = (comments) => {
         comments: comments
     };
 };
+export const fetchCommentsStart = () => {
+    return {
+        type: FETCH_COMMENTS_START
+    };
+};
 
-export const fetchComments = (argumentId) => {
+export const fetchComments = (questionId) => {
     return dispatch => {
-        axios.get(`/api/comments/${argumentId}`)
+        dispatch(fetchCommentsStart());
+        axios.get(`/api/comments/question/${questionId}`)
         .then((response => {
-            console.log(response.data)
-            dispatch(setComments(response.data))
+            dispatch(setComments(response.data.data))
         }));
     };
 };

@@ -12,6 +12,13 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 comments: action.comments,
+                loading: false,
+                error: null
+            }
+        case actionTypes.FETCH_COMMENTS_START:
+            return {
+                ...state,
+                loading: true,
                 error: null
             }
         // case actionTypes.POST_COMMENT_START:
