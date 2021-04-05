@@ -13,6 +13,8 @@ const Comments = (props) => {
             return (
                 <Comment
                     commentId={comment.id}
+                    commentBody={comment.body}
+                    date={comment.created_at}
                 />
             )
         });

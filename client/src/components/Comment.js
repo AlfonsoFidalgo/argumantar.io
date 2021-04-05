@@ -6,8 +6,8 @@ const Comment = (props) => {
     return (
         <ListItem key={props.commentId} alignItems="flex-start">
             <ListItemText 
-                primary='comment body goes here'
-                secondary='username, date and other stuff' />
+                primary={props.commentBody}
+                secondary={props.date} />
         </ListItem>
     );
 }
