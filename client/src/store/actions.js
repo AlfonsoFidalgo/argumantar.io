@@ -22,6 +22,8 @@ export const POST_QUESTION_SUCCESS = 'POST_QUESTION_SUCCESS';
 
 export const FETCH_ARGUMENTS = 'FETCH_ARGUMENTS';
 
+export const FETCH_COMMENTS = 'FETCH_COMMENTS';
+
 export const POST_ARGUMENT_START = 'POST_ARGUMENT_START';
 export const POST_ARGUMENT_SUCCESS = 'POST_ARGUMENT_SUCCESS';
 export const POST_ARGUMENT_FAIL = 'POST_ARGUMENT_FAIL';
@@ -48,6 +50,23 @@ export const fetchArguments = (questionId) => {
     };
 };
 
+//COMMENTS
+export const setComments = (comments) => {
+    return {
+        type: FETCH_COMMENTS,
+        comments: comments
+    };
+};
+
+export const fetchComments = (argumentId) => {
+    return dispatch => {
+        axios.get(`/api/comments/${argumentId}`)
+        .then((response => {
+            console.log(response.data)
+            dispatch(setComments(response.data))
+        }));
+    };
+};
 //POSTING ARGUMENTS
 export const postArgumentStart = () => {
     return {
@@ -384,11 +403,6 @@ export const postChoice = (optionId, token) => {
 
 
 //ARGUMENT VOTES
-// export const  VOTE_START = 'VOTE_START';
-// export const ADD_VOTE_SUCCESS = 'ADD_VOTE_SUCCESS';
-// export const DELETE_VOTE_SUCCESS = 'DELETE_VOTE_SUCCESS';
-// export const  VOTE_FAIL = 'VOTE_FAIL';
-
 export const voteStart = () => {
     return {
         type: VOTE_START

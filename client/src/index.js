@@ -9,6 +9,7 @@ import authReducer from './store/reducers/authReducer';
 import argumentsReducer from './store/reducers/argumentsReducer';
 import choicesReducer from './store/reducers/choicesReducer';
 import votesReducer from './store/reducers/votesReducer';
+import commentsReducer from './store/reducers/commentsReducer';
 
 
 //middleware
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
     questions: questionsReducer,
     auth: authReducer,
     arguments: argumentsReducer,
+    comments: commentsReducer,
     choices: choicesReducer,
     votes: votesReducer
 });

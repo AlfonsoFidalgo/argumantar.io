@@ -124,8 +124,9 @@ const ArgumentMeta = (props) => {
         </Grid>
     );
 
-    const toggleComments = (e) => {
-        setShowComments(!showComments)
+    const handleComments = (e) => {
+        setShowComments(!showComments);
+        props.fetchComments(props.argumentId);
     };
 
     const handleReply = (e) => {
@@ -140,7 +141,7 @@ const ArgumentMeta = (props) => {
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
                 <ButtonGroup size="small" >
-                    <IconButton><Comment fontSize='small' onClick={toggleComments} /> {numComments} </IconButton>
+                    <IconButton><Comment fontSize='small' onClick={handleComments} /> {numComments} </IconButton>
                     <IconButton onClick={(e) => handleVote(e, 'upvote')} disabled={!canVoteArgument}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {numUpvotes} </IconButton>
                     <IconButton onClick={(e) => handleVote(e, 'downvote')} disabled={!canVoteArgument}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
                 </ButtonGroup>
@@ -168,7 +169,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         voteArgument: (argumentId, token, voteType) => dispatch(actions.postVote(argumentId, token, voteType)),
-        removeVote: (argumentId, token) => dispatch(actions.deleteVote(argumentId, token))
+        removeVote: (argumentId, token) => dispatch(actions.deleteVote(argumentId, token)),
+        fetchComments: (argumentId) => dispatch(actions.fetchComments(argumentId))
     }
 };
 
