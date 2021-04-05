@@ -21,8 +21,14 @@ class CommentsRepo {
     static async getCommentsByQuestionId(questionId){
         const query = `
         SELECT
-        * 
-        FROM comments
+        c.id,
+        c.created_at,
+        c.updated_at,
+        c.argument_id,
+        c.body,
+        u.username
+        FROM comments c
+        JOIN users u ON u.id = c.user_id
         WHERE argument_id IN (
             SELECT 
             id
