@@ -15,6 +15,7 @@ const Comments = (props) => {
                     commentId={comment.id}
                     commentBody={comment.body}
                     date={comment.created_at}
+                    username={comment.username}
                 />
             )
         });
