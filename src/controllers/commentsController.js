@@ -12,7 +12,7 @@ exports.postComment = async (req, res, next) => {
     const userId = req.userId;
 
     const rows = await commentsRepo.postComment(commentBody, userId, argumentId);
-    return res.status(201).json({message: `Comment posted successfully.`, data: rows});
+    return res.status(201).json({data: rows});
 };
 
 exports.getComment = async (req, res, next) => {

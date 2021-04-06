@@ -115,7 +115,7 @@ const ArgumentMeta = (props) => {
     };
 
     const postComment = (e) => {
-        props.postComment(replyBody, props.token, props.argumentId, props.activeQuestion[0].question_id);
+        props.postComment(replyBody, props.token, props.argumentId, props.activeQuestion[0].question_id, props.username);
         setReplyBody('');
     }
 
@@ -173,6 +173,7 @@ const mapStateToProps = state => {
     return {
         votes: state.votes.votes,
         token: state.auth.token,
+        username: state.auth.username,
         choices: state.choices.choices,
         activeQuestion: state.questions.activeQuestion
     };
@@ -182,7 +183,7 @@ const mapDispatchToProps = dispatch => {
     return {
         voteArgument: (argumentId, token, voteType) => dispatch(actions.postVote(argumentId, token, voteType)),
         removeVote: (argumentId, token) => dispatch(actions.deleteVote(argumentId, token)),
-        postComment: (body, token, argumentId, questionId) => dispatch(actions.postComment(body, token, argumentId, questionId))
+        postComment: (body, token, argumentId, questionId, username) => dispatch(actions.postComment(body, token, argumentId, questionId, username))
     }
 };
 

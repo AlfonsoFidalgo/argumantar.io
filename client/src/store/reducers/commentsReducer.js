@@ -33,6 +33,13 @@ const reducer = (state = initialState, action) => {
                 error: action.error,
                 loading: false
             }
+        case actionTypes.ADD_COMMENT:
+            return {
+                ...state,
+                error: null,
+                loading: false,
+                comments: state.comments.concat(action.comment)
+            }
         default:
             return state
     }
