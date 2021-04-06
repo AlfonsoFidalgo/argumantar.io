@@ -114,6 +114,11 @@ const ArgumentMeta = (props) => {
         setReplyBody(e.target.value)
     };
 
+    const postComment = (e) => {
+        props.postComment(replyBody, props.token, props.argumentId, props.activeQuestion[0].question_id);
+        setReplyBody('');
+    }
+
     const replyField = (
         <Grid container>
             <Grid item xs={12} className={classes.commentBox}>
@@ -127,7 +132,7 @@ const ArgumentMeta = (props) => {
                 
             </Grid>
             <Grid item xs={12}>
-                <Button color="primary" fullWidth disabled={!props.token} >Reply</Button>
+                <Button color="primary" fullWidth disabled={!props.token} onClick={postComment} >Send</Button>
             </Grid>
         </Grid>
     );
@@ -176,7 +181,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         voteArgument: (argumentId, token, voteType) => dispatch(actions.postVote(argumentId, token, voteType)),
-        removeVote: (argumentId, token) => dispatch(actions.deleteVote(argumentId, token))
+        removeVote: (argumentId, token) => dispatch(actions.deleteVote(argumentId, token)),
+        postComment: (body, token, argumentId, questionId) => dispatch(actions.postComment(body, token, argumentId, questionId))
     }
 };
 

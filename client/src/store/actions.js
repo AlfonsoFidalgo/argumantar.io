@@ -89,7 +89,7 @@ export const fetchComments = (questionId) => {
     };
 };
 
-export const postComment = (body, token, argumentId) => {
+export const postComment = (body, token, argumentId, questionId) => {
     return  dispatch => {
         dispatch(postCommentStart());
         const data = {
@@ -106,7 +106,7 @@ export const postComment = (body, token, argumentId) => {
         axios.post(`/api/comment/post/${argumentId}`, data, headers)
         .then(response => {
             console.log(response.data);
-            dispatch(fetchArguments(argumentId));
+            dispatch(fetchArguments(questionId));
         })
         .catch(error => {
             console.log(error.response.data);

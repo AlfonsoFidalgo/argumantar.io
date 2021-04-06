@@ -21,18 +21,18 @@ const reducer = (state = initialState, action) => {
                 loading: true,
                 error: null
             }
-        // case actionTypes.POST_COMMENT_START:
-        //     return {
-        //         ...state,
-        //         loading: true,
-        //         error: null
-        //     }
-        // case actionTypes.POST_COMMENT_FAIL:
-        //     return {
-        //         ...state,
-        //         error: action.error,
-        //         loading: false
-        //     }
+        case actionTypes.POST_COMMENT_START:
+            return {
+                ...state,
+                loading: true,
+                error: null
+            }
+        case actionTypes.POST_COMMENT_FAIL:
+            return {
+                ...state,
+                error: action.error,
+                loading: false
+            }
         default:
             return state
     }
