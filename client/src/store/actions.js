@@ -24,6 +24,8 @@ export const FETCH_ARGUMENTS = 'FETCH_ARGUMENTS';
 
 export const FETCH_COMMENTS = 'FETCH_COMMENTS';
 export const FETCH_COMMENTS_START = 'FETCH_COMMENTS_START';
+export const POST_COMMENT_START = 'POST_COMMENT_START';
+export const POST_COMMENT_FAIL = 'POST_COMMENT_FAIL';
 
 export const POST_ARGUMENT_START = 'POST_ARGUMENT_START';
 export const POST_ARGUMENT_SUCCESS = 'POST_ARGUMENT_SUCCESS';
@@ -58,9 +60,22 @@ export const setComments = (comments) => {
         comments: comments
     };
 };
+
 export const fetchCommentsStart = () => {
     return {
         type: FETCH_COMMENTS_START
+    };
+};
+
+export const postCommentStart = () => {
+    return {
+        type: POST_COMMENT_START
+    };
+};
+
+export const postCommentFail = () => {
+    return {
+        type: POST_COMMENT_FAIL
     };
 };
 
@@ -73,6 +88,33 @@ export const fetchComments = (questionId) => {
         }));
     };
 };
+
+export const postComment = (body, token, argumentId) => {
+    return  dispatch => {
+        dispatch(postCommentStart());
+        const data = {
+            body: body
+        };
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        };
+        axios.post(`/api/comment/post/${argumentId}`, data, headers)
+        .then(response => {
+            console.log(response.data);
+            dispatch(fetchArguments(argumentId));
+        })
+        .catch(error => {
+            console.log(error.response.data);
+            dispatch(postCommentFail(error.response.data));
+        });
+    }
+};
+
 //POSTING ARGUMENTS
 export const postArgumentStart = () => {
     return {
