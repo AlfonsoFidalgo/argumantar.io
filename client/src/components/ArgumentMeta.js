@@ -148,9 +148,9 @@ const ArgumentMeta = (props) => {
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
                 <ButtonGroup size="small" >
-                    <IconButton><Comment fontSize='small' onClick={handleComments} /> {numComments} </IconButton>
-                    <IconButton onClick={(e) => handleVote(e, 'upvote')} disabled={!canVoteArgument}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {numUpvotes} </IconButton>
-                    <IconButton onClick={(e) => handleVote(e, 'downvote')} disabled={!canVoteArgument}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
+                    <IconButton><Comment fontSize='small' onClick={handleComments} /><Typography variant='button'> {numComments} </Typography></IconButton>
+                    <IconButton onClick={(e) => handleVote(e, 'upvote')} disabled={!canVoteArgument}><ThumbUp fontSize='small' color={argumentVote.upvote} /><Typography variant='button'> {numUpvotes} </Typography> </IconButton>
+                    <IconButton onClick={(e) => handleVote(e, 'downvote')} disabled={!canVoteArgument}><ThumbDown fontSize='small' color={argumentVote.downvote}/><Typography variant='button'> {numDownvotes} </Typography></IconButton>
                 </ButtonGroup>
                 <Button color="primary" size="small" onClick={handleReply}>
                     <IconButton > <Reply fontSize='default'/><Typography variant='button'>Reply</Typography> </IconButton>
