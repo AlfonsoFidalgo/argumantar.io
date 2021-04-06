@@ -4,7 +4,7 @@ class CommentsRepo {
     static async postComment(commentBody, userId, argumentId){
         const query = `
         INSERT INTO comments (body, user_id, argument_id)
-        VALUES ($1, $2, $3);
+        VALUES ($1, $2, $3) RETURNING *;
         `;
         const {rows} = await pool.query(query, [commentBody, userId, argumentId]);
         return rows;
