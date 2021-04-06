@@ -34,11 +34,13 @@ const reducer = (state = initialState, action) => {
                 loading: false
             }
         case actionTypes.ADD_COMMENT:
+            const newComment = action.comment;
+            newComment[0].username = action.username;
             return {
                 ...state,
                 error: null,
                 loading: false,
-                comments: state.comments.concat(action.comment)
+                comments: state.comments.concat(newComment)
             }
         default:
             return state

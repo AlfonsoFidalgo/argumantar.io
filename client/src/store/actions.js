@@ -62,10 +62,11 @@ export const setComments = (comments) => {
     };
 };
 
-export const addComment = (comment) => {
+export const addComment = (comment, username) => {
     return {
         type: ADD_COMMENT,
-        comment: comment
+        comment: comment,
+        username: username
     }
 }
 
@@ -97,7 +98,7 @@ export const fetchComments = (questionId) => {
     };
 };
 
-export const postComment = (body, token, argumentId, questionId) => {
+export const postComment = (body, token, argumentId, questionId, username) => {
     return  dispatch => {
         dispatch(postCommentStart());
         const data = {
@@ -113,7 +114,7 @@ export const postComment = (body, token, argumentId, questionId) => {
         };
         axios.post(`/api/comment/post/${argumentId}`, data, headers)
         .then(response => {
-            dispatch(addComment(response.data.data));
+            dispatch(addComment(response.data.data, username));
             dispatch(fetchArguments(questionId));
         })
         .catch(error => {
