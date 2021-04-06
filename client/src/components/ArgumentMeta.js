@@ -28,6 +28,7 @@ const ArgumentMeta = (props) => {
     const [numComments, setNumComments] = useState(0);
     const [canVoteArgument, setCanVoteArgument] = useState(false);
     const [showReplyField, setShowReplyField] = useState(false);
+    const [replyBody, setReplyBody] = useState('');
     const [showComments, setShowComments] = useState(false);
 
     useEffect(() => {
@@ -107,7 +108,11 @@ const ArgumentMeta = (props) => {
                 setNumDownvotes(numDownvotes + 1);
             }
         }
-    }
+    };
+
+    const handleReplyBody = (e) => {
+        setReplyBody(e.target.value)
+    };
 
     const replyField = (
         <Grid container>
@@ -115,7 +120,10 @@ const ArgumentMeta = (props) => {
                 <TextField fullWidth
                             variant="outlined"
                             multiline
-                            label="Reply to this argument"/>
+                            label="Reply to this argument"
+                            onChange={handleReplyBody}
+                            value={replyBody}
+                            />
                 
             </Grid>
             <Grid item xs={12}>
@@ -145,7 +153,7 @@ const ArgumentMeta = (props) => {
                     <IconButton onClick={(e) => handleVote(e, 'downvote')} disabled={!canVoteArgument}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
                 </ButtonGroup>
                 <Button color="primary" size="small" onClick={handleReply}>
-                    <IconButton > <Reply fontSize='default'/> </IconButton>
+                    <IconButton > <Reply fontSize='default'/><Typography variant='button'>Reply</Typography> </IconButton>
                 </Button>
             </Grid>
             {showReplyField ? replyField : null}
