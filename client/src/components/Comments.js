@@ -8,7 +8,6 @@ const Comments = (props) => {
     let comments = (<Spinner />);
     if (props.comments){
         const relevantComments = props.comments.filter((c) => c.argument_id === props.argumentId);
-        console.log(relevantComments);
         comments = relevantComments.map(comment => {
             return (
                 <Comment

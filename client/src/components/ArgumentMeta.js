@@ -139,9 +139,6 @@ const ArgumentMeta = (props) => {
 
     const handleComments = (e) => {
         setShowComments(!showComments);
-    };
-
-    const handleReply = (e) => {
         setShowReplyField(!showReplyField);
     };
 
@@ -157,7 +154,7 @@ const ArgumentMeta = (props) => {
                     <IconButton onClick={(e) => handleVote(e, 'upvote')} disabled={!canVoteArgument}><ThumbUp fontSize='small' color={argumentVote.upvote} /><Typography variant='button'> {numUpvotes} </Typography> </IconButton>
                     <IconButton onClick={(e) => handleVote(e, 'downvote')} disabled={!canVoteArgument}><ThumbDown fontSize='small' color={argumentVote.downvote}/><Typography variant='button'> {numDownvotes} </Typography></IconButton>
                 </ButtonGroup>
-                <Button color="primary" size="small" onClick={handleReply}>
+                <Button color="primary" size="small" onClick={handleComments}>
                     <IconButton > <Reply fontSize='default'/><Typography variant='button'>Reply</Typography> </IconButton>
                 </Button>
             </Grid>
