@@ -118,7 +118,6 @@ export const postComment = (body, token, argumentId, questionId, username) => {
             dispatch(fetchArguments(questionId));
         })
         .catch(error => {
-            console.log(error);
             dispatch(postCommentFail(error.response));
         });
     }
