@@ -125,6 +125,7 @@ const ArgumentMeta = (props) => {
                 <TextField fullWidth
                             variant="outlined"
                             multiline
+                            autoFocus
                             label="Reply to this argument"
                             onChange={handleReplyBody}
                             value={replyBody}
@@ -132,7 +133,7 @@ const ArgumentMeta = (props) => {
                 
             </Grid>
             <Grid item xs={12}>
-                <Button color="primary" fullWidth disabled={!props.token} onClick={postComment} >Send</Button>
+                <Button color="primary" fullWidth disabled={!props.token || replyBody.length === 0} onClick={postComment} >Send</Button>
             </Grid>
         </Grid>
     );
