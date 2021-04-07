@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography, ButtonGroup, IconButton, Divider } from '@material-ui/core';
-import { ThumbUp, ThumbDown } from '@material-ui/icons';
-import moment from 'moment'
+import { Grid, Typography, ButtonGroup, IconButton, Divider, Button, TextField, InputAdornment } from '@material-ui/core';
+import { ThumbUp, ThumbDown, Comment, Reply } from '@material-ui/icons';
+import moment from 'moment';
+import Comments from './Comments';
 import * as actions from '../store/actions';
 
 const useStyles = makeStyles(theme => ({
@@ -11,19 +12,39 @@ const useStyles = makeStyles(theme => ({
           display: 'flex',
           flexDirection: 'row-reverse',
           marginBottom: theme.spacing(1)
-      }
+      },
+      divider: {
+          marginTop: theme.spacing(1)
+      },
+      commentBox: {
+        marginBottom: theme.spacing(1)
+    }
 }));
 
 const ArgumentMeta = (props) => {
     const [argumentVote, setArgumentVote] = useState({upvote: '', downvote: ''});
     const [numUpvotes, setNumUpvotes] = useState(0);
     const [numDownvotes, setNumDownvotes] = useState(0);
+    const [numComments, setNumComments] = useState(0);
     const [canVoteArgument, setCanVoteArgument] = useState(false);
+    const [showReplyField, setShowReplyField] = useState(false);
+    const [replyBody, setReplyBody] = useState('');
+    const [showComments, setShowComments] = useState(false);
+    const [commentError, setCommentError] = useState(false);
 
     useEffect(() => {
         setNumUpvotes(parseInt(props.upvotes));
         setNumDownvotes(parseInt(props.downvotes));
-    }, [props.upvotes, props.downvotes]);
+        setNumComments(parseInt(props.comments));
+    }, [props.upvotes, props.downvotes, props.comments]);
+
+    useEffect(() => {
+        if (replyBody.length > 1000){
+            setCommentError(true);
+        } else {
+            setCommentError(false);
+        }
+    }, [replyBody]);
 
     useEffect(() => {
         if (props.token && props.activeQuestion && props.choices){
@@ -96,22 +117,67 @@ const ArgumentMeta = (props) => {
                 setNumDownvotes(numDownvotes + 1);
             }
         }
+    };
+
+    const handleReplyBody = (e) => {
+        setReplyBody(e.target.value)
+    };
+
+    const postComment = (e) => {
+        props.postComment(replyBody.trim(), props.token, props.argumentId, props.activeQuestion[0].question_id, props.username);
+        setReplyBody('');
     }
+
+    const replyField = (
+        <Grid container>
+            <Grid item xs={12} className={classes.commentBox}>
+                <TextField fullWidth
+                            variant="outlined"
+                            multiline
+                            autoFocus
+                            label="Reply to this argument"
+                            onChange={handleReplyBody}
+                            value={replyBody}
+                            error={commentError}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end"><Typography variant="caption">
+                                    {replyBody ? replyBody.length : 0}/1000 </Typography>
+                                    </InputAdornment>
+                            }}
+                            />
+                
+            </Grid>
+            <Grid item xs={12}>
+                <Button color="primary" fullWidth disabled={!props.token || replyBody.trim().length === 0 || commentError} onClick={postComment} >Send</Button>
+            </Grid>
+        </Grid>
+    );
+
+    const handleComments = (e) => {
+        setShowComments(!showComments);
+        setShowReplyField(!showReplyField);
+    };
 
     return(
         <React.Fragment>
         <Grid container>
             <Grid item xs={6}>
-                <Typography color="textSecondary" variant="body2">{props.username} - {moment(props.date).format('Do MMM YY')}</Typography>
+                <Typography color="textSecondary" variant="body2">{props.argumentUsername} - {moment(props.date).format('Do MMM YY h:mm a')}</Typography>
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
-                <ButtonGroup size="small" disabled={!canVoteArgument} >
-                    <IconButton onClick={(e) => handleVote(e, 'upvote')}><ThumbUp fontSize='small' color={argumentVote.upvote} /> {numUpvotes} </IconButton>
-                    <IconButton onClick={(e) => handleVote(e, 'downvote')}><ThumbDown fontSize='small' color={argumentVote.downvote}/> {numDownvotes} </IconButton>
+                <ButtonGroup size="small" >
+                    <IconButton><Comment fontSize='small' onClick={handleComments} /><Typography variant='button'> {numComments} </Typography></IconButton>
+                    <IconButton onClick={(e) => handleVote(e, 'upvote')} disabled={!canVoteArgument}><ThumbUp fontSize='small' color={argumentVote.upvote} /><Typography variant='button'> {numUpvotes} </Typography> </IconButton>
+                    <IconButton onClick={(e) => handleVote(e, 'downvote')} disabled={!canVoteArgument}><ThumbDown fontSize='small' color={argumentVote.downvote}/><Typography variant='button'> {numDownvotes} </Typography></IconButton>
                 </ButtonGroup>
+                <Button color="primary" size="small" onClick={handleComments}>
+                    <IconButton > <Reply fontSize='default'/><Typography variant='button'>Reply</Typography> </IconButton>
+                </Button>
             </Grid>
+            {showReplyField ? replyField : null}
+            {showComments ? <Comments argumentId={props.argumentId} /> : null}
         </Grid>
-        <Divider />
+        <Divider className={classes.divider}/>
         </React.Fragment>
     )
 };
@@ -120,6 +186,7 @@ const mapStateToProps = state => {
     return {
         votes: state.votes.votes,
         token: state.auth.token,
+        username: state.auth.username,
         choices: state.choices.choices,
         activeQuestion: state.questions.activeQuestion
     };
@@ -128,7 +195,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         voteArgument: (argumentId, token, voteType) => dispatch(actions.postVote(argumentId, token, voteType)),
-        removeVote: (argumentId, token) => dispatch(actions.deleteVote(argumentId, token))
+        removeVote: (argumentId, token) => dispatch(actions.deleteVote(argumentId, token)),
+        postComment: (body, token, argumentId, questionId, username) => dispatch(actions.postComment(body, token, argumentId, questionId, username))
     }
 };
 

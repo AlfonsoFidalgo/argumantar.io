@@ -22,6 +22,12 @@ export const POST_QUESTION_SUCCESS = 'POST_QUESTION_SUCCESS';
 
 export const FETCH_ARGUMENTS = 'FETCH_ARGUMENTS';
 
+export const FETCH_COMMENTS = 'FETCH_COMMENTS';
+export const FETCH_COMMENTS_START = 'FETCH_COMMENTS_START';
+export const POST_COMMENT_START = 'POST_COMMENT_START';
+export const POST_COMMENT_FAIL = 'POST_COMMENT_FAIL';
+export const ADD_COMMENT = 'ADD_COMMENT';
+
 export const POST_ARGUMENT_START = 'POST_ARGUMENT_START';
 export const POST_ARGUMENT_SUCCESS = 'POST_ARGUMENT_SUCCESS';
 export const POST_ARGUMENT_FAIL = 'POST_ARGUMENT_FAIL';
@@ -46,6 +52,75 @@ export const fetchArguments = (questionId) => {
             dispatch(setArguments(response.data.data))
         }));
     };
+};
+
+//COMMENTS
+export const setComments = (comments) => {
+    return {
+        type: FETCH_COMMENTS,
+        comments: comments
+    };
+};
+
+export const addComment = (comment, username) => {
+    return {
+        type: ADD_COMMENT,
+        comment: comment,
+        username: username
+    }
+}
+
+export const fetchCommentsStart = () => {
+    return {
+        type: FETCH_COMMENTS_START
+    };
+};
+
+export const postCommentStart = () => {
+    return {
+        type: POST_COMMENT_START
+    };
+};
+
+export const postCommentFail = () => {
+    return {
+        type: POST_COMMENT_FAIL
+    };
+};
+
+export const fetchComments = (questionId) => {
+    return dispatch => {
+        dispatch(fetchCommentsStart());
+        axios.get(`/api/comments/question/${questionId}`)
+        .then((response => {
+            dispatch(setComments(response.data.data))
+        }));
+    };
+};
+
+export const postComment = (body, token, argumentId, questionId, username) => {
+    return  dispatch => {
+        dispatch(postCommentStart());
+        const data = {
+            body: body
+        };
+        let headers = null;
+        if (token){
+            headers = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+        };
+        axios.post(`/api/comment/post/${argumentId}`, data, headers)
+        .then(response => {
+            dispatch(addComment(response.data.data, username));
+            dispatch(fetchArguments(questionId));
+        })
+        .catch(error => {
+            dispatch(postCommentFail(error.response));
+        });
+    }
 };
 
 //POSTING ARGUMENTS
@@ -384,11 +459,6 @@ export const postChoice = (optionId, token) => {
 
 
 //ARGUMENT VOTES
-// export const  VOTE_START = 'VOTE_START';
-// export const ADD_VOTE_SUCCESS = 'ADD_VOTE_SUCCESS';
-// export const DELETE_VOTE_SUCCESS = 'DELETE_VOTE_SUCCESS';
-// export const  VOTE_FAIL = 'VOTE_FAIL';
-
 export const voteStart = () => {
     return {
         type: VOTE_START

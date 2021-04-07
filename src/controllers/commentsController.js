@@ -7,24 +7,37 @@ exports.postComment = async (req, res, next) => {
     if(!errors.isEmpty()){
         return res.status(422).json({message: 'validation error, please check fields', errors: errors.array()});
     };
+    if (req.body.body.length > 1000){
+        const error = new Error('validation error, please check fields.');
+        error.statusCode = 403;
+        error.errors = errors.array();
+        next(error);
+        return;
+    };
     const argumentId = req.params.argumentId;
     const commentBody = req.body.body;
     const userId = req.userId;
 
     const rows = await commentsRepo.postComment(commentBody, userId, argumentId);
-    return res.status(201).json({message: `Comment posted successfully.`, data: rows});
+    return res.status(201).json({data: rows});
 };
 
 exports.getComment = async (req, res, next) => {
     const commentId = req.params.id;
     const rows = await commentsRepo.getComment(commentId);
-    return res.status(201).json({message: `Success.`, data: rows});
+    return res.status(201).json({data: rows});
 };
 
 exports.getComments = async (req, res, next) => {
     const argumentId = req.params.argumentId;
     const rows = await commentsRepo.getComments(argumentId);
-    return res.status(201).json({message: `Success.`, data: rows});
+    return res.status(201).json({data: rows});
+};
+
+exports.getCommentsByQuestionId = async (req, res, next) => {
+    const questionId = req.params.questionId;
+    const rows = await commentsRepo.getCommentsByQuestionId(questionId);
+    return res.status(201).json({data: rows});
 };
 
 exports.updateComment = async (req, res, next) => {

@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { List, ListItem, ListItemText, Typography,
+import { List, Typography,
     Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Spinner from './Spinner';
-import ArgumentMeta from './ArgumentMeta';
+import Argument from './Argument';
 
 
 const Arguments = (props) => {
@@ -21,11 +21,17 @@ const Arguments = (props) => {
                 }
             });
             return (
-                <ListItem key={argument.argument_id}>
-                    <ListItemText primary={argument.argument_body}
-                        secondary={<ArgumentMeta username={argument.argument_username} date={argument.argument_date} 
-                                    upvotes={argument.upvotes} downvotes={argument.downvotes} userVote={userVote} argumentId={argument.argument_id} argumentType='agree'/>} />
-                </ListItem>
+                <Argument 
+                    argument_id={argument.argument_id}
+                    argument_username={argument.argument_username}
+                    argument_body={argument.argument_body}
+                    argument_date={argument.argument_date}
+                    upvotes={argument.upvotes} 
+                    downvotes={argument.downvotes} 
+                    comments={argument.comments}
+                    userVote={userVote}
+                    argumentType='agree'
+                />
             )   
         });
         if (agreeArguments.length === 0) {
@@ -39,11 +45,17 @@ const Arguments = (props) => {
                 }
             });
             return (
-                <ListItem key={argument.argument_id}>
-                    <ListItemText primary={argument.argument_body}
-                        secondary={<ArgumentMeta username={argument.argument_username} date={argument.argument_date} 
-                                    upvotes={argument.upvotes} downvotes={argument.downvotes} userVote={userVote} argumentId={argument.argument_id} argumentType='disagree' />} />
-                </ListItem>
+                <Argument 
+                    argument_id={argument.argument_id}
+                    argument_username={argument.argument_username}
+                    argument_body={argument.argument_body}
+                    argument_date={argument.argument_date}
+                    upvotes={argument.upvotes} 
+                    downvotes={argument.downvotes} 
+                    comments={argument.comments}
+                    userVote={userVote}
+                    argumentType='disagree'
+                />
             )   
         });
         if (disagreeArguments.length === 0) {

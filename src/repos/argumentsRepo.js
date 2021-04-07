@@ -21,6 +21,7 @@ class ArgumentsRepo {
             a.created_at as argument_date,
             u.username as argument_username,
             u.display_name as argument_dname,
+            (select count(id) from comments where argument_id = a.id) as comments,
             (select count(id) from votes where v_type = 'upvote' and argument_id = a.id) as upvotes,
             (select count(id) from votes where v_type = 'downvote' and argument_id = a.id) as downvotes
         FROM questions q

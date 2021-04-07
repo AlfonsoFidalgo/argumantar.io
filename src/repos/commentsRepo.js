@@ -4,7 +4,7 @@ class CommentsRepo {
     static async postComment(commentBody, userId, argumentId){
         const query = `
         INSERT INTO comments (body, user_id, argument_id)
-        VALUES ($1, $2, $3);
+        VALUES ($1, $2, $3) RETURNING *;
         `;
         const {rows} = await pool.query(query, [commentBody, userId, argumentId]);
         return rows;
@@ -15,6 +15,32 @@ class CommentsRepo {
         SELECT * FROM comments WHERE argument_id = $1;
         `;
         const {rows} = await pool.query(query, [argumentId]);
+        return rows;
+    }
+
+    static async getCommentsByQuestionId(questionId){
+        const query = `
+        SELECT
+        c.id,
+        c.created_at,
+        c.updated_at,
+        c.argument_id,
+        c.body,
+        u.username
+        FROM comments c
+        JOIN users u ON u.id = c.user_id
+        WHERE argument_id IN (
+            SELECT 
+            id
+            FROM arguments 
+            WHERE option_id IN (
+                SELECT 
+                id
+                FROM options
+                WHERE question_id = $1
+            )
+        );`;
+        const {rows} = await pool.query(query, [questionId]);
         return rows;
     }
 

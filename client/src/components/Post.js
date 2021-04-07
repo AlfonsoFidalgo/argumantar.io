@@ -44,6 +44,7 @@ const Post = (props) => {
     useEffect(() => {
         props.onQuestionLoad(props.match.params.id, props.token);
         props.loadArguments(props.match.params.id);
+        props.loadComments(props.match.params.id);
     }, []);
 
     useEffect(() => {
@@ -220,6 +221,7 @@ const mapDispatchToProps = dispatch => {
         onQuestionLoad: (questionId, token) => dispatch(actions.fetchQuestion(questionId, token)),
         updateQuestion: (question) => dispatch(actions.setQuestion(question)),
         loadArguments: (questionId) => dispatch(actions.fetchArguments(questionId)),
+        loadComments: (questionId) => dispatch(actions.fetchComments(questionId)),
         postArgument: (optionId, body, token, questionId) => dispatch(actions.postArgument(optionId, body, token, questionId)),
         optionChosen: (optionId, token) => dispatch(actions.postChoice(optionId, token)),
         optionDelete: (optionId, token) => dispatch(actions.deleteChoice(optionId, token)),

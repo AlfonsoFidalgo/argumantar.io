@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.get('/api/comment/:id', commentsController.getComment);
 
-router.get('/api/comments/:argumentId', commentsController.getComments);
+router.get('/api/comments/argument/:argumentId', commentsController.getComments);
+
+router.get('/api/comments/question/:questionId', commentsController.getCommentsByQuestionId);
 
 router.post('/api/comment/post/:argumentId', isAuth,
 [ body('body').trim().isLength({min: 1})], commentsController.postComment);
