@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography, ButtonGroup, IconButton, Divider, Button, TextField } from '@material-ui/core';
 import { ThumbUp, ThumbDown, Comment, Reply } from '@material-ui/icons';
-import moment from 'moment'
+import moment from 'moment';
 import Comments from './Comments';
 import * as actions from '../store/actions';
 
@@ -149,7 +149,7 @@ const ArgumentMeta = (props) => {
         <React.Fragment>
         <Grid container>
             <Grid item xs={6}>
-                <Typography color="textSecondary" variant="body2">{props.argumentUsername} - {moment(props.date).format('Do MMM YY')}</Typography>
+                <Typography color="textSecondary" variant="body2">{props.argumentUsername} - {moment(props.date).format('Do MMM YY h:mm a')}</Typography>
             </Grid>
             <Grid item xs={6} className={classes.choiceButtons}>
                 <ButtonGroup size="small" >
