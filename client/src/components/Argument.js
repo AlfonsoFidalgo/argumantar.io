@@ -8,7 +8,7 @@ const Argument = (props) => {
         <ListItem key={props.argument_id} alignItems="flex-start">
             <ListItemText 
                 primary={props.argument_body}
-                secondary={<ArgumentMeta username={props.argument_username} date={props.argument_date} 
+                secondary={<ArgumentMeta argumentUsername={props.argument_username} date={props.argument_date} 
                             upvotes={props.upvotes} downvotes={props.downvotes} comments={props.comments}
                             userVote={props.userVote} argumentId={props.argument_id} argumentType={props.argumentType} />} />
         </ListItem>
