@@ -30,12 +30,21 @@ const ArgumentMeta = (props) => {
     const [showReplyField, setShowReplyField] = useState(false);
     const [replyBody, setReplyBody] = useState('');
     const [showComments, setShowComments] = useState(false);
+    const [commentError, setCommentError] = useState(false);
 
     useEffect(() => {
         setNumUpvotes(parseInt(props.upvotes));
         setNumDownvotes(parseInt(props.downvotes));
         setNumComments(parseInt(props.comments));
     }, [props.upvotes, props.downvotes, props.comments]);
+
+    useEffect(() => {
+        if (replyBody.length > 1000){
+            setCommentError(true);
+        } else {
+            setCommentError(false);
+        }
+    }, [replyBody]);
 
     useEffect(() => {
         if (props.token && props.activeQuestion && props.choices){
@@ -129,6 +138,7 @@ const ArgumentMeta = (props) => {
                             label="Reply to this argument"
                             onChange={handleReplyBody}
                             value={replyBody}
+                            error={commentError}
                             InputProps={{
                                 endAdornment: <InputAdornment position="end"><Typography variant="caption">
                                     {replyBody ? replyBody.length : 0}/1000 </Typography>
@@ -138,7 +148,7 @@ const ArgumentMeta = (props) => {
                 
             </Grid>
             <Grid item xs={12}>
-                <Button color="primary" fullWidth disabled={!props.token || replyBody.trim().length === 0} onClick={postComment} >Send</Button>
+                <Button color="primary" fullWidth disabled={!props.token || replyBody.trim().length === 0 || commentError} onClick={postComment} >Send</Button>
             </Grid>
         </Grid>
     );
