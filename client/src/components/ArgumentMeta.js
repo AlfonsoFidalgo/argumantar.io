@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography, ButtonGroup, IconButton, Divider, Button, TextField } from '@material-ui/core';
+import { Grid, Typography, ButtonGroup, IconButton, Divider, Button, TextField, InputAdornment } from '@material-ui/core';
 import { ThumbUp, ThumbDown, Comment, Reply } from '@material-ui/icons';
 import moment from 'moment';
 import Comments from './Comments';
@@ -129,6 +129,11 @@ const ArgumentMeta = (props) => {
                             label="Reply to this argument"
                             onChange={handleReplyBody}
                             value={replyBody}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end"><Typography variant="caption">
+                                    {replyBody ? replyBody.length : 0}/1000 </Typography>
+                                    </InputAdornment>
+                            }}
                             />
                 
             </Grid>
