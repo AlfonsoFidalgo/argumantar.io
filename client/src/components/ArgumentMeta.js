@@ -115,7 +115,7 @@ const ArgumentMeta = (props) => {
     };
 
     const postComment = (e) => {
-        props.postComment(replyBody, props.token, props.argumentId, props.activeQuestion[0].question_id, props.username);
+        props.postComment(replyBody.trim(), props.token, props.argumentId, props.activeQuestion[0].question_id, props.username);
         setReplyBody('');
     }
 
@@ -133,7 +133,7 @@ const ArgumentMeta = (props) => {
                 
             </Grid>
             <Grid item xs={12}>
-                <Button color="primary" fullWidth disabled={!props.token || replyBody.length === 0} onClick={postComment} >Send</Button>
+                <Button color="primary" fullWidth disabled={!props.token || replyBody.trim().length === 0} onClick={postComment} >Send</Button>
             </Grid>
         </Grid>
     );
