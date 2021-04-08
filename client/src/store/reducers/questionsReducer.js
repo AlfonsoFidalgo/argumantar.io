@@ -15,7 +15,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 questions: action.questions,
                 error: null,
-                activeQuestion: null
+                activeQuestion: null,
+                postedQuestion: false
             }
         case actionTypes.FETCH_QUESTION:
             return {
